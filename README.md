@@ -174,3 +174,5 @@ Mit dieser Struktur kann später automatisch geprüft werden:
 
 ## TCG Authoring
 - Canonical data formats and schemas: `03_TCG/AUTHORING/`.
+
+PushEndpointTest: verify /git/push works
