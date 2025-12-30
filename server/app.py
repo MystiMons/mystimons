@@ -47,6 +47,8 @@ ALLOWED_REMOTE = "https://github.com/MystiMons/mystimons.git"
 SMOKE_TEST_SCRIPT = REPO_ROOT / "tools" / "run_smoke_test.ps1"
 SMOKE_TEST_TIMEOUT_SEC = 600  # 10 Minuten
 MAX_IO_CHARS = 8000  # max chars returned for stdout/stderr
+TOOL_TOKEN_ENV = "MYSTIMONS_TOOL_TOKEN"  # optional: wenn gesetzt, muss X-Tool-Token passen
+
 
 GIT_LOCK = threading.Lock()
 
