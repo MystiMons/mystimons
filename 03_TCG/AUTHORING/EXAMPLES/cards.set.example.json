@@ -1,0 +1,22 @@
+{
+  "set_id": "SET-001",
+  "cards": [
+    {
+      "id": "CARD-SET-001-001",
+      "set_id": "SET-001",
+      "name": "Resonance Spark",
+      "card_type": "Action",
+      "rarity": "Common",
+      "tags": ["tempo"],
+      "print": { "cost": 1, "text": "Give your Active +1 ATK until end of turn." },
+      "digital": {
+        "patchable": true,
+        "rng": { "allowed": false, "sources": [] },
+        "tracking": ["buff_until_end_of_turn"],
+        "hidden_info": { "uses_hidden_intent": false, "reveal_level": "S0" },
+        "app_effect_id": "ACT_RES_SPARK_001"
+      },
+      "version": { "schema_version": "1.0", "card_revision": 0, "last_updated": "2025-12-30" }
+    }
+  ]
+}

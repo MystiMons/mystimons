@@ -1,0 +1,16 @@
+{
+  "set_id": "SET-001",
+  "allowed": [
+    "KWD-001",
+    "KWD-002"
+  ],
+  "experimental": [
+    "KWD-004"
+  ],
+  "banned": [
+    "KWD-003",
+    "KWD-005",
+    "KWD-006"
+  ],
+  "notes": "Foundation: Rebind & Ritual als definierte, gut kontrollierte High-Impact Tools. Dissonance nur in Casual/Pro-Module."
+}

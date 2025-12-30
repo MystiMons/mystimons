@@ -1,0 +1,16 @@
+{
+  "set_id": "SET-006",
+  "allowed": [
+    "KWD-001",
+    "KWD-002",
+    "KWD-003",
+    "KWD-005"
+  ],
+  "experimental": [
+    "KWD-004"
+  ],
+  "banned": [
+    "KWD-006"
+  ],
+  "notes": "Finale: Starke Toolkits, aber Chronicle weiterhin gesperrt."
+}

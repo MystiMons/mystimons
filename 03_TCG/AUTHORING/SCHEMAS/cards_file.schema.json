@@ -1,0 +1,245 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MystiMons Cards File",
+  "type": "object",
+  "required": [
+    "set_id",
+    "cards"
+  ],
+  "properties": {
+    "set_id": {
+      "type": "string",
+      "pattern": "^SET-\\d{3}$"
+    },
+    "cards": {
+      "type": "array",
+      "items": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "title": "MystiMons TCG Card",
+        "type": "object",
+        "required": [
+          "id",
+          "set_id",
+          "name",
+          "card_type",
+          "rarity",
+          "print",
+          "digital"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^CARD-SET-\\d{3}-\\d{3}$"
+          },
+          "set_id": {
+            "type": "string",
+            "pattern": "^SET-\\d{3}$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "card_type": {
+            "type": "string",
+            "enum": [
+              "MystiMon",
+              "Action",
+              "Relic",
+              "Terrain",
+              "Energy"
+            ]
+          },
+          "rarity": {
+            "type": "string",
+            "enum": [
+              "Common",
+              "Uncommon",
+              "Rare",
+              "Ultra",
+              "Champion"
+            ]
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "print": {
+            "type": "object",
+            "required": [
+              "cost",
+              "text"
+            ],
+            "properties": {
+              "cost": {
+                "type": [
+                  "integer",
+                  "string"
+                ],
+                "description": "Print-facing cost. Integer for most cards; string for special cases (e.g., X)."
+              },
+              "stats": {
+                "type": "object",
+                "properties": {
+                  "hp": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "atk": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "def": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "stage": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5
+                  }
+                },
+                "additionalProperties": false
+              },
+              "text": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reminder": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "digital": {
+            "type": "object",
+            "required": [
+              "patchable",
+              "rng",
+              "tracking"
+            ],
+            "properties": {
+              "patchable": {
+                "type": "boolean"
+              },
+              "rng": {
+                "type": "object",
+                "required": [
+                  "allowed"
+                ],
+                "properties": {
+                  "allowed": {
+                    "type": "boolean"
+                  },
+                  "sources": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "coinflip",
+                        "die",
+                        "weighted",
+                        "skillcheck",
+                        "timewindow",
+                        "other"
+                      ]
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "tracking": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "List of counters/statuses tracked by the app (e.g., tokens, drains, cooldowns)."
+              },
+              "hidden_info": {
+                "type": "object",
+                "properties": {
+                  "uses_hidden_intent": {
+                    "type": "boolean"
+                  },
+                  "reveal_level": {
+                    "type": "string",
+                    "enum": [
+                      "S0",
+                      "S1",
+                      "S2",
+                      "S3"
+                    ],
+                    "description": "Spoiler/reveal policy level tied to set governance."
+                  }
+                },
+                "additionalProperties": false
+              },
+              "app_effect_id": {
+                "type": "string",
+                "description": "Stable identifier for implementation hooks (Unity)."
+              },
+              "notes": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "links": {
+            "type": "object",
+            "properties": {
+              "creature_id": {
+                "type": "string",
+                "pattern": "^CRE-\\d{3}$"
+              },
+              "character_id": {
+                "type": "string",
+                "pattern": "^CHR-\\d{3}.*"
+              },
+              "object_id": {
+                "type": "string",
+                "pattern": "^OBJ-\\d{3}.*"
+              },
+              "laws": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^LAW-\\d{3}$"
+                }
+              },
+              "pillars": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^PIL-\\d{3}$"
+                }
+              }
+            },
+            "additionalProperties": false
+          },
+          "version": {
+            "type": "object",
+            "properties": {
+              "schema_version": {
+                "type": "string",
+                "default": "1.0"
+              },
+              "card_revision": {
+                "type": "integer",
+                "minimum": 0,
+                "default": 0
+              },
+              "last_updated": {
+                "type": "string",
+                "description": "ISO date"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

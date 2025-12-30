@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MystiMons Keyword",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "print",
+    "digital"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^KWD-\\d{3}$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "print": {
+      "type": "object",
+      "required": [
+        "rules_text"
+      ],
+      "properties": {
+        "rules_text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reminder": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "digital": {
+      "type": "object",
+      "properties": {
+        "tracking": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "rng_allowed": {
+          "type": "boolean"
+        },
+        "ui_badge": {
+          "type": "string"
+        },
+        "app_effect_id": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "exploits": {
+      "type": "object",
+      "properties": {
+        "risk": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

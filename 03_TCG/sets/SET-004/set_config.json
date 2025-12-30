@@ -1,0 +1,20 @@
+{
+  "set_id": "SET-004",
+  "name": "SET-004 (Book 4) — Shift Set (Kira takes over)",
+  "anchor_book": "",
+  "reveal_level": "S2",
+  "mechanic_budget": {
+    "new_keywords_max": 3,
+    "new_subsystems": [
+      "spoiler_gating"
+    ]
+  },
+  "app_requirements": {
+    "requires_smart_mat": true,
+    "requires_hidden_intent": false,
+    "requires_time_windows": true,
+    "requires_chronicle_layer": false
+  },
+  "notes": "Generated from scaffolds on 2025-12-30.",
+  "keyword_pool_path": "../../AUTHORING/KEYWORD_POOLS/SET-004.keyword_pool.json"
+}

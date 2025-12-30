@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MystiMons Set Config",
+  "type": "object",
+  "required": [
+    "set_id",
+    "name",
+    "reveal_level",
+    "mechanic_budget",
+    "app_requirements"
+  ],
+  "properties": {
+    "set_id": {
+      "type": "string",
+      "pattern": "^SET-\\d{3}$"
+    },
+    "name": {
+      "type": "string"
+    },
+    "anchor_book": {
+      "type": "string",
+      "pattern": "^book_\\d{2}.*"
+    },
+    "reveal_level": {
+      "type": "string",
+      "enum": [
+        "S0",
+        "S1",
+        "S2",
+        "S3"
+      ]
+    },
+    "mechanic_budget": {
+      "type": "object",
+      "properties": {
+        "new_keywords_max": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "new_subsystems": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "app_requirements": {
+      "type": "object",
+      "properties": {
+        "requires_smart_mat": {
+          "type": "boolean"
+        },
+        "requires_hidden_intent": {
+          "type": "boolean"
+        },
+        "requires_time_windows": {
+          "type": "boolean"
+        },
+        "requires_chronicle_layer": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "notes": {
+      "type": "string"
+    },
+    "keyword_pool_path": {
+      "type": "string",
+      "description": "Relative path to keyword_pool.json for this set."
+    },
+    "keyword_pool": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^KWD-\\d{3}$"
+      },
+      "description": "Inline allowed keyword IDs (optional, if not using keyword_pool_path)."
+    }
+  },
+  "additionalProperties": false
+}

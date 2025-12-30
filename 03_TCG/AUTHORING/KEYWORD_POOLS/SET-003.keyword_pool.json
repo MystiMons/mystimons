@@ -1,0 +1,16 @@
+{
+  "set_id": "SET-003",
+  "allowed": [
+    "KWD-001",
+    "KWD-002",
+    "KWD-003"
+  ],
+  "experimental": [
+    "KWD-004"
+  ],
+  "banned": [
+    "KWD-005",
+    "KWD-006"
+  ],
+  "notes": "Pre-Shift: Dissonance als opt-in Risiko, weiterhin nicht core für Tournament."
+}

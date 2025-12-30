@@ -1,0 +1,132 @@
+[
+  {
+    "id": "KWD-001",
+    "name": "Rebind",
+    "print": {
+      "rules_text": "Bringe eine Karte aus deinem Discard zurück in deine Hand oder auf die Bench (wie angegeben).",
+      "reminder": "KO ≠ Tod; Lore-Tod bleibt permanent."
+    },
+    "digital": {
+      "tracking": [
+        "rebind_count_per_match"
+      ],
+      "patchable": true,
+      "rng": {
+        "allowed": false,
+        "notes": ""
+      }
+    },
+    "exploits": [
+      "Loop-Potential mit Self-Discard/Draw; muss durch 1×/Turn oder Kosten begrenzt werden."
+    ]
+  },
+  {
+    "id": "KWD-002",
+    "name": "Ritual Summon",
+    "print": {
+      "rules_text": "Opfere MystiMons gemäß Kosten und beschwöre ein Champion-MystiMon.",
+      "reminder": "Ritual ist telegraphed; Counterplay muss existieren."
+    },
+    "digital": {
+      "tracking": [
+        "sacrifices_committed",
+        "ritual_window"
+      ],
+      "patchable": true,
+      "rng": {
+        "allowed": false,
+        "notes": ""
+      }
+    },
+    "exploits": [
+      "All-in Swing; benötigt Interaktion (Interrupt/Tax/Delay) im Set-Pool."
+    ]
+  },
+  {
+    "id": "KWD-003",
+    "name": "Morphing",
+    "print": {
+      "rules_text": "Gib 3 Essenz-Tokens aus: Erhalte 3 Züge lang einen Spike, danach Exhaust.",
+      "reminder": "Nur in Modi, die Essenz-Tokens aktivieren."
+    },
+    "digital": {
+      "tracking": [
+        "essence_tokens",
+        "morph_turns_remaining",
+        "exhaust_turns_remaining"
+      ],
+      "patchable": true,
+      "rng": {
+        "allowed": false,
+        "notes": ""
+      }
+    },
+    "exploits": [
+      "Token-Engines können Morph dauerhaft halten; Cap/Decay erzwingen."
+    ]
+  },
+  {
+    "id": "KWD-004",
+    "name": "Dissonance",
+    "print": {
+      "rules_text": "Wenn Dissonanz ausgelöst wird, tritt ein Effekt gemäß App-Resultat ein.",
+      "reminder": "Im Tournament deterministische Variante oder eingeschränkter Pool."
+    },
+    "digital": {
+      "tracking": [
+        "dissonance_triggers"
+      ],
+      "patchable": true,
+      "rng": {
+        "allowed": true,
+        "notes": "Standard: 50/50 Surge vs Backlash; Tournament: optional deterministisch."
+      }
+    },
+    "exploits": [
+      "Decks, die Dissonanz spammen; muss per Hard Cap oder Player Choice kontrolliert werden."
+    ]
+  },
+  {
+    "id": "KWD-005",
+    "name": "Quintessence",
+    "print": {
+      "rules_text": "Halte 6+ Elemente über 3 Züge, um eine alternative Wincondition zu erfüllen.",
+      "reminder": "Zählt nur in Modi/Formats, die Quintessence aktivieren."
+    },
+    "digital": {
+      "tracking": [
+        "elements_controlled",
+        "quintessence_counter"
+      ],
+      "patchable": true,
+      "rng": {
+        "allowed": false,
+        "notes": ""
+      }
+    },
+    "exploits": [
+      "Stall-Decks; braucht Interaktionskarten, die Counter resetten oder Element-Diversität angreifen."
+    ]
+  },
+  {
+    "id": "KWD-006",
+    "name": "Chronicle",
+    "print": {
+      "rules_text": "Diese Karte kann in der App zusätzliche Chronik-Einträge freischalten.",
+      "reminder": "Origin-Reveals sind spoiler-gated bis Band 7/SET-007."
+    },
+    "digital": {
+      "tracking": [
+        "chronicle_unlocks"
+      ],
+      "patchable": true,
+      "rng": {
+        "allowed": false,
+        "notes": "Chronicle Layer = Sequenced reveals, nicht Power."
+      }
+    },
+    "exploits": [
+      "Pay-to-win Wahrnehmung; Chronicle muss kosmetisch/lore/Access sein, nicht Stats."
+    ]
+  }
+]

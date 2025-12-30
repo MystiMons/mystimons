@@ -1,0 +1,18 @@
+{
+  "set_id": "SET-002",
+  "name": "SET-002 (Book 2) — Finn Era Deepening",
+  "anchor_book": "",
+  "reveal_level": "S1",
+  "mechanic_budget": {
+    "new_keywords_max": 2,
+    "new_subsystems": []
+  },
+  "app_requirements": {
+    "requires_smart_mat": true,
+    "requires_hidden_intent": false,
+    "requires_time_windows": true,
+    "requires_chronicle_layer": false
+  },
+  "notes": "Generated from scaffolds on 2025-12-30.",
+  "keyword_pool_path": "../../AUTHORING/KEYWORD_POOLS/SET-002.keyword_pool.json"
+}

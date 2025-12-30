@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MystiMons Keyword Pool",
+  "type": "object",
+  "required": [
+    "set_id",
+    "allowed",
+    "experimental",
+    "banned"
+  ],
+  "properties": {
+    "set_id": {
+      "type": "string",
+      "pattern": "^SET-\\d{3}$"
+    },
+    "allowed": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^KWD-\\d{3}$"
+      }
+    },
+    "experimental": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^KWD-\\d{3}$"
+      }
+    },
+    "banned": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^KWD-\\d{3}$"
+      }
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

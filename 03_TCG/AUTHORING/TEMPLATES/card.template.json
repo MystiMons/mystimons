@@ -1,0 +1,35 @@
+{
+  "id": "CARD-SET-001-001",
+  "set_id": "SET-001",
+  "name": "Card Name",
+  "card_type": "Action",
+  "rarity": "Common",
+  "tags": ["example"],
+  "print": {
+    "cost": 2,
+    "stats": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "stage": 1
+    },
+    "text": "Concise print effect. Keep it short & clear."
+  },
+  "digital": {
+    "patchable": true,
+    "rng": { "allowed": false, "sources": [] },
+    "tracking": ["per_turn_limit"],
+    "hidden_info": { "uses_hidden_intent": false, "reveal_level": "S0" },
+    "app_effect_id": "EFFECT_EXAMPLE_001",
+    "notes": "Explain what the app tracks/does; keep print clean."
+  },
+  "links": {
+    "creature_id": "CRE-001",
+    "laws": ["LAW-009"]
+  },
+  "version": {
+    "schema_version": "1.0",
+    "card_revision": 0,
+    "last_updated": "2025-12-30"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "set_id": "SET-007",
+  "allowed": [
+    "KWD-001",
+    "KWD-002",
+    "KWD-003",
+    "KWD-005",
+    "KWD-006"
+  ],
+  "experimental": [
+    "KWD-004"
+  ],
+  "banned": [],
+  "notes": "Origin Frame: Chronicle Layer aktiv; Origin-Reveals S3 erlaubt."
+}

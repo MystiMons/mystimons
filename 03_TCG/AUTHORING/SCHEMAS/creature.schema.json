@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MystiMons Creature Registry",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "element",
+    "region"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^CRE-\\d{3}$"
+    },
+    "name": {
+      "type": "string"
+    },
+    "element": {
+      "type": "string",
+      "pattern": "^ELM-\\d{3}$"
+    },
+    "region": {
+      "type": "string",
+      "pattern": "^REG-\\d{3}$"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "canon_constraints": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(LAW|PIL)-\\d{3}$"
+      }
+    },
+    "tcg_hooks": {
+      "type": "object",
+      "properties": {
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "planned_keywords": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^KWD-\\d{3}$"
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

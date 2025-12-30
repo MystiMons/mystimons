@@ -1,0 +1,15 @@
+{
+  "set_id": "SET-002",
+  "allowed": [
+    "KWD-001",
+    "KWD-002"
+  ],
+  "experimental": [
+    "KWD-003"
+  ],
+  "banned": [
+    "KWD-005",
+    "KWD-006"
+  ],
+  "notes": "Expansion: Morphing als experimentelles Modul in nicht-Tournament Formaten."
+}

@@ -1,0 +1,436 @@
+{
+  "version": "1.0",
+  "updated": "2025-12-30",
+  "schema": {
+    "ELM": "Element",
+    "REG": "Region",
+    "FAC": "Faction",
+    "OBJ": "Object",
+    "CRE": "Creature",
+    "CHR": "Character",
+    "KWD": "Keyword",
+    "PIL": "Pillar",
+    "LAW": "Canon Law"
+  },
+  "elements": [
+    {
+      "id": "ELM-001",
+      "name": "Feuer",
+      "region": "REG-001"
+    },
+    {
+      "id": "ELM-002",
+      "name": "Wasser",
+      "region": "REG-002"
+    },
+    {
+      "id": "ELM-003",
+      "name": "Erde",
+      "region": "REG-003"
+    },
+    {
+      "id": "ELM-004",
+      "name": "Wind",
+      "region": "REG-004"
+    },
+    {
+      "id": "ELM-005",
+      "name": "Blitz",
+      "region": "REG-005"
+    },
+    {
+      "id": "ELM-006",
+      "name": "Eis",
+      "region": "REG-006"
+    },
+    {
+      "id": "ELM-007",
+      "name": "Licht",
+      "region": "REG-007"
+    },
+    {
+      "id": "ELM-008",
+      "name": "Schatten",
+      "region": "REG-008"
+    },
+    {
+      "id": "ELM-009",
+      "name": "Natur",
+      "region": "REG-009"
+    },
+    {
+      "id": "ELM-010",
+      "name": "Metall",
+      "region": "REG-010"
+    },
+    {
+      "id": "ELM-011",
+      "name": "Drache",
+      "region": "REG-011",
+      "status": "rare"
+    }
+  ],
+  "regions": [
+    {
+      "id": "REG-001",
+      "name": "Pyros",
+      "element": "ELM-001"
+    },
+    {
+      "id": "REG-002",
+      "name": "Aquarion",
+      "element": "ELM-002"
+    },
+    {
+      "id": "REG-003",
+      "name": "Terravok",
+      "element": "ELM-003"
+    },
+    {
+      "id": "REG-004",
+      "name": "Zephyria",
+      "element": "ELM-004"
+    },
+    {
+      "id": "REG-005",
+      "name": "Fulguris",
+      "element": "ELM-005"
+    },
+    {
+      "id": "REG-006",
+      "name": "Crystara",
+      "element": "ELM-006"
+    },
+    {
+      "id": "REG-007",
+      "name": "Lumion",
+      "element": "ELM-007"
+    },
+    {
+      "id": "REG-008",
+      "name": "Umbra'Noct",
+      "element": "ELM-008"
+    },
+    {
+      "id": "REG-009",
+      "name": "Sylvaris",
+      "element": "ELM-009"
+    },
+    {
+      "id": "REG-010",
+      "name": "Ferros",
+      "element": "ELM-010"
+    },
+    {
+      "id": "REG-011",
+      "name": "Kosmos",
+      "element": "ELM-011",
+      "status": "locked"
+    }
+  ],
+  "factions": [
+    {
+      "id": "FAC-001",
+      "name": "Der Rat der Balance",
+      "alignment": "antagonist"
+    },
+    {
+      "id": "FAC-002",
+      "name": "Die Vergessenen",
+      "alignment": "protagonist"
+    },
+    {
+      "id": "FAC-003",
+      "name": "Die Scouts",
+      "alignment": "antagonist"
+    },
+    {
+      "id": "FAC-004",
+      "name": "Die Neutralen",
+      "alignment": "neutral"
+    }
+  ],
+  "objects": [
+    {
+      "id": "OBJ-001",
+      "name": "Der Resonanzkern",
+      "type": "bonding"
+    },
+    {
+      "id": "OBJ-002",
+      "name": "Die Aether-Karte",
+      "type": "storage"
+    },
+    {
+      "id": "OBJ-003",
+      "name": "Das Siegel der Balance",
+      "type": "symbol"
+    }
+  ],
+  "creatures": {
+    "main_lines": [
+      {
+        "id": "CRE-001",
+        "name": "Embrix",
+        "element": "ELM-001",
+        "type": "main"
+      },
+      {
+        "id": "CRE-002",
+        "name": "Aquor",
+        "element": "ELM-002",
+        "type": "main"
+      },
+      {
+        "id": "CRE-003",
+        "name": "Sylphira",
+        "element": "ELM-009",
+        "type": "main"
+      },
+      {
+        "id": "CRE-004",
+        "name": "Terragus",
+        "element": "ELM-003",
+        "type": "main"
+      },
+      {
+        "id": "CRE-005",
+        "name": "Aeris",
+        "element": "ELM-004",
+        "type": "main"
+      },
+      {
+        "id": "CRE-006",
+        "name": "Frostix",
+        "element": "ELM-006",
+        "type": "main"
+      },
+      {
+        "id": "CRE-007",
+        "name": "Voltis",
+        "element": "ELM-005",
+        "type": "main"
+      },
+      {
+        "id": "CRE-008",
+        "name": "Shadowstrike",
+        "element": "ELM-008",
+        "type": "main"
+      },
+      {
+        "id": "CRE-009",
+        "name": "Lumix",
+        "element": "ELM-007",
+        "type": "main"
+      },
+      {
+        "id": "CRE-010",
+        "name": "Ironix",
+        "element": "ELM-010",
+        "type": "main"
+      },
+      {
+        "id": "CRE-022",
+        "name": "Drakyn",
+        "element": "ELM-011",
+        "type": "main",
+        "rarity": "rare"
+      }
+    ],
+    "mini": [
+      {
+        "id": "CRE-011",
+        "name": "Mossling",
+        "element": "ELM-009",
+        "type": "mini"
+      },
+      {
+        "id": "CRE-012",
+        "name": "Flickerling",
+        "element": "ELM-001",
+        "type": "mini"
+      },
+      {
+        "id": "CRE-013",
+        "name": "Bublin",
+        "element": "ELM-002",
+        "type": "mini"
+      },
+      {
+        "id": "CRE-014",
+        "name": "Peblit",
+        "element": "ELM-003",
+        "type": "mini"
+      },
+      {
+        "id": "CRE-015",
+        "name": "Breezel",
+        "element": "ELM-004",
+        "type": "mini"
+      },
+      {
+        "id": "CRE-016",
+        "name": "Shardling",
+        "element": "ELM-006",
+        "type": "mini"
+      },
+      {
+        "id": "CRE-017",
+        "name": "Sparklin",
+        "element": "ELM-005",
+        "type": "mini"
+      },
+      {
+        "id": "CRE-018",
+        "name": "Gloomlet",
+        "element": "ELM-008",
+        "type": "mini"
+      },
+      {
+        "id": "CRE-019",
+        "name": "Glimmer",
+        "element": "ELM-007",
+        "type": "mini"
+      },
+      {
+        "id": "CRE-020",
+        "name": "Coglet",
+        "element": "ELM-010",
+        "type": "mini"
+      }
+    ]
+  },
+  "characters": [
+    {
+      "id": "CHR-001",
+      "name": "Finn Alder",
+      "role": "protagonist",
+      "resonant": "CRE-003"
+    },
+    {
+      "id": "CHR-002",
+      "name": "Theo Alder",
+      "role": "quest_object",
+      "resonant": "CRE-SPECIAL-001"
+    },
+    {
+      "id": "CHR-003",
+      "name": "Nila Tideborn",
+      "role": "ally",
+      "resonant": "CRE-002"
+    },
+    {
+      "id": "CHR-004",
+      "name": "Rex Ashford",
+      "role": "ally",
+      "resonant": "CRE-001"
+    },
+    {
+      "id": "CHR-005",
+      "name": "Elara Stoneheart",
+      "role": "ally",
+      "resonant": "CRE-004"
+    },
+    {
+      "id": "CHR-006",
+      "name": "Aufseher Calder",
+      "role": "antagonist",
+      "resonant": "CRE-SPECIAL-002"
+    },
+    {
+      "id": "CHR-007",
+      "name": "Flamrion",
+      "role": "main_villain",
+      "resonant": null
+    },
+    {
+      "id": "CHR-008",
+      "name": "Captain Harrow",
+      "role": "supporting",
+      "resonant": "CRE-006"
+    },
+    {
+      "id": "CHR-009",
+      "name": "TBD",
+      "role": "supporting",
+      "resonant": "CRE-005",
+      "status": "tbd"
+    },
+    {
+      "id": "CHR-010",
+      "name": "Mira Alder",
+      "role": "family",
+      "resonant": null
+    },
+    {
+      "id": "CHR-011",
+      "name": "Kira",
+      "role": "protagonist",
+      "resonant": null
+    }
+  ],
+  "pillars": [
+    {
+      "id": "PIL-001",
+      "name": "Resonanz ist freiwillig"
+    },
+    {
+      "id": "PIL-002",
+      "name": "Jedes Element gleichwertig"
+    },
+    {
+      "id": "PIL-003",
+      "name": "Verbindung multipliziert Kraft"
+    },
+    {
+      "id": "PIL-004",
+      "name": "Macht hat einen Preis"
+    },
+    {
+      "id": "PIL-005",
+      "name": "Die Welt ist grau"
+    }
+  ],
+  "laws": [
+    {
+      "id": "LAW-001",
+      "name": "Keine Zeitreisen"
+    },
+    {
+      "id": "LAW-002",
+      "name": "Tod ist permanent"
+    },
+    {
+      "id": "LAW-003",
+      "name": "Keine Weltzerstörung"
+    },
+    {
+      "id": "LAW-004",
+      "name": "Resonanten haben Willen"
+    },
+    {
+      "id": "LAW-005",
+      "name": "Absorption immer böse"
+    },
+    {
+      "id": "LAW-006",
+      "name": "Kinder nicht getötet (on-screen)"
+    },
+    {
+      "id": "LAW-007",
+      "name": "Keine sexuellen Inhalte"
+    },
+    {
+      "id": "LAW-008",
+      "name": "Aetherion bleibt Mysterium"
+    },
+    {
+      "id": "LAW-009",
+      "name": "Kein Pay-to-Win"
+    },
+    {
+      "id": "LAW-010",
+      "name": "Canon-Widersprüche werden gefixt"
+    }
+  ]
+}

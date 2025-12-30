@@ -1,0 +1,20 @@
+{
+  "set_id": "SET-007",
+  "name": "Origin: Aetherion",
+  "anchor_book": "book_07_origin_aetherion",
+  "reveal_level": "S3",
+  "mechanic_budget": {
+    "new_keywords_max": 4,
+    "new_subsystems": [
+      "chronicle_layer"
+    ]
+  },
+  "app_requirements": {
+    "requires_smart_mat": true,
+    "requires_hidden_intent": true,
+    "requires_time_windows": true,
+    "requires_chronicle_layer": true
+  },
+  "notes": "Origin-frame set. Full reveals allowed per governance.",
+  "keyword_pool_path": "../KEYWORD_POOLS/SET-001.keyword_pool.json"
+}

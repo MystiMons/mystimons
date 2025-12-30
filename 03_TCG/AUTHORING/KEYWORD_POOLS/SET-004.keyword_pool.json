@@ -1,0 +1,16 @@
+{
+  "set_id": "SET-004",
+  "allowed": [
+    "KWD-001",
+    "KWD-002",
+    "KWD-003"
+  ],
+  "experimental": [
+    "KWD-004",
+    "KWD-005"
+  ],
+  "banned": [
+    "KWD-006"
+  ],
+  "notes": "Shift-Set (B4): Quintessence kann als opt-in Alt-Win vorbereitet werden, aber ohne Origin-Reveals."
+}
