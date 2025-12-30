@@ -12,6 +12,19 @@ Set-Location $RepoRoot
 
 Write-Host "[dev] RepoRoot: $RepoRoot"
 
+# If server is already running, do not start a second uvicorn
+$StatusUrl = "http://$BindHost`:$Port/git/status"
+try {
+  $r0 = Invoke-RestMethod -Method Get -Uri $StatusUrl -TimeoutSec 2
+  if ($r0.ok -eq $true) {
+    Write-Host "[dev] Server already running. /git/status ok:true (branch=$($r0.branch), dirty=$($r0.dirty))"
+    exit 0
+  }
+} catch {
+  # Not running yet -> continue with startup
+}
+
+
 # Optional venv detection (if you use one)
 $venvPython = Join-Path $RepoRoot ".venv\Scripts\python.exe"
 $python = if (Test-Path $venvPython) { $venvPython } else { "python" }
