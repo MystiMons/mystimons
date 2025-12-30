@@ -176,3 +176,5 @@ Mit dieser Struktur kann später automatisch geprüft werden:
 - Canonical data formats and schemas: `03_TCG/AUTHORING/`.
 
 PushEndpointTest: verify /git/push works
+
+SmokeGateTest: verify smoke-test gate
