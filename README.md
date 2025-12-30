@@ -206,3 +206,5 @@ Jeder PR muss enthalten:
 ### Merge
 - Prefer „Squash and merge“ für saubere History (optional).
 - Branch nach Merge löschen.
+
+GuardrailTest
