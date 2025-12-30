@@ -180,3 +180,5 @@ PushEndpointTest: verify /git/push works
 SmokeGateTest: verify smoke-test gate
 
 TrimIOTest: verify stdout/stderr truncation
+
+SMOKE_TEST: 2025-12-30 19:24:40 (change_id=2a3465af82b24401a718254e9568caff)
