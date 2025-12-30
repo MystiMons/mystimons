@@ -182,3 +182,27 @@ SmokeGateTest: verify smoke-test gate
 TrimIOTest: verify stdout/stderr truncation
 
 SMOKE_TEST: 2025-12-30 19:24:40 (change_id=2a3465af82b24401a718254e9568caff)
+
+## Workflow (Git / PR Policy)
+
+### Branches
+- `main` ist geschützt: keine Direct Pushes, nur Merge via PR.
+- Branch-Naming:
+  - `feature/<topic>` für normale Arbeiten
+  - `hotfix/<topic>` für dringende Fixes
+  - `docs/<topic>` für Dokumentation
+
+### Commits
+- Verwende kurze, klare Messages:
+  - `chore: ...`, `feat: ...`, `fix: ...`, `docs: ...`
+- Kleine Commits sind besser als “Mega-Commits”.
+
+### Pull Requests (Definition of Done)
+Jeder PR muss enthalten:
+- **Changed:** 1–3 Bulletpoints
+- **Validation:** z. B. `/git/status ok:true`, `/git/push ok:true` oder relevante Smoke/Validator-Ausgabe
+- **Risk:** kurz einschätzen (none/low/medium/high)
+
+### Merge
+- Prefer „Squash and merge“ für saubere History (optional).
+- Branch nach Merge löschen.
