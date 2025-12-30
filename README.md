@@ -210,3 +210,5 @@ Jeder PR muss enthalten:
 GuardrailTest
 
 GuardrailTest
+
+HappyPathTest
