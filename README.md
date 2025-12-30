@@ -178,3 +178,5 @@ Mit dieser Struktur kann später automatisch geprüft werden:
 PushEndpointTest: verify /git/push works
 
 SmokeGateTest: verify smoke-test gate
+
+TrimIOTest: verify stdout/stderr truncation
