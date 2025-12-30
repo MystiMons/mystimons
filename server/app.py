@@ -47,7 +47,22 @@ ALLOWED_REMOTE = "https://github.com/MystiMons/mystimons.git"
 SMOKE_TEST_SCRIPT = REPO_ROOT / "tools" / "run_smoke_test.ps1"
 SMOKE_TEST_TIMEOUT_SEC = 600  # 10 Minuten
 MAX_IO_CHARS = 8000  # max chars returned for stdout/stderr
+
 TOOL_TOKEN_ENV = "MYSTIMONS_TOOL_TOKEN"  # optional: wenn gesetzt, muss X-Tool-Token passen
+
+# --- /git/push Branch Policy ---
+ALLOWED_BRANCH_PREFIXES = (
+    "feature/",
+    "fix/",
+    "docs/",
+    "chore/",
+    "change/",
+    "hotfix/",
+)
+
+def _is_allowed_push_branch(branch: str) -> bool:
+    return any(branch.startswith(p) for p in ALLOWED_BRANCH_PREFIXES)
+
 
 
 GIT_LOCK = threading.Lock()
@@ -135,6 +150,39 @@ def run_git(args: List[str], cwd: Path) -> subprocess.CompletedProcess:
     proc = subprocess.run(["git", *args], cwd=str(cwd), capture_output=True, text=True)
     return proc
 
+def _run_smoke_test_or_raise(repo_root: Path) -> None:
+    if not SMOKE_TEST_SCRIPT.exists():
+        raise HTTPException(status_code=400, detail={
+            "error": "smoke_test_script_missing",
+            "path": str(SMOKE_TEST_SCRIPT),
+        })
+
+    try:
+        p = subprocess.run(
+            [
+                "powershell",
+                "-NoProfile",
+                "-ExecutionPolicy", "Bypass",
+                "-File", str(SMOKE_TEST_SCRIPT),
+            ],
+            cwd=str(repo_root),
+            capture_output=True,
+            text=True,
+            timeout=SMOKE_TEST_TIMEOUT_SEC,
+        )
+    except subprocess.TimeoutExpired:
+        raise HTTPException(status_code=400, detail={
+            "error": "smoke_test_timeout",
+            "timeout_sec": SMOKE_TEST_TIMEOUT_SEC,
+        })
+
+    if p.returncode != 0:
+        raise HTTPException(status_code=400, detail={
+            "error": "smoke_test_failed",
+            "exit_code": p.returncode,
+            "stdout": _trim_io(p.stdout),
+            "stderr": _trim_io(p.stderr),
+        })
 
 
 # -------------------------
@@ -286,7 +334,7 @@ class GitPushRequest(BaseModel):
 def git_push(req: GitPushRequest, x_tool_token: str | None = Header(default=None, alias="X-Tool-Token")):
     t0 = time.time()
 
-    expected = os.environ.get(TOOL_TOKEN_ENV)
+    expected = os.environ.get("MYSTIMONS_TOOL_TOKEN")
     if expected:
         if not x_tool_token or x_tool_token != expected:
             raise HTTPException(status_code=401, detail="Missing/invalid X-Tool-Token.")
@@ -306,56 +354,46 @@ def git_push(req: GitPushRequest, x_tool_token: str | None = Header(default=None
         if remote_url != ALLOWED_REMOTE:
             raise HTTPException(status_code=403, detail=f"Remote URL not allowed: {remote_url}")
 
-        # Current branch
+    # Current branch
         b = _run_git(["branch", "--show-current"], REPO_ROOT)
         if b.returncode != 0:
-            raise HTTPException(status_code=500, detail=b.stderr.strip())
-        branch = (req.branch or b.stdout.strip())
+            raise HTTPException(status_code=500, detail=_trim_io(b.stderr) or _trim_io(b.stdout))
+        current_branch = b.stdout.strip()
 
+        branch = (req.branch or current_branch).strip()
+        if req.branch and branch != current_branch:
+            raise HTTPException(status_code=400, detail={
+                "error": "branch_must_match_current_checkout",
+                "current_branch": current_branch,
+                "requested_branch": req.branch,
+            })
+
+        # Block main always
         if branch == "main":
             raise HTTPException(status_code=403, detail="Direct pushes from 'main' are blocked. Use a feature branch + PR.")
+
+        # Allowlist branch prefixes
+        if not _is_allowed_push_branch(branch):
+            raise HTTPException(status_code=403, detail={
+                "error": "branch_not_allowed_for_git_push",
+                "branch": branch,
+                "allowed_prefixes": list(ALLOWED_BRANCH_PREFIXES),
+            })
 
         # Working tree clean?
         s = _run_git(["status", "--porcelain"], REPO_ROOT)
         if s.returncode != 0:
-            raise HTTPException(status_code=500, detail=s.stderr.strip())
+            raise HTTPException(status_code=500, detail=_trim_io(s.stderr) or _trim_io(s.stdout))
         if s.stdout.strip():
-            raise HTTPException(status_code=409, detail={"error": "Working tree is dirty", "files": s.stdout.splitlines()})
+            raise HTTPException(status_code=400, detail={
+                "error": "working_tree_not_clean",
+                "porcelain": _trim_io(s.stdout),
+            })
 
-        # Behind/upstream check
-        u = _run_git(["rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}"], REPO_ROOT)
-        if u.returncode == 0:
-            upstream = u.stdout.strip()
-            ab = _run_git(["rev-list", "--left-right", "--count", f"{upstream}...HEAD"], REPO_ROOT)
-            if ab.returncode == 0:
-                behind_str, ahead_str = ab.stdout.strip().split()
-                behind_by = int(behind_str)
-                ahead_by = int(ahead_str)
-                if behind_by > 0:
-                    raise HTTPException(status_code=409, detail={
-                        "error": "branch_is_behind_upstream",
-                        "upstream": upstream,
-                        "behind_by": behind_by,
-                        "ahead_by": ahead_by
-                    })
+        # Optional smoke-test gate
+        if getattr(req, "run_smoke_test", True):
+            _run_smoke_test_or_raise(REPO_ROOT)
 
-        # Smoke test gate
-        if req.run_smoke_test:
-            try:
-                st = _run_smoke_test(REPO_ROOT)
-            except subprocess.TimeoutExpired:
-                raise HTTPException(status_code=412, detail={
-                    "error": "smoke_test_timed_out",
-                    "timeout_sec": SMOKE_TEST_TIMEOUT_SEC
-                })
-
-            if st.returncode != 0:
-                raise HTTPException(status_code=412, detail={
-                    "error": "smoke_test_failed",
-                    "exit_code": st.returncode,
-                    "stdout": _trim_io(st.stdout),
-                    "stderr": st.stderr
-                })
 
         # Push command
         push_args = ["push"]
