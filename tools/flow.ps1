@@ -1,15 +1,15 @@
-<#  tools/flow.ps1
-    One-shot flow:
-      - repo root autodetect
-      - ensure git available
-      - ensure working tree clean (optional override)
-      - create/switch to branch
-      - add files + commit
-      - ensure tool server running (auto-start tools/dev.ps1 if needed)
-      - call POST /git/push
-      - print PR link (if found)
+#requires -Version 5.1
+<#
+tools/flow.ps1
+One-command helper to:
+- create/checkout branch
+- verify clean working tree
+- stage selected files
+- commit
+- call local tool-server endpoint /git/push
+- print PR link
 
-    Compatible with Windows PowerShell 5.1 and PowerShell 7+
+Works in Windows PowerShell 5.1 and PowerShell 7+ (no PS7-only operators).
 #>
 
 [CmdletBinding()]
@@ -20,48 +20,50 @@ param(
   [Parameter(Mandatory=$true)]
   [string]$Message,
 
-  [Parameter(Mandatory=$true)]
-  [string[]]$Files,
+  [Parameter()]
+  [string[]]$Files = @("README.md"),
 
+  [Parameter()]
+  [string]$Remote = "origin",
+
+  [Parameter()]
   [string]$BindHost = "127.0.0.1",
+
+  [Parameter()]
   [int]$Port = 8000,
 
+  [Parameter()]
+  [int]$MaxWaitSec = 20,
+
+  [Parameter()]
   [switch]$NoPush,
 
-  # Set if you want to allow running with a dirty working tree BEFORE the commit step.
-  # (Not recommended; default is strict.)
-  [switch]$AllowDirty,
-  
-  [switch]$AllowEmptyCommit
+  [Parameter()]
+  [switch]$NoAutoStart,
 
+  [Parameter()]
+  [switch]$SkipSmokeTest
 )
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
-function Fail([string]$Msg) {
-  Write-Host ("[flow] ERROR: {0}" -f $Msg) -ForegroundColor Red
-  exit 1
-}
+function Info([string]$Msg) { Write-Host ("[flow] {0}" -f $Msg) }
+function Warn([string]$Msg) { Write-Warning ("[flow] {0}" -f $Msg) }
+function Fail([string]$Msg) { Write-Host ("[flow] ERROR: {0}" -f $Msg) -ForegroundColor Red; exit 1 }
 
-function Info([string]$Msg) {
-  Write-Host ("[flow] {0}" -f $Msg)
-}
-
-function Resolve-GitExe() {
-  $cmd = Get-Command git -ErrorAction SilentlyContinue
-  if ($cmd -and $cmd.Source) { return $cmd.Source }
-
-  $candidates = @(
-    "$env:ProgramFiles\Git\cmd\git.exe",
-    "$env:ProgramFiles\Git\bin\git.exe",
-    "$env:ProgramFiles(x86)\Git\cmd\git.exe",
-    "$env:ProgramFiles(x86)\Git\bin\git.exe"
-  )
-  foreach ($p in $candidates) {
-    if (Test-Path $p) { return $p }
+function Quote-Arg([string]$a) {
+  if ($null -eq $a) { return '""' }
+  if ($a -match '[\s"`]' ) {
+    # escape embedded quotes
+    $escaped = $a -replace '"','\"'
+    return '"' + $escaped + '"'
   }
-  return $null
+  return $a
+}
+
+function Normalize-Args([object[]]$Args) {
+  @($Args) | Where-Object { $_ -ne $null -and ("$_") -ne "" } | ForEach-Object { "$_" }
 }
 
 function Invoke-Exe {
@@ -71,178 +73,326 @@ function Invoke-Exe {
     [Parameter(Mandatory=$true)][string]$WorkingDirectory
   )
 
-  $psi = New-Object System.Diagnostics.ProcessStartInfo
-  $psi.FileName = $FilePath
-  $psi.WorkingDirectory = $WorkingDirectory
-  $psi.UseShellExecute = $false
-  $psi.RedirectStandardOutput = $true
-  $psi.RedirectStandardError  = $true
-  $psi.CreateNoWindow = $true
+  if (-not (Test-Path -LiteralPath $WorkingDirectory -PathType Container)) {
+    Fail ("WorkingDirectory does not exist: {0}" -f $WorkingDirectory)
+  }
 
-  foreach ($a in $Args) { [void]$psi.ArgumentList.Add($a) }
+  $outFile = Join-Path $env:TEMP ("mm_flow_out_{0}.txt" -f ([guid]::NewGuid().ToString("N")))
+  $errFile = Join-Path $env:TEMP ("mm_flow_err_{0}.txt" -f ([guid]::NewGuid().ToString("N")))
 
-  $p = New-Object System.Diagnostics.Process
-  $p.StartInfo = $psi
+  try {
+    $argList = Normalize-Args $Args
+    # Start-Process joins -ArgumentList; we build a single safe string to preserve spacing.
+    $argString = ($argList | ForEach-Object { Quote-Arg $_ }) -join " "
 
-  [void]$p.Start()
-  $stdout = $p.StandardOutput.ReadToEnd()
-  $stderr = $p.StandardError.ReadToEnd()
-  $p.WaitForExit()
+    $p = Start-Process -FilePath $FilePath `
+      -ArgumentList $argString `
+      -WorkingDirectory $WorkingDirectory `
+      -NoNewWindow -Wait -PassThru `
+      -RedirectStandardOutput $outFile `
+      -RedirectStandardError  $errFile
 
-  [pscustomobject]@{
-    ExitCode = $p.ExitCode
-    StdOut   = $stdout
-    StdErr   = $stderr
+    $stdout = if (Test-Path -LiteralPath $outFile) { Get-Content -LiteralPath $outFile -Raw } else { "" }
+    $stderr = if (Test-Path -LiteralPath $errFile) { Get-Content -LiteralPath $errFile -Raw } else { "" }
+
+    return [pscustomobject]@{
+      ExitCode = $p.ExitCode
+      StdOut   = $stdout
+      StdErr   = $stderr
+    }
+  }
+  finally {
+    Remove-Item -Force -ErrorAction SilentlyContinue $outFile, $errFile
   }
 }
 
+function Resolve-GitExe {
+  $cmd = Get-Command git -ErrorAction SilentlyContinue
+  if ($cmd -and $cmd.Source) { return $cmd.Source }
+
+  $candidates = @(
+    (Join-Path $env:ProgramFiles       "Git\cmd\git.exe"),
+    (Join-Path $env:ProgramFiles       "Git\bin\git.exe"),
+    (Join-Path ${env:ProgramFiles(x86)} "Git\cmd\git.exe"),
+    (Join-Path ${env:ProgramFiles(x86)} "Git\bin\git.exe")
+  ) | Where-Object { $_ -and $_ -ne "" }
+
+  foreach ($p in $candidates) {
+    if (Test-Path -LiteralPath $p) { return $p }
+  }
+
+  return $null
+}
+
 function Find-RepoRoot([string]$StartDir) {
-  $d = (Resolve-Path $StartDir).Path
+  $d = (Resolve-Path -LiteralPath $StartDir).Path
   while ($true) {
-    if (Test-Path (Join-Path $d ".git")) { return $d }
-    $parent = Split-Path $d -Parent
+    if (Test-Path -LiteralPath (Join-Path $d ".git")) { return $d }
+    $parent = Split-Path -Path $d -Parent
     if (-not $parent -or $parent -eq $d) { break }
     $d = $parent
   }
   return $null
 }
 
-# --- Resolve repo root
-$repoRoot = $null
-$gitExe = Resolve-GitExe
-if (-not $gitExe) { Fail "git nicht verfügbar (weder PATH noch Standardpfade). Installiere Git for Windows." }
+function Get-RepoRoot([string]$GitExe) {
+  # Prefer git itself
+  try {
+    $r = Invoke-Exe -FilePath $GitExe -Args @("rev-parse","--show-toplevel") -WorkingDirectory (Get-Location).Path
+    if ($r.ExitCode -eq 0) { return $r.StdOut.Trim() }
+  } catch { }
 
-# Prefer git itself (works with submodules / worktrees)
-try {
-  $r = Invoke-Exe -FilePath $gitExe -Args @("rev-parse","--show-toplevel") -WorkingDirectory (Get-Location).Path
-  if ($r.ExitCode -eq 0) {
-    $repoRoot = $r.StdOut.Trim()
+  # Fallback: search upwards for .git
+  $fallback = Find-RepoRoot (Get-Location).Path
+  if ($fallback) { return $fallback }
+
+  # Last fallback: relative to script location
+  $scriptRoot = Split-Path -Parent $PSCommandPath
+  $fallback2 = Find-RepoRoot $scriptRoot
+  if ($fallback2) { return $fallback2 }
+
+  return $null
+}
+
+function Git([string[]]$Args, [string]$RepoRoot) {
+  $r = Invoke-Exe -FilePath $script:GitExe -Args $Args -WorkingDirectory $RepoRoot
+  return $r
+}
+
+function Get-Porcelain([string]$RepoRoot) {
+  $r = Git @("status","--porcelain") $RepoRoot
+  if ($r.ExitCode -ne 0) { Fail ("git status failed: {0}{1}" -f $r.StdErr, $r.StdOut) }
+  $lines = @()
+  foreach ($ln in ($r.StdOut -split "`r?`n")) {
+    if ($ln.Trim().Length -gt 0) { $lines += $ln }
   }
-} catch {
-  # ignore; fallback below
+  return $lines
 }
 
-if (-not $repoRoot) {
-  $repoRoot = Find-RepoRoot -StartDir (Get-Location).Path
+function Ensure-Clean([string]$RepoRoot, [string[]]$AllowedPaths) {
+  $porc = Get-Porcelain $RepoRoot
+  if ($porc.Count -eq 0) { return }
+
+  # Extract path portion (handles rename "R  old -> new" poorly but acceptable for this helper).
+  $dirtyPaths = @()
+  foreach ($ln in $porc) {
+    if ($ln.Length -ge 4) {
+      $dirtyPaths += $ln.Substring(3).Trim()
+    }
+  }
+
+  # Normalize allowed list
+  $allowedSet = @{}
+  foreach ($p in $AllowedPaths) {
+    if ($p) { $allowedSet[$p.Replace("\","/")] = $true }
+  }
+
+  $unexpected = @()
+  foreach ($p in $dirtyPaths) {
+    $norm = $p.Replace("\","/")
+    if (-not $allowedSet.ContainsKey($norm)) { $unexpected += $p }
+  }
+
+  if ($unexpected.Count -gt 0) {
+    $list = ($unexpected | Sort-Object | Get-Unique) -join "`n"
+    Fail ("Working tree not clean. Commit/restore first:`n{0}" -f $list)
+  }
 }
 
-if (-not $repoRoot -or -not (Test-Path $repoRoot)) {
-  Fail ("RepoRoot nicht gefunden. Starte das Script innerhalb des Repos. CurrentDir={0}" -f (Get-Location).Path)
+function Ensure-Branch([string]$RepoRoot, [string]$Branch) {
+  $exists = Git @("show-ref","--verify","--quiet","refs/heads/$Branch") $RepoRoot
+  if ($exists.ExitCode -eq 0) {
+    $co = Git @("checkout",$Branch) $RepoRoot
+    if ($co.ExitCode -ne 0) { Fail ("git checkout failed: {0}{1}" -f $co.StdErr, $co.StdOut) }
+  } else {
+    $co = Git @("checkout","-b",$Branch) $RepoRoot
+    if ($co.ExitCode -ne 0) { Fail ("git checkout -b failed: {0}{1}" -f $co.StdErr, $co.StdOut) }
+  }
 }
 
+function Stage-Files([string]$RepoRoot, [string[]]$Files) {
+  if ($Files.Count -eq 0) { Fail "Files list is empty. Provide -Files @('path1','path2')." }
+
+  $args = @("add","--") + $Files
+  $add = Git $args $RepoRoot
+  if ($add.ExitCode -ne 0) { Fail ("git add failed: {0}{1}" -f $add.StdErr, $add.StdOut) }
+
+  $diff = Git @("diff","--cached","--quiet") $RepoRoot
+  if ($diff.ExitCode -eq 0) { return $false }   # no staged changes
+  if ($diff.ExitCode -eq 1) { return $true }    # has staged changes
+  Fail ("git diff --cached failed: {0}{1}" -f $diff.StdErr, $diff.StdOut)
+}
+
+function Commit([string]$RepoRoot, [string]$Message) {
+  $c = Git @("commit","-m",$Message) $RepoRoot
+  if ($c.ExitCode -eq 0) { return $true }
+
+  # Typical "nothing to commit" returns non-zero with message on stderr or stdout.
+  $combined = ("{0}{1}" -f $c.StdErr, $c.StdOut)
+  if ($combined -match "nothing to commit" -or $combined -match "no changes added to commit") {
+    return $false
+  }
+
+  Fail ("git commit failed: {0}" -f $combined)
+}
+
+function Try-GetStatus([string]$Url) {
+  try {
+    $r = Invoke-RestMethod -Method Get -Uri $Url -TimeoutSec 2
+    return $r
+  } catch {
+    return $null
+  }
+}
+
+function Ensure-ToolServer([string]$RepoRoot, [string]$StatusUrl, [int]$MaxWaitSec, [switch]$NoAutoStart) {
+  $r = Try-GetStatus $StatusUrl
+  if ($null -ne $r -and $r.ok -eq $true) {
+    Info ("Server already running. /git/status ok:true (branch={0}, dirty={1})" -f $r.branch, $r.dirty)
+    return
+  }
+
+  if ($NoAutoStart) {
+    Fail ("Tool server not reachable at {0}. Start it via .\tools\dev.ps1 and retry." -f $StatusUrl)
+  }
+
+  $dev = Join-Path $RepoRoot "tools\dev.ps1"
+  if (-not (Test-Path -LiteralPath $dev)) {
+    Fail ("tools\dev.ps1 not found at: {0}" -f $dev)
+  }
+
+  Info ("Starting tool server via tools\dev.ps1 (BindHost={0}, Port={1})" -f $BindHost, $Port)
+  try {
+    & $dev -BindHost $BindHost -Port $Port | Out-Host
+  } catch {
+    Warn ("tools\dev.ps1 failed to start server: {0}" -f $_.Exception.Message)
+  }
+
+  $deadline = (Get-Date).AddSeconds($MaxWaitSec)
+  while ((Get-Date) -lt $deadline) {
+    Start-Sleep -Milliseconds 500
+    $r = Try-GetStatus $StatusUrl
+    if ($null -ne $r -and $r.ok -eq $true) {
+      Info ("OK: /git/status ok:true (branch={0}, dirty={1})" -f $r.branch, $r.dirty)
+      return
+    }
+  }
+
+  Fail ("Server did not become ready within {0}s. Check the uvicorn window/logs." -f $MaxWaitSec)
+}
+
+function Get-RemoteUrl([string]$RepoRoot, [string]$Remote) {
+  $r = Git @("remote","get-url",$Remote) $RepoRoot
+  if ($r.ExitCode -ne 0) { return $null }
+  return $r.StdOut.Trim()
+}
+
+function Build-PrUrl([string]$RemoteUrl, [string]$Branch) {
+  if (-not $RemoteUrl) { return $null }
+
+  $url = $RemoteUrl.Trim()
+
+  # Normalize: strip .git
+  if ($url.EndsWith(".git")) { $url = $url.Substring(0, $url.Length - 4) }
+
+  # Convert SSH to https if needed (best effort)
+  if ($url -match '^git@github\.com:') {
+    $url = $url -replace '^git@github\.com:','https://github.com/'
+  }
+
+  return ("{0}/pull/new/{1}" -f $url, $Branch)
+}
+
+# -------------------------------
+# Main
+# -------------------------------
+$script:GitExe = Resolve-GitExe
+if (-not $script:GitExe) {
+  Fail "git not found. Install Git for Windows and open a new terminal so PATH is refreshed."
+}
+Info ("GitExe: {0}" -f $script:GitExe)
+
+$repoRoot = Get-RepoRoot $script:GitExe
+if (-not $repoRoot) { Fail "Repo root not found. Run this script from within the repo (or below it)." }
 Info ("RepoRoot: {0}" -f $repoRoot)
-Info ("GitExe:   {0}" -f $gitExe)
 
-# --- Preflight: ensure clean (optional)
-$st = Invoke-Exe -FilePath $gitExe -Args @("status","--porcelain") -WorkingDirectory $repoRoot
-if ($st.ExitCode -ne 0) { Fail ("git status failed: {0}" -f $st.StdErr) }
+# 0) Ensure tree clean except the files we intend to touch (+ this script itself)
+$allowed = @()
+$allowed += ($Files | ForEach-Object { $_.Replace("\","/") })
+$allowed += @("tools/flow.ps1")  # allow editing this script while iterating
+Ensure-Clean -RepoRoot $repoRoot -AllowedPaths $allowed
 
-if (-not $AllowDirty -and $st.StdOut.Trim().Length -gt 0) {
-  Fail ("Working tree not clean. Commit/restore first.`n{0}" -f $st.StdOut.Trim())
-}
+# 1) Checkout/create branch
+Info ("Creating/checkout branch: {0}" -f $Branch)
+Ensure-Branch -RepoRoot $repoRoot -Branch $Branch
 
-# --- Create/switch to branch
-# If branch exists locally, switch; else create.
-$exists = Invoke-Exe -FilePath $gitExe -Args @("rev-parse","--verify",$Branch) -WorkingDirectory $repoRoot
-if ($exists.ExitCode -eq 0) {
-  Info ("Switching to existing branch: {0}" -f $Branch)
-  $co = Invoke-Exe -FilePath $gitExe -Args @("checkout",$Branch) -WorkingDirectory $repoRoot
-} else {
-  Info ("Creating branch: {0}" -f $Branch)
-  $co = Invoke-Exe -FilePath $gitExe -Args @("checkout","-b",$Branch) -WorkingDirectory $repoRoot
-}
-if ($co.ExitCode -ne 0) { Fail ("git checkout failed: {0}" -f $co.StdErr) }
-
-# --- Add files
-# Validate file paths (relative to repo root)
-foreach ($f in $Files) {
-  $full = Join-Path $repoRoot $f
-  if (-not (Test-Path $full)) {
-    Fail ("File not found: {0} (expected at {1})" -f $f, $full)
-  }
-}
-
+# 2) Stage files
 Info ("git add: {0}" -f ($Files -join ", "))
-$addArgs = @("add","--") + $Files
-$add = Invoke-Exe -FilePath $gitExe -Args $addArgs -WorkingDirectory $repoRoot
-if ($add.ExitCode -ne 0) { Fail ("git add failed: {0}" -f $add.StdErr) }
-
-# --- Ensure something staged
-$diff = Invoke-Exe -FilePath $gitExe -Args @("diff","--cached","--quiet") -WorkingDirectory $repoRoot
-# ExitCode 0 => no diff; 1 => has diff; other => error
-if ($diff.ExitCode -eq 0) { Fail "No staged changes. Nothing to commit." }
-if ($diff.ExitCode -ne 1) { Fail ("git diff --cached failed: {0}" -f $diff.StdErr) }
-
-# --- Commit
-Info ("git commit -m `"{0}`"" -f $Message)
-$commit = Invoke-Exe -FilePath $gitExe -Args @("commit","-m",$Message) -WorkingDirectory $repoRoot
-if ($commit.ExitCode -ne 0) { Fail ("git commit failed: {0}" -f $commit.StdErr) }
-
-if ($NoPush) {
-  Info "NoPush gesetzt. Abbruch vor /git/push."
+$staged = Stage-Files -RepoRoot $repoRoot -Files $Files
+if (-not $staged) {
+  Info "No staged changes. Nothing to commit."
   exit 0
 }
 
-# --- Ensure tool server running (auto-start tools/dev.ps1 if needed)
+# 3) Commit
+Info ("git commit -m {0}" -f $Message)
+$didCommit = Commit -RepoRoot $repoRoot -Message $Message
+if (-not $didCommit) {
+  Info "Nothing to commit. Exiting."
+  exit 0
+}
+
+if ($NoPush) {
+  Info "NoPush set. Skipping /git/push."
+  exit 0
+}
+
+# 4) Ensure tool server available, then call /git/push
 $statusUrl = "http://$BindHost`:$Port/git/status"
 $pushUrl   = "http://$BindHost`:$Port/git/push"
 
-function Try-GetStatus([int]$MaxTries, [int]$SleepMs) {
-  for ($i=0; $i -lt $MaxTries; $i++) {
-    try {
-      $r = Invoke-RestMethod -Method Get -Uri $statusUrl -TimeoutSec 2
-      if ($r -and $r.ok -eq $true) { return $true }
-    } catch { }
-    Start-Sleep -Milliseconds $SleepMs
-  }
-  return $false
-}
+Ensure-ToolServer -RepoRoot $repoRoot -StatusUrl $statusUrl -MaxWaitSec $MaxWaitSec -NoAutoStart:$NoAutoStart
 
-if (-not (Try-GetStatus -MaxTries 2 -SleepMs 300)) {
-  $dev = Join-Path $repoRoot "tools\dev.ps1"
-  if (Test-Path $dev) {
-    Info ("Server nicht erreichbar. Starte tools/dev.ps1 ...")
-    & $dev | Out-Null
-  } else {
-    Fail ("Server nicht erreichbar und tools/dev.ps1 nicht gefunden unter: {0}" -f $dev)
-  }
-}
+$body = @{
+  remote         = $Remote
+  branch         = $Branch
+  set_upstream   = $true
+  force          = $false
+  tags           = $false
+  dry_run        = $false
+  run_smoke_test = (-not $SkipSmokeTest)
+} | ConvertTo-Json -Depth 5
 
-if (-not (Try-GetStatus -MaxTries 30 -SleepMs 500)) {
-  Fail "Server wurde nicht ready. Checke das uvicorn-Fenster auf Errors."
-}
-
-Info ("/git/status ok: {0}" -f $statusUrl)
-
-# --- POST /git/push
-Info ("POST /git/push -> {0}" -f $pushUrl)
+Info ("POST /git/push (remote={0}, branch={1})" -f $Remote, $Branch)
 try {
-  $body = @{ branch = $Branch } | ConvertTo-Json
   $resp = Invoke-RestMethod -Method Post -Uri $pushUrl -ContentType "application/json" -Body $body
 } catch {
-  Fail ("/git/push failed: {0}" -f $_.Exception.Message)
+  # Try to show JSON error body if available
+  $msg = $_.Exception.Message
+  if ($_.Exception.Response -and $_.Exception.Response.GetResponseStream()) {
+    try {
+      $reader = New-Object System.IO.StreamReader($_.Exception.Response.GetResponseStream())
+      $raw = $reader.ReadToEnd()
+      if ($raw) { $msg = $raw }
+    } catch { }
+  }
+  Fail ("POST /git/push failed: {0}" -f $msg)
 }
 
-if (-not $resp -or $resp.ok -ne $true) {
-  Fail ("/git/push returned non-ok: {0}" -f (($resp | ConvertTo-Json -Depth 6)))
+if ($resp.ok -ne $true) {
+  Fail ("/git/push returned ok!=true: {0}" -f ($resp | ConvertTo-Json -Depth 5))
 }
 
-Info "Push OK."
+# 5) Print PR link
+$remoteUrl = $resp.remote_url
+if (-not $remoteUrl) { $remoteUrl = Get-RemoteUrl -RepoRoot $repoRoot -Remote $Remote }
+$pr = Build-PrUrl -RemoteUrl $remoteUrl -Branch $Branch
 
-# --- Extract PR link (GitHub prints it in stderr typically)
-$combined = ""
-if ($resp.stdout) { $combined += [string]$resp.stdout + "`n" }
-if ($resp.stderr) { $combined += [string]$resp.stderr + "`n" }
-
-$pr = $null
-$m = [regex]::Match($combined, 'https://github\.com/\S+/pull/new/\S+')
-if ($m.Success) { $pr = $m.Value }
-
+Info ("Pushed OK. Branch: {0}" -f $resp.branch)
 if ($pr) {
   Info ("PR: {0}" -f $pr)
-  try { Start-Process $pr | Out-Null } catch { }
 } else {
-  Info "Kein PR-Link gefunden (stdout/stderr). Öffne GitHub und erstelle PR manuell."
+  Info "PR: (could not determine remote URL)"
 }
 
-Info "Done."
+exit 0
