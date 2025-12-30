@@ -6,3 +6,8 @@ __pycache__/
 # Tool server caches
 server/.changes/
 server/.tmp/
+
+# flow logs
+/tools/_flow_*.log
+/tools/_flow_debug*.log
+
