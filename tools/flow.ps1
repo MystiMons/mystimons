@@ -30,7 +30,10 @@ param(
 
   # Set if you want to allow running with a dirty working tree BEFORE the commit step.
   # (Not recommended; default is strict.)
-  [switch]$AllowDirty
+  [switch]$AllowDirty,
+  
+  [switch]$AllowEmptyCommit
+
 )
 
 Set-StrictMode -Version Latest
