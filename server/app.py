@@ -16,26 +16,44 @@ import time
 from fastapi import FastAPI, HTTPException, Header
 from pydantic import BaseModel
 
+def _find_repo_root(start: Path) -> Path | None:
+    """Walk upwards from start to find a directory containing .git."""
+    start = start.resolve()
+    for p in [start] + list(start.parents):
+        if (p / ".git").exists():
+            return p
+    return None
+
 
 
 # --- CONFIG ---
-PROJECT_ROOT = Path(r"E:\_MYSTIMONS_AAA")
-REPO_ROOT = PROJECT_ROOT / "MYSTIMONS"
+_env_repo = os.environ.get("MYSTIMONS_REPO_ROOT")
+if _env_repo:
+    REPO_ROOT = Path(_env_repo).resolve()
+else:
+    REPO_ROOT = (
+        _find_repo_root(Path.cwd())
+        or _find_repo_root(Path(__file__).resolve().parent)
+        or Path(__file__).resolve().parents[1]  # fallback
+    )
+
+
+PROJECT_ROOT = REPO_ROOT  # alias
+
 VALIDATOR = REPO_ROOT / "03_TCG" / "AUTHORING" / "TOOLS" / "validate_sets.py"
 
 # --- /git/push Guardrails ---
 ALLOWED_REMOTE = "https://github.com/MystiMons/mystimons.git"
-SMOKE_TEST_SCRIPT = PROJECT_ROOT / "tools" / "run_smoke_test.ps1"
+SMOKE_TEST_SCRIPT = REPO_ROOT / "tools" / "run_smoke_test.ps1"
 SMOKE_TEST_TIMEOUT_SEC = 600  # 10 Minuten
-TOOL_TOKEN_ENV = "MYSTIMONS_TOOL_TOKEN"  # optional: wenn gesetzt, muss X-Tool-Token passen
 MAX_IO_CHARS = 8000  # max chars returned for stdout/stderr
-
 
 GIT_LOCK = threading.Lock()
 
-SERVER_ROOT = PROJECT_ROOT / "server"
+SERVER_ROOT = REPO_ROOT / "server"
 CHANGES_ROOT = SERVER_ROOT / ".changes"
 TMP_ROOT = SERVER_ROOT / ".tmp"
+
 
 PYTHON_EXE = (
     str(Path(os.environ["VIRTUAL_ENV"]) / "Scripts" / "python.exe")
@@ -49,6 +67,7 @@ app = FastAPI(title="MystiMons Tool Server (MVP)", version="0.2")
 # -------------------------
 # Helpers
 # -------------------------
+
 def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
 
