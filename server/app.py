@@ -16,6 +16,14 @@ import time
 from fastapi import FastAPI, HTTPException, Header
 from pydantic import BaseModel
 
+def _find_repo_root(start: Path) -> Path | None:
+    """Walk upwards from start to find a directory containing .git."""
+    start = start.resolve()
+    for p in [start] + list(start.parents):
+        if (p / ".git").exists():
+            return p
+    return None
+
 
 
 # --- CONFIG ---
@@ -28,6 +36,7 @@ else:
         or _find_repo_root(Path(__file__).resolve().parent)
         or Path(__file__).resolve().parents[1]  # fallback
     )
+
 
 PROJECT_ROOT = REPO_ROOT  # alias
 
@@ -58,14 +67,6 @@ app = FastAPI(title="MystiMons Tool Server (MVP)", version="0.2")
 # -------------------------
 # Helpers
 # -------------------------
-def _find_repo_root(start: Path) -> Path | None:
-    """Walk upwards from start to find a directory containing .git."""
-    start = start.resolve()
-    for p in [start] + list(start.parents):
-        if (p / ".git").exists():
-            return p
-    return None
-
 
 def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
