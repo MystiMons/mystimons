@@ -62,14 +62,15 @@ function Quote-Arg([string]$a) {
   return $a
 }
 
-function Normalize-Args([object[]]$Args) {
-  @($Args) | Where-Object { $_ -ne $null -and ("$_") -ne "" } | ForEach-Object { "$_" }
+# FIXED: Renamed $Args to $Arguments (Args is a reserved automatic variable in PowerShell)
+function Normalize-Args([object[]]$Arguments) {
+  @($Arguments) | Where-Object { $_ -ne $null -and ("$_") -ne "" } | ForEach-Object { "$_" }
 }
 
 function Invoke-Exe {
   param(
     [Parameter(Mandatory=$true)][string]$FilePath,
-    [Parameter(Mandatory=$true)][string[]]$Args,
+    [Parameter(Mandatory=$true)][string[]]$Arguments,  # FIXED: was $Args
     [Parameter(Mandatory=$true)][string]$WorkingDirectory
   )
 
@@ -81,7 +82,7 @@ function Invoke-Exe {
   $errFile = Join-Path $env:TEMP ("mm_flow_err_{0}.txt" -f ([guid]::NewGuid().ToString("N")))
 
   try {
-    $argList = Normalize-Args $Args
+    $argList = Normalize-Args $Arguments  # FIXED: was $Args
     # Start-Process joins -ArgumentList; we build a single safe string to preserve spacing.
     $argString = ($argList | ForEach-Object { Quote-Arg $_ }) -join " "
 
@@ -138,7 +139,7 @@ function Find-RepoRoot([string]$StartDir) {
 function Get-RepoRoot([string]$GitExe) {
   # Prefer git itself
   try {
-    $r = Invoke-Exe -FilePath $GitExe -Args @("rev-parse","--show-toplevel") -WorkingDirectory (Get-Location).Path
+    $r = Invoke-Exe -FilePath $GitExe -Arguments @("rev-parse","--show-toplevel") -WorkingDirectory (Get-Location).Path
     if ($r.ExitCode -eq 0) { return $r.StdOut.Trim() }
   } catch { }
 
@@ -154,8 +155,9 @@ function Get-RepoRoot([string]$GitExe) {
   return $null
 }
 
-function Git([string[]]$Args, [string]$RepoRoot) {
-  $r = Invoke-Exe -FilePath $script:GitExe -Args $Args -WorkingDirectory $RepoRoot
+# FIXED: Renamed $Args to $Arguments
+function Git([string[]]$Arguments, [string]$RepoRoot) {
+  $r = Invoke-Exe -FilePath $script:GitExe -Arguments $Arguments -WorkingDirectory $RepoRoot
   return $r
 }
 
@@ -213,8 +215,8 @@ function Ensure-Branch([string]$RepoRoot, [string]$Branch) {
 function Stage-Files([string]$RepoRoot, [string[]]$Files) {
   if ($Files.Count -eq 0) { Fail "Files list is empty. Provide -Files @('path1','path2')." }
 
-  $args = @("add","--") + $Files
-  $add = Git $args $RepoRoot
+  $gitArgs = @("add","--") + $Files  # FIXED: renamed from $args to $gitArgs
+  $add = Git $gitArgs $RepoRoot
   if ($add.ExitCode -ne 0) { Fail ("git add failed: {0}{1}" -f $add.StdErr, $add.StdOut) }
 
   $diff = Git @("diff","--cached","--quiet") $RepoRoot

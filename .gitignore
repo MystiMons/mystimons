@@ -11,3 +11,4 @@ server/.tmp/
 /tools/_flow_*.log
 /tools/_flow_debug*.log
 
+*.bak
