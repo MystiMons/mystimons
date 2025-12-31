@@ -102,6 +102,16 @@ function Warn([string]$Msg) { Write-Host "[dev] WARN: $Msg" -ForegroundColor Yel
 function Fail([string]$Msg) { Write-Host "[dev] ERROR: $Msg" -ForegroundColor Red; exit 1 }
 
 # ===============================
+# Path Normalization
+# ===============================
+function Normalize-RepoPath([string]$p) {
+  if ([string]::IsNullOrWhiteSpace($p)) { return $null }
+  try { $p = (Resolve-Path -LiteralPath $p -ErrorAction Stop).Path } catch {}
+  $p = $p -replace '/', '\'
+  return $p.TrimEnd('\').ToLowerInvariant()
+}
+
+# ===============================
 # Tool Detection Functions
 # ===============================
 function Find-Executable([string]$Name, [string[]]$AdditionalPaths = @()) {
@@ -276,37 +286,60 @@ function Wait-ForServer([string]$HealthUrl, [int]$TimeoutSec = 20) {
 }
 
 function Stop-ToolServer([int]$Port, [switch]$Force) {
-  $netstat = netstat -ano 2>$null | Select-String ":$Port\s.*LISTENING"
-  if (-not $netstat) {
+  # Primary method: Get-NetTCPConnection (more reliable than netstat parsing)
+  $connections = @()
+  try {
+    $connections = @(Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction Stop)
+  } catch {
+    # Fallback to netstat if Get-NetTCPConnection fails (older Windows versions)
+    $netstat = netstat -ano 2>$null | Select-String ":$Port\s.*LISTENING"
+    if ($netstat) {
+      foreach ($line in $netstat) {
+        if ($line -match '\s+(\d+)$') {
+          $connections += [PSCustomObject]@{ OwningProcess = [int]$Matches[1] }
+        }
+      }
+    }
+  }
+  
+  if ($connections.Count -eq 0) {
     Info "No process found listening on port $Port"
     return $false
   }
   
   $stopped = $false
-  foreach ($line in $netstat) {
-    if ($line -match '\s+(\d+)$') {
-      $procId = [int]$Matches[1]
-      if ($procId -le 0) { continue }
+  foreach ($conn in $connections) {
+    $procId = $conn.OwningProcess
+    if ($procId -le 0) { continue }
+    
+    try {
+      $proc = Get-Process -Id $procId -ErrorAction Stop
+      $procName = $proc.ProcessName.ToLower()
       
-      try {
-        $proc = Get-Process -Id $procId -ErrorAction Stop
-        $procName = $proc.ProcessName.ToLower()
-        
-        # Safety check: only kill python/pwsh processes (uvicorn runs in python)
-        $safeProcNames = @("python", "python3", "pythonw", "pwsh", "powershell")
-        $isSafe = $safeProcNames | Where-Object { $procName -like "*$_*" }
-        
-        if ($isSafe -or $Force) {
-          Stop-Process -Id $procId -Force -ErrorAction Stop
+      # Safety check: only kill python/pwsh processes (uvicorn runs in python)
+      $safeProcNames = @("python", "python3", "pythonw", "pwsh", "powershell")
+      $isSafe = $safeProcNames | Where-Object { $procName -like "*$_*" }
+      
+      if ($isSafe -or $Force) {
+        # Use taskkill for cleaner process tree termination
+        $null = taskkill /PID $procId /T /F 2>&1
+        if ($LASTEXITCODE -eq 0) {
           Info "Stopped $($proc.ProcessName) (PID: $procId)"
           $stopped = $true
         } else {
-          Warn "Process on port $Port is '$($proc.ProcessName)' (PID: $procId) - not a Python process."
-          Warn "Use -Force to kill anyway, or stop it manually."
+          # Fallback to Stop-Process
+          Stop-Process -Id $procId -Force -ErrorAction Stop
+          Info "Stopped $($proc.ProcessName) (PID: $procId)"
+          $stopped = $true
         }
-      } catch {
-        Warn "Could not stop process $procId`: $_"
+      } else {
+        Warn "Process on port $Port is '$($proc.ProcessName)' (PID: $procId) - not a Python process."
+        Warn "Use -Force to kill anyway, or stop it manually."
       }
+    } catch {
+      # Process might already be gone (zombie socket)
+      Warn "Process $procId not found or could not be stopped (may be a zombie socket)"
+      Warn "Wait 30-60 seconds or use a different port: -Port $($Port + 1)"
     }
   }
   return $stopped
@@ -316,15 +349,32 @@ function Get-ServerStatus([string]$StatusUrl, [string]$HealthUrl = "", [string]$
   $r = Try-HttpJson -Url $StatusUrl -TimeoutSec 2
   if ($null -eq $r) { return @{ Running = $false; Verified = $false } }
   
-  # If we have a health URL and expected repo root, verify it's OUR server
+  # Default: assume verified if we can't check
   $verified = $true
+  
   if ($HealthUrl -and $ExpectedRepoRoot) {
     $health = Try-HttpJson -Url $HealthUrl -TimeoutSec 2
-    if ($health -and $health.repo_root) {
-      # Normalize paths for comparison (trailing slashes, case)
-      $serverRepo = $health.repo_root.TrimEnd('\', '/').ToLower()
-      $expectedRepo = $ExpectedRepoRoot.TrimEnd('\', '/').ToLower()
-      $verified = ($serverRepo -eq $expectedRepo)
+    if ($health) {
+      # Try multiple possible key names for repo path
+      $serverPath = $null
+      foreach ($k in @('repo_root', 'repoRoot', 'repoPath', 'root', 'toplevel')) {
+        if ($health.PSObject.Properties.Name -contains $k) {
+          $serverPath = $health.$k
+          break
+        }
+      }
+      
+      if ($serverPath) {
+        # Robust path comparison (slash direction, case, trailing slashes)
+        $localN = Normalize-RepoPath $ExpectedRepoRoot
+        $serverN = Normalize-RepoPath $serverPath
+        $verified = ($localN -eq $serverN)
+      } else {
+        # Fallback: treat 'repo' as boolean capability
+        if ($health.PSObject.Properties.Name -contains 'repo') {
+          $verified = [bool]$health.repo
+        }
+      }
     }
   }
   
