@@ -1,0 +1,32 @@
+name: AI Bot Token Test
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  token-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.AI_APP_ID }}
+          private-key: ${{ secrets.AI_APP_PRIVATE_KEY }}
+
+      - name: Checkout with App token
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Verify write access
+        run: |
+          git config user.name  "mystimons-ai-bot"
+          git config user.email "mystimons-ai-bot@users.noreply.github.com"
+          echo "ai-bot token ok" > .ai-bot-token-test.txt
+          git add .ai-bot-token-test.txt
+          git commit -m "chore: ai bot token test"
+          git push
