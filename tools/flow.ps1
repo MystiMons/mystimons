@@ -30,7 +30,7 @@ param(
   [string]$BindHost = "127.0.0.1",
 
   [Parameter()]
-  [int]$Port = 8000,
+  [int]$Port = 8001,
 
   [Parameter()]
   [int]$MaxWaitSec = 20,
