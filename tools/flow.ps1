@@ -172,7 +172,8 @@ function Get-Porcelain([string]$RepoRoot) {
 }
 
 function Ensure-Clean([string]$RepoRoot, [string[]]$AllowedPaths) {
-  $porc = Get-Porcelain $RepoRoot
+  # FIXED: Force array with @() to ensure .Count works even with single result
+  $porc = @(Get-Porcelain $RepoRoot)
   if ($porc.Count -eq 0) { return }
 
   # Extract path portion (handles rename "R  old -> new" poorly but acceptable for this helper).
