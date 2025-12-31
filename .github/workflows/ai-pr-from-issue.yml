@@ -339,21 +339,12 @@ jobs:
           if [[ -n "${EXISTING_PR_URL:-}" ]]; then
             PR_URL="$EXISTING_PR_URL"
           else
-            PR_BODY_FILE="$(mktemp)"
-            cat > "$PR_BODY_FILE" <<EOF
-Automated draft PR for issue #$ISSUE_NUMBER.
-
-- Canon paths: ${{ steps.ctx.outputs.canon_paths }}
-- Branch: $BRANCH
-
-Edit the issue and add label ai-run to re-run and update the PR.
-EOF
             PR_URL="$(gh pr create \
               --draft \
               --base "$BASE_BRANCH" \
               --head "$BRANCH" \
               --title "AI: #$ISSUE_NUMBER $ISSUE_TITLE" \
-              --body-file "$PR_BODY_FILE"
+              --body "Automated draft PR for issue #$ISSUE_NUMBER. Branch: $BRANCH"
             )"
           fi
 
