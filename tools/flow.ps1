@@ -7,7 +7,7 @@ One-command helper to:
 - stage selected files
 - commit
 - call local tool-server endpoint /git/push
-- print PR link
+- handle PR creation/lookup via GitHub CLI (gh)
 
 Works in Windows PowerShell 5.1 and PowerShell 7+ (no PS7-only operators).
 #>
@@ -42,27 +42,48 @@ param(
   [switch]$NoAutoStart,
 
   [Parameter()]
-  [switch]$SkipSmokeTest
+  [switch]$SkipSmokeTest,
+
+  # PR-related switches
+  [Parameter()]
+  [switch]$AutoPR,        # Automatically create PR if none exists
+
+  [Parameter()]
+  [switch]$Draft,         # Create PR as draft (only with -AutoPR)
+
+  [Parameter()]
+  [switch]$OpenPR,        # Open PR URL in browser after creation/lookup
+
+  [Parameter()]
+  [string]$PRTitle,       # Custom PR title (default: commit message)
+
+  [Parameter()]
+  [string]$PRBody         # Custom PR body (default: empty)
 )
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
+# ===============================
+# Logging Functions
+# ===============================
 function Info([string]$Msg) { Write-Host ("[flow] {0}" -f $Msg) }
 function Warn([string]$Msg) { Write-Warning ("[flow] {0}" -f $Msg) }
 function Fail([string]$Msg) { Write-Host ("[flow] ERROR: {0}" -f $Msg) -ForegroundColor Red; exit 1 }
+function Success([string]$Msg) { Write-Host ("[flow] {0}" -f $Msg) -ForegroundColor Green }
 
+# ===============================
+# Utility Functions
+# ===============================
 function Quote-Arg([string]$a) {
   if ($null -eq $a) { return '""' }
   if ($a -match '[\s"`]' ) {
-    # escape embedded quotes
     $escaped = $a -replace '"','\"'
     return '"' + $escaped + '"'
   }
   return $a
 }
 
-# FIXED: Renamed $Args to $Arguments (Args is a reserved automatic variable in PowerShell)
 function Normalize-Args([object[]]$Arguments) {
   @($Arguments) | Where-Object { $_ -ne $null -and ("$_") -ne "" } | ForEach-Object { "$_" }
 }
@@ -70,7 +91,7 @@ function Normalize-Args([object[]]$Arguments) {
 function Invoke-Exe {
   param(
     [Parameter(Mandatory=$true)][string]$FilePath,
-    [Parameter(Mandatory=$true)][string[]]$Arguments,  # FIXED: was $Args
+    [Parameter(Mandatory=$true)][string[]]$Arguments,
     [Parameter(Mandatory=$true)][string]$WorkingDirectory
   )
 
@@ -82,8 +103,7 @@ function Invoke-Exe {
   $errFile = Join-Path $env:TEMP ("mm_flow_err_{0}.txt" -f ([guid]::NewGuid().ToString("N")))
 
   try {
-    $argList = Normalize-Args $Arguments  # FIXED: was $Args
-    # Start-Process joins -ArgumentList; we build a single safe string to preserve spacing.
+    $argList = Normalize-Args $Arguments
     $argString = ($argList | ForEach-Object { Quote-Arg $_ }) -join " "
 
     $p = Start-Process -FilePath $FilePath `
@@ -107,6 +127,9 @@ function Invoke-Exe {
   }
 }
 
+# ===============================
+# Git Functions
+# ===============================
 function Resolve-GitExe {
   $cmd = Get-Command git -ErrorAction SilentlyContinue
   if ($cmd -and $cmd.Source) { return $cmd.Source }
@@ -137,17 +160,14 @@ function Find-RepoRoot([string]$StartDir) {
 }
 
 function Get-RepoRoot([string]$GitExe) {
-  # Prefer git itself
   try {
     $r = Invoke-Exe -FilePath $GitExe -Arguments @("rev-parse","--show-toplevel") -WorkingDirectory (Get-Location).Path
     if ($r.ExitCode -eq 0) { return $r.StdOut.Trim() }
   } catch { }
 
-  # Fallback: search upwards for .git
   $fallback = Find-RepoRoot (Get-Location).Path
   if ($fallback) { return $fallback }
 
-  # Last fallback: relative to script location
   $scriptRoot = Split-Path -Parent $PSCommandPath
   $fallback2 = Find-RepoRoot $scriptRoot
   if ($fallback2) { return $fallback2 }
@@ -155,7 +175,6 @@ function Get-RepoRoot([string]$GitExe) {
   return $null
 }
 
-# FIXED: Renamed $Args to $Arguments
 function Git([string[]]$Arguments, [string]$RepoRoot) {
   $r = Invoke-Exe -FilePath $script:GitExe -Arguments $Arguments -WorkingDirectory $RepoRoot
   return $r
@@ -172,11 +191,9 @@ function Get-Porcelain([string]$RepoRoot) {
 }
 
 function Ensure-Clean([string]$RepoRoot, [string[]]$AllowedPaths) {
-  # FIXED: Force array with @() to ensure .Count works even with single result
   $porc = @(Get-Porcelain $RepoRoot)
   if ($porc.Count -eq 0) { return }
 
-  # Extract path portion (handles rename "R  old -> new" poorly but acceptable for this helper).
   $dirtyPaths = @()
   foreach ($ln in $porc) {
     if ($ln.Length -ge 4) {
@@ -184,7 +201,6 @@ function Ensure-Clean([string]$RepoRoot, [string[]]$AllowedPaths) {
     }
   }
 
-  # Normalize allowed list
   $allowedSet = @{}
   foreach ($p in $AllowedPaths) {
     if ($p) { $allowedSet[$p.Replace("\","/")] = $true }
@@ -216,13 +232,13 @@ function Ensure-Branch([string]$RepoRoot, [string]$Branch) {
 function Stage-Files([string]$RepoRoot, [string[]]$Files) {
   if ($Files.Count -eq 0) { Fail "Files list is empty. Provide -Files @('path1','path2')." }
 
-  $gitArgs = @("add","--") + $Files  # FIXED: renamed from $args to $gitArgs
+  $gitArgs = @("add","--") + $Files
   $add = Git $gitArgs $RepoRoot
   if ($add.ExitCode -ne 0) { Fail ("git add failed: {0}{1}" -f $add.StdErr, $add.StdOut) }
 
   $diff = Git @("diff","--cached","--quiet") $RepoRoot
-  if ($diff.ExitCode -eq 0) { return $false }   # no staged changes
-  if ($diff.ExitCode -eq 1) { return $true }    # has staged changes
+  if ($diff.ExitCode -eq 0) { return $false }
+  if ($diff.ExitCode -eq 1) { return $true }
   Fail ("git diff --cached failed: {0}{1}" -f $diff.StdErr, $diff.StdOut)
 }
 
@@ -230,7 +246,6 @@ function Commit([string]$RepoRoot, [string]$Message) {
   $c = Git @("commit","-m",$Message) $RepoRoot
   if ($c.ExitCode -eq 0) { return $true }
 
-  # Typical "nothing to commit" returns non-zero with message on stderr or stdout.
   $combined = ("{0}{1}" -f $c.StdErr, $c.StdOut)
   if ($combined -match "nothing to commit" -or $combined -match "no changes added to commit") {
     return $false
@@ -239,6 +254,28 @@ function Commit([string]$RepoRoot, [string]$Message) {
   Fail ("git commit failed: {0}" -f $combined)
 }
 
+function Get-RemoteUrl([string]$RepoRoot, [string]$Remote) {
+  $r = Git @("remote","get-url",$Remote) $RepoRoot
+  if ($r.ExitCode -ne 0) { return $null }
+  return $r.StdOut.Trim()
+}
+
+function Build-CompareUrl([string]$RemoteUrl, [string]$Branch) {
+  if (-not $RemoteUrl) { return $null }
+
+  $url = $RemoteUrl.Trim()
+  if ($url.EndsWith(".git")) { $url = $url.Substring(0, $url.Length - 4) }
+
+  if ($url -match '^git@github\.com:') {
+    $url = $url -replace '^git@github\.com:','https://github.com/'
+  }
+
+  return ("{0}/pull/new/{1}" -f $url, $Branch)
+}
+
+# ===============================
+# Tool Server Functions
+# ===============================
 function Try-GetStatus([string]$Url) {
   try {
     $r = Invoke-RestMethod -Method Get -Uri $Url -TimeoutSec 2
@@ -284,31 +321,179 @@ function Ensure-ToolServer([string]$RepoRoot, [string]$StatusUrl, [int]$MaxWaitS
   Fail ("Server did not become ready within {0}s. Check the uvicorn window/logs." -f $MaxWaitSec)
 }
 
-function Get-RemoteUrl([string]$RepoRoot, [string]$Remote) {
-  $r = Git @("remote","get-url",$Remote) $RepoRoot
-  if ($r.ExitCode -ne 0) { return $null }
+# ===============================
+# GitHub CLI (gh) Functions
+# ===============================
+function Test-GhAvailable {
+  $cmd = Get-Command gh -ErrorAction SilentlyContinue
+  return ($null -ne $cmd)
+}
+
+function Get-GhExe {
+  $cmd = Get-Command gh -ErrorAction SilentlyContinue
+  if ($cmd -and $cmd.Source) { return $cmd.Source }
+  return $null
+}
+
+function Invoke-Gh([string[]]$Arguments, [string]$RepoRoot) {
+  $ghExe = Get-GhExe
+  if (-not $ghExe) { return $null }
+  
+  $r = Invoke-Exe -FilePath $ghExe -Arguments $Arguments -WorkingDirectory $RepoRoot
+  return $r
+}
+
+function Get-DefaultBranch([string]$RepoRoot) {
+  $r = Invoke-Gh @("repo","view","--json","defaultBranchRef","-q",".defaultBranchRef.name") $RepoRoot
+  if ($null -eq $r -or $r.ExitCode -ne 0) { return "main" }  # fallback
+  $branch = $r.StdOut.Trim()
+  if ($branch -eq "") { return "main" }
+  return $branch
+}
+
+function Get-ExistingPR([string]$RepoRoot, [string]$HeadBranch) {
+  # Returns PR URL if exists, $null otherwise
+  $r = Invoke-Gh @("pr","view","--head",$HeadBranch,"--json","url","-q",".url") $RepoRoot
+  if ($null -eq $r -or $r.ExitCode -ne 0) { return $null }
+  $url = $r.StdOut.Trim()
+  if ($url -eq "" -or $url -match "no pull requests") { return $null }
+  return $url
+}
+
+function Test-HasDiffFromBase([string]$RepoRoot, [string]$BaseBranch, [string]$HeadBranch) {
+  # Check if there are commits on head that aren't on base
+  $r = Git @("rev-list","--count","$BaseBranch..$HeadBranch") $RepoRoot
+  if ($r.ExitCode -ne 0) { return $true }  # assume yes if we can't check
+  $count = 0
+  [int]::TryParse($r.StdOut.Trim(), [ref]$count) | Out-Null
+  return ($count -gt 0)
+}
+
+function New-PullRequest {
+  param(
+    [string]$RepoRoot,
+    [string]$BaseBranch,
+    [string]$HeadBranch,
+    [string]$Title,
+    [string]$Body,
+    [switch]$Draft
+  )
+
+  $ghArgs = @("pr","create","--base",$BaseBranch,"--head",$HeadBranch)
+  
+  if ($Title) {
+    $ghArgs += @("--title",$Title)
+  } else {
+    $ghArgs += @("--fill")  # use commit message as title
+  }
+  
+  if ($Body) {
+    $ghArgs += @("--body",$Body)
+  }
+  
+  if ($Draft) {
+    $ghArgs += @("--draft")
+  }
+  
+  $ghArgs += @("--json","url","-q",".url")
+  
+  $r = Invoke-Gh $ghArgs $RepoRoot
+  if ($null -eq $r -or $r.ExitCode -ne 0) {
+    $err = if ($r) { "{0}{1}" -f $r.StdErr, $r.StdOut } else { "gh command failed" }
+    Warn ("Failed to create PR: {0}" -f $err)
+    return $null
+  }
+  
   return $r.StdOut.Trim()
 }
 
-function Build-PrUrl([string]$RemoteUrl, [string]$Branch) {
-  if (-not $RemoteUrl) { return $null }
-
-  $url = $RemoteUrl.Trim()
-
-  # Normalize: strip .git
-  if ($url.EndsWith(".git")) { $url = $url.Substring(0, $url.Length - 4) }
-
-  # Convert SSH to https if needed (best effort)
-  if ($url -match '^git@github\.com:') {
-    $url = $url -replace '^git@github\.com:','https://github.com/'
+function Open-Url([string]$Url) {
+  if (-not $Url) { return }
+  try {
+    Start-Process $Url
+  } catch {
+    Warn ("Could not open URL in browser: {0}" -f $Url)
   }
-
-  return ("{0}/pull/new/{1}" -f $url, $Branch)
 }
 
-# -------------------------------
+function Handle-PullRequest {
+  param(
+    [string]$RepoRoot,
+    [string]$Branch,
+    [string]$CommitMessage,
+    [switch]$AutoPR,
+    [switch]$Draft,
+    [switch]$OpenPR,
+    [string]$PRTitle,
+    [string]$PRBody,
+    [string]$FallbackCompareUrl
+  )
+
+  # Check if gh is available
+  if (-not (Test-GhAvailable)) {
+    Warn "GitHub CLI (gh) not found. Install from https://cli.github.com/"
+    if ($FallbackCompareUrl) {
+      Info ("Open PR manually: {0}" -f $FallbackCompareUrl)
+    }
+    return
+  }
+
+  # Get default branch
+  $baseBranch = Get-DefaultBranch $RepoRoot
+  Info ("Base branch: {0}" -f $baseBranch)
+
+  # Check if branch is same as base (nothing to PR)
+  if ($Branch -eq $baseBranch) {
+    Warn "Cannot create PR: branch is same as base branch."
+    return
+  }
+
+  # Check if there are commits to PR
+  if (-not (Test-HasDiffFromBase $RepoRoot $baseBranch $Branch)) {
+    Info "Nothing to PR: no commits ahead of $baseBranch"
+    return
+  }
+
+  # Check for existing PR
+  $existingPR = Get-ExistingPR $RepoRoot $Branch
+  if ($existingPR) {
+    Success ("PR exists: {0}" -f $existingPR)
+    if ($OpenPR) { Open-Url $existingPR }
+    return
+  }
+
+  # No existing PR
+  if ($AutoPR) {
+    # Create new PR
+    Info "Creating PR..."
+    $title = if ($PRTitle) { $PRTitle } else { $CommitMessage }
+    $newPR = New-PullRequest -RepoRoot $RepoRoot -BaseBranch $baseBranch -HeadBranch $Branch `
+      -Title $title -Body $PRBody -Draft:$Draft
+    
+    if ($newPR) {
+      $prType = if ($Draft) { "Draft PR" } else { "PR" }
+      Success ("{0} created: {1}" -f $prType, $newPR)
+      if ($OpenPR) { Open-Url $newPR }
+    } else {
+      # Fallback to compare URL
+      if ($FallbackCompareUrl) {
+        Info ("Create PR manually: {0}" -f $FallbackCompareUrl)
+        if ($OpenPR) { Open-Url $FallbackCompareUrl }
+      }
+    }
+  } else {
+    # Just show the compare URL
+    Info "No PR exists for this branch."
+    if ($FallbackCompareUrl) {
+      Info ("Create PR: {0}" -f $FallbackCompareUrl)
+      if ($OpenPR) { Open-Url $FallbackCompareUrl }
+    }
+  }
+}
+
+# ===============================
 # Main
-# -------------------------------
+# ===============================
 $script:GitExe = Resolve-GitExe
 if (-not $script:GitExe) {
   Fail "git not found. Install Git for Windows and open a new terminal so PATH is refreshed."
@@ -322,7 +507,7 @@ Info ("RepoRoot: {0}" -f $repoRoot)
 # 0) Ensure tree clean except the files we intend to touch (+ this script itself)
 $allowed = @()
 $allowed += ($Files | ForEach-Object { $_.Replace("\","/") })
-$allowed += @("tools/flow.ps1")  # allow editing this script while iterating
+$allowed += @("tools/flow.ps1")
 Ensure-Clean -RepoRoot $repoRoot -AllowedPaths $allowed
 
 # 1) Checkout/create branch
@@ -346,7 +531,7 @@ if (-not $didCommit) {
 }
 
 if ($NoPush) {
-  Info "NoPush set. Skipping /git/push."
+  Info "NoPush set. Skipping push and PR handling."
   exit 0
 }
 
@@ -370,7 +555,6 @@ Info ("POST /git/push (remote={0}, branch={1})" -f $Remote, $Branch)
 try {
   $resp = Invoke-RestMethod -Method Post -Uri $pushUrl -ContentType "application/json" -Body $body
 } catch {
-  # Try to show JSON error body if available
   $msg = $_.Exception.Message
   if ($_.Exception.Response -and $_.Exception.Response.GetResponseStream()) {
     try {
@@ -386,16 +570,15 @@ if ($resp.ok -ne $true) {
   Fail ("/git/push returned ok!=true: {0}" -f ($resp | ConvertTo-Json -Depth 5))
 }
 
-# 5) Print PR link
+Success ("Pushed OK. Branch: {0}" -f $resp.branch)
+
+# 5) Handle PR
 $remoteUrl = $resp.remote_url
 if (-not $remoteUrl) { $remoteUrl = Get-RemoteUrl -RepoRoot $repoRoot -Remote $Remote }
-$pr = Build-PrUrl -RemoteUrl $remoteUrl -Branch $Branch
+$compareUrl = Build-CompareUrl -RemoteUrl $remoteUrl -Branch $Branch
 
-Info ("Pushed OK. Branch: {0}" -f $resp.branch)
-if ($pr) {
-  Info ("PR: {0}" -f $pr)
-} else {
-  Info "PR: (could not determine remote URL)"
-}
+Handle-PullRequest -RepoRoot $repoRoot -Branch $Branch -CommitMessage $Message `
+  -AutoPR:$AutoPR -Draft:$Draft -OpenPR:$OpenPR `
+  -PRTitle $PRTitle -PRBody $PRBody -FallbackCompareUrl $compareUrl
 
 exit 0
