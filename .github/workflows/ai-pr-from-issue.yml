@@ -1,0 +1,386 @@
+name: AI Draft PR from Issue (Responses API)
+
+on:
+  issues:
+    types: [opened, edited, reopened, labeled]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: ai-pr-from-issue-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+env:
+  OPENAI_MODEL: "gpt-5.2"
+  DEFAULT_CANON_PATHS: "00_CANON"
+  BRANCH_PREFIX: "ai/issue-"
+
+  DEFAULT_ALLOWLIST: |
+    00_CANON/**
+    01_REGISTRY/**
+    02_NARRATIVE/**
+    03_TCG/**
+    docs/**
+    tools/**
+    server/**
+    README.md
+    DEV_WORKFLOW.md
+  DEFAULT_DENYLIST: |
+    .github/workflows/**
+    .github/actions/**
+    .git/**
+    secrets/**
+    **/*.pem
+    **/*.key
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    outputs:
+      should_run: ${{ steps.guard.outputs.should_run }}
+      reason: ${{ steps.guard.outputs.reason }}
+    steps:
+      - id: guard
+        name: "Guard: label gate + trusted author"
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          ACTION="${{ github.event.action }}"
+          AUTHOR_ASSOC="${{ github.event.issue.author_association }}"
+          LABELS_JSON='${{ toJson(github.event.issue.labels) }}'
+          ADDED_LABEL="${{ github.event.label.name }}"
+
+          # Only react to ai-run on labeled events.
+          if [[ "$ACTION" == "labeled" && "${ADDED_LABEL:-}" != "ai-run" ]]; then
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+            echo "reason=ignored: labeled '${ADDED_LABEL:-}' (need ai-run)" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          HAS_AI_RUN="false"
+          if echo "$LABELS_JSON" | grep -q '"name":"ai-run"'; then
+            HAS_AI_RUN="true"
+          fi
+
+          TRUSTED="false"
+          case "$AUTHOR_ASSOC" in
+            OWNER|MEMBER|COLLABORATOR) TRUSTED="true" ;;
+          esac
+
+          if [[ "$HAS_AI_RUN" == "true" || "$TRUSTED" == "true" ]]; then
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            echo "reason=ok" >> "$GITHUB_OUTPUT"
+          else
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+            echo "reason=blocked: author_association=$AUTHOR_ASSOC (add label ai-run)" >> "$GITHUB_OUTPUT"
+          fi
+
+  ai:
+    needs: guard
+    if: needs.guard.outputs.should_run == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.AI_APP_ID }}
+          private-key: ${{ secrets.AI_APP_PRIVATE_KEY }}
+
+      - name: Checkout (with App token)
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          fetch-depth: 0
+
+      - name: Ensure jq present
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v jq >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y jq
+          fi
+
+      - name: Prepare branch (reuse if exists)
+        id: prep
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          ISSUE_NUMBER="${{ github.event.issue.number }}"
+          BASE_BRANCH="${{ github.event.repository.default_branch }}"
+          BRANCH="${{ env.BRANCH_PREFIX }}${ISSUE_NUMBER}"
+
+          git config user.name  "mystimons-ai-bot"
+          git config user.email "mystimons-ai-bot@users.noreply.github.com"
+
+          git fetch origin "$BASE_BRANCH" --prune
+
+          if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null 2>&1; then
+            echo "Reusing existing remote branch: $BRANCH"
+            git fetch origin "$BRANCH"
+            git checkout -B "$BRANCH" "origin/$BRANCH"
+            git rebase "origin/$BASE_BRANCH"
+          else
+            echo "Creating new branch: $BRANCH from origin/$BASE_BRANCH"
+            git checkout -B "$BRANCH" "origin/$BASE_BRANCH"
+          fi
+
+          echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
+          echo "base_branch=$BASE_BRANCH" >> "$GITHUB_OUTPUT"
+
+      - name: Build context (issue + canon + guards)
+        id: ctx
+        shell: bash
+        env:
+          BODY: ${{ github.event.issue.body }}
+          CANON_PATHS: ${{ env.DEFAULT_CANON_PATHS }}
+        run: |
+          set -euo pipefail
+
+          # Parse optional overrides from Issue Form markdown (### headings).
+          python3 -c "import os,re; body=os.environ.get('BODY','') or ''; canon=re.search(r'(?is)###\\s*[^\\n]*Canon-Pfade[^\\n]*\\n+(.*?)(?:\\n+###\\s|\\Z)', body); allow=re.search(r'(?is)###\\s*[^\\n]*Allowlist[^\\n]*\\n+(.*?)(?:\\n+###\\s|\\Z)', body); deny=re.search(r'(?is)###\\s*[^\\n]*(Ausschl[^\\n]*|must not touch[^\\n]*)\\n+(.*?)(?:\\n+###\\s|\\Z)', body); norm=lambda s:[re.sub(r'^\\s*-\\s*','',ln).strip() for ln in (s or '').splitlines() if ln.strip()]; canon_lines=norm((canon.group(1).strip() if canon else '')) or ['00_CANON']; allow_lines=norm((allow.group(1).strip() if allow else '')); deny_lines=norm((deny.group(2).strip() if deny else '')); open('canon_paths.txt','w',encoding='utf-8').write('\\n'.join(canon_lines)+'\\n'); open('allowlist.override.txt','w',encoding='utf-8').write(('\\n'.join(allow_lines)+'\\n') if allow_lines else ''); open('denylist.override.txt','w',encoding='utf-8').write(('\\n'.join(deny_lines)+'\\n') if deny_lines else '')" || true
+
+          if [[ -s allowlist.override.txt ]]; then
+            cp allowlist.override.txt allowlist.txt
+          else
+            printf "%s\n" "${{ env.DEFAULT_ALLOWLIST }}" > allowlist.txt
+          fi
+
+          if [[ -s denylist.override.txt ]]; then
+            cp denylist.override.txt denylist.txt
+          else
+            printf "%s\n" "${{ env.DEFAULT_DENYLIST }}" > denylist.txt
+          fi
+
+          CANON_PATHS="$(tr '\n' ' ' < canon_paths.txt | xargs)"
+          echo "canon_paths=$CANON_PATHS" >> "$GITHUB_OUTPUT"
+
+          git ls-files | head -n 2000 > repo_files_capped.txt
+
+          export CANON_PATHS="$CANON_PATHS"
+          python3 -c "exec(\"import os, pathlib\\ncanon_paths=os.environ.get('CANON_PATHS','00_CANON').split()\\next_ok={'.md','.txt','.yml','.yaml','.json','.csv'}\\nmax_total=120000\\nmax_file=20000\\nout=[]\\ntotal=0\\nfor root in canon_paths:\\n    rp=pathlib.Path(root)\\n    if not rp.exists():\\n        continue\\n    for p in sorted(rp.rglob('*')):\\n        if p.is_dir():\\n            continue\\n        if p.suffix.lower() not in ext_ok:\\n            continue\\n        try:\\n            data=p.read_text(encoding='utf-8', errors='ignore')\\n        except Exception:\\n            continue\\n        if not data.strip():\\n            continue\\n        if len(data)>max_file:\\n            data=data[:max_file]+'\\\\n[...truncated]\\\\n'\\n        chunk=f'\\\\n===== FILE: {p.as_posix()} =====\\\\n{data}\\\\n'\\n        if total+len(chunk)>max_total:\\n            break\\n        out.append(chunk)\\n        total+=len(chunk)\\npathlib.Path('canon_bundle.txt').write_text(''.join(out) if out else '[no canon files loaded]\\\\n', encoding='utf-8')\\n\")" || true
+
+      - name: Compose prompt
+        shell: bash
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: |
+          set -euo pipefail
+          ISSUE_NUMBER="${{ github.event.issue.number }}"
+          ISSUE_TITLE="${{ github.event.issue.title }}"
+          ISSUE_BODY="${ISSUE_BODY:-}"
+          CANON_PATHS="${{ steps.ctx.outputs.canon_paths }}"
+
+          {
+            echo "SYSTEM:"
+            echo "You are an AI assistant running in GitHub Actions for the MystiMons project."
+            echo "Return ONLY a single unified git patch suitable for 'git apply'."
+            echo "No explanations, no markdown fences."
+            echo "Only change files that match the ALLOWLIST and do NOT match the DENYLIST."
+            echo "If you cannot comply, return an empty patch."
+            echo "For German content, maintain consistent tone and terminology."
+            echo
+            echo "ALLOWLIST patterns (fnmatch):"
+            sed "s/^/- /" allowlist.txt
+            echo
+            echo "DENYLIST patterns (fnmatch):"
+            sed "s/^/- /" denylist.txt
+            echo
+            echo "Issue:"
+            echo "- Number: #$ISSUE_NUMBER"
+            echo "- Title: $ISSUE_TITLE"
+            echo "- Body:"
+            echo "$ISSUE_BODY"
+            echo
+            echo "Repo file map (first 2000 tracked files):"
+            cat repo_files_capped.txt
+            echo
+            echo "Canon paths: $CANON_PATHS"
+            echo "Canon bundle:"
+            cat canon_bundle.txt
+          } > prompt.txt
+
+      - name: Call OpenAI Responses API (generate patch)
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          MODEL: ${{ env.OPENAI_MODEL }}
+        run: |
+          set -euo pipefail
+
+          PAYLOAD="$(jq -n --arg model "$MODEL" --rawfile prompt "prompt.txt" '{model:$model,input:[{role:"user",content:[{type:"text",text:$prompt}]}],temperature:0.2,max_output_tokens:4000}')"
+
+          curl -sS -D headers.txt -o resp.json \
+            -H "Authorization: Bearer $OPENAI_API_KEY" \
+            -H "Content-Type: application/json" \
+            https://api.openai.com/v1/responses \
+            -d "$PAYLOAD"
+
+          STATUS="$(awk 'NR==1{print $2}' headers.txt || true)"
+          if [[ -z "${STATUS:-}" || "$STATUS" -ge 400 ]]; then
+            echo "OpenAI call failed. Status=${STATUS:-unknown}"
+            cat resp.json || true
+            exit 1
+          fi
+
+          PATCH="$(jq -r 'if .output_text then .output_text else ([.output[]?.content[]? | select(.type=="output_text" or .type=="text") | .text] | join("\n")) end' resp.json)"
+          printf "%s\n" "$PATCH" > model.patch
+
+          if ! grep -qE '^diff --git |^\+\+\+ b/|^--- a/' model.patch; then
+            echo "Model output is not a patch."
+            cat model.patch
+            exit 1
+          fi
+
+      - name: "Guard: validate patch file paths"
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import fnmatch, re, sys
+
+          allow = [ln.strip() for ln in open("allowlist.txt", encoding="utf-8").read().splitlines() if ln.strip()]
+          deny  = [ln.strip() for ln in open("denylist.txt", encoding="utf-8").read().splitlines() if ln.strip()]
+
+          patch = open("model.patch", encoding="utf-8", errors="ignore").read().splitlines()
+          files = set()
+
+          for ln in patch:
+            if ln.startswith("diff --git "):
+              m = re.match(r"diff --git a/(.+) b/(.+)\Z", ln)
+              if m:
+                files.add(m.group(2).strip())
+            if ln.startswith("+++ "):
+              m = re.match(r"\+\+\+\s+b/(.+)\Z", ln)
+              if m:
+                p = m.group(1).strip()
+                if p != "/dev/null":
+                  files.add(p)
+
+          def ok(path: str) -> bool:
+            a = any(fnmatch.fnmatch(path, p) for p in allow) if allow else False
+            d = any(fnmatch.fnmatch(path, p) for p in deny) if deny else False
+            return a and not d
+
+          bad = sorted([f for f in files if not ok(f)])
+          if bad:
+            print("Patch touches disallowed paths:")
+            for f in bad:
+              print("-", f)
+            sys.exit(1)
+
+          if not files:
+            print("No file paths detected in patch.")
+            sys.exit(1)
+
+          print("Patch paths OK:")
+          for f in sorted(files):
+            print("-", f)
+          PY
+
+      - name: Apply patch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git apply --whitespace=fix model.patch
+          git diff --check
+
+      - name: Commit changes (if any)
+        id: commit
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if git diff --quiet && git diff --cached --quiet; then
+            echo "did_commit=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          git add -A
+          if git diff --cached --quiet; then
+            echo "did_commit=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          ISSUE_NUMBER="${{ github.event.issue.number }}"
+          git commit -m "AI: resolve issue #$ISSUE_NUMBER" -m "Generated by mystimons-ai-bot via OpenAI Responses API."
+          echo "did_commit=true" >> "$GITHUB_OUTPUT"
+
+      - name: Push branch (safer)
+        if: steps.commit.outputs.did_commit == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH="${{ steps.prep.outputs.branch }}"
+          git push origin "$BRANCH" --force-with-lease --set-upstream
+
+      - name: Create or reuse Draft PR
+        if: steps.commit.outputs.did_commit == 'true'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          set -euo pipefail
+
+          BRANCH="${{ steps.prep.outputs.branch }}"
+          BASE_BRANCH="${{ steps.prep.outputs.base_branch }}"
+          ISSUE_NUMBER="${{ github.event.issue.number }}"
+          ISSUE_TITLE="${{ github.event.issue.title }}"
+
+          EXISTING_PR_URL="$(gh pr list --head "$BRANCH" --state open --json url --jq '.[0].url' 2>/dev/null || true)"
+
+          if [[ -n "${EXISTING_PR_URL:-}" ]]; then
+            PR_URL="$EXISTING_PR_URL"
+          else
+            PR_BODY_FILE="$(mktemp)"
+            cat > "$PR_BODY_FILE" <<EOF
+Automated draft PR for issue #$ISSUE_NUMBER.
+
+- Canon paths: ${{ steps.ctx.outputs.canon_paths }}
+- Branch: $BRANCH
+
+Edit the issue and add label ai-run to re-run and update the PR.
+EOF
+            PR_URL="$(gh pr create \
+              --draft \
+              --base "$BASE_BRANCH" \
+              --head "$BRANCH" \
+              --title "AI: #$ISSUE_NUMBER $ISSUE_TITLE" \
+              --body-file "$PR_BODY_FILE"
+            )"
+          fi
+
+          gh issue comment "$ISSUE_NUMBER" --body "✅ Draft PR ready: $PR_URL"
+
+  notify_failure:
+    needs: [guard, ai]
+    if: always() && needs.guard.outputs.should_run == 'true' && needs.ai.result != 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.AI_APP_ID }}
+          private-key: ${{ secrets.AI_APP_PRIVATE_KEY }}
+
+      - name: Comment failure on issue
+        shell: bash
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          set -euo pipefail
+          ISSUE_NUMBER="${{ github.event.issue.number }}"
+          RUN_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          gh issue comment "$ISSUE_NUMBER" --body "❌ AI run failed.
+
+Run: $RUN_URL
+
+Please review logs. Common causes: disallowed paths, rebase conflicts, or OpenAI API errors."
