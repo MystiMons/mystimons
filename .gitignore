@@ -12,3 +12,6 @@ server/.tmp/
 /tools/_flow_debug*.log
 
 *.bak
+
+# Sensitive files
+Widerherstellungscode.txt
