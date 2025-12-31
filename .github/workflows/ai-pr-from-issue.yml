@@ -215,7 +215,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          PAYLOAD="$(jq -n --arg model "$MODEL" --rawfile prompt "prompt.txt" '{model:$model,input:[{role:"user",content:[{type:"text",text:$prompt}]}],temperature:0.2,max_output_tokens:4000}')"
+          PAYLOAD="$(jq -n --arg model "$MODEL" --rawfile prompt "prompt.txt" '{model:$model,input:[{role:"user",content:[{type:"input_text",text:$prompt}]}],temperature:0.2,max_output_tokens:4000}')"
 
           curl -sS -D headers.txt -o resp.json \
             -H "Authorization: Bearer $OPENAI_API_KEY" \
