@@ -1,0 +1,93 @@
+name: "AI Task"
+description: "Issue-basiert: Bot erzeugt Draft-PR basierend auf Repo-Canon (00_CANON/)."
+title: "[AI Task] "
+labels:
+  - "ai-task"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Ablauf**
+        1) Issue ausfüllen
+        2) Maintainer setzt Label **ai-run**
+        3) Bot erstellt/aktualisiert Branch + Draft PR
+
+        **Hinweis:** Aus Sicherheitsgründen läuft der Bot nur, wenn der Autor vertrauenswürdig ist (OWNER/MEMBER/COLLABORATOR) oder ein Maintainer das Label **ai-run** setzt.
+
+  - type: textarea
+    id: objective
+    attributes:
+      label: "Ziel / Outcome"
+      description: "Was soll am Ende im Repo sichtbar anders/besser sein?"
+      placeholder: "Beispiel: Erzeuge ein Canon-Index-Dokument und verlinke zentrale Lore-Dateien aus 00_CANON/."
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: "Kontext / Constraints"
+      description: "Relevante Details, Abhängigkeiten, technische oder lore-seitige Vorgaben."
+      placeholder: "Beispiel: Unity-Projekt; keine Änderungen an Workflows; Canon ist Quelle der Wahrheit; keine Retcons."
+    validations:
+      required: false
+
+  - type: textarea
+    id: canon_paths
+    attributes:
+      label: "Canon-Pfade (Default: 00_CANON/)"
+      description: "Welche Ordner/Dateien soll der Bot als Canon in den Prompt laden? Leer lassen für Default."
+      placeholder: |
+        00_CANON/
+        docs/canon/
+    validations:
+      required: false
+
+  - type: textarea
+    id: allowlist
+    attributes:
+      label: "Allowlist (welche Pfade darf der Bot ändern)"
+      description: |
+        Optional. Leer lassen nutzt die Default-Allowlist aus dem Workflow.
+        Beispiel: "Assets/**" oder "00_CANON/**".
+      placeholder: |
+        00_CANON/**
+        docs/**
+        Assets/**
+        ProjectSettings/**
+    validations:
+      required: false
+
+  - type: textarea
+    id: must_not_touch
+    attributes:
+      label: "Ausschlüsse (must not touch)"
+      description: "Explizite No-Go-Dateien oder Ordner."
+      placeholder: |
+        .github/workflows/**
+        secrets/**
+    validations:
+      required: false
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: "Akzeptanzkriterien"
+      description: "Prüfpunkte, an denen ihr fertig messt."
+      placeholder: |
+        - Neue/angepasste Dateien liegen im richtigen Ordner
+        - Keine Änderungen außerhalb Allowlist
+        - PR ist Draft und referenziert Issue
+    validations:
+      required: true
+
+  - type: textarea
+    id: validation
+    attributes:
+      label: "Optional: Validation/Tests"
+      description: "Kommandos, die lokal/CI laufen sollten (wenn vorhanden)."
+      placeholder: |
+        - git diff --check
+        - (optional) ./tools/ci/smoke.sh
+    validations:
+      required: false
