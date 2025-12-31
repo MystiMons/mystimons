@@ -222,3 +222,6 @@ SMOKE_TEST: 2025-12-31 00:05:58 (change_id=8dfa0cb22e064f78b41827d7f8ad2eb8)
 
 
 SMOKE_TEST: 2025-12-31 04:09:07 (change_id=449985ce11c74b61b32eb4dbacd335f3)
+
+## Development
+See `DEV_WORKFLOW.md` for the one-button local setup (`tools/dev.ps1`) and the Flow workflow (`tools/flow.ps1`).
