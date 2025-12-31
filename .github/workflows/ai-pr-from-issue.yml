@@ -370,8 +370,4 @@ jobs:
           set -euo pipefail
           ISSUE_NUMBER="${{ github.event.issue.number }}"
           RUN_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          gh issue comment "$ISSUE_NUMBER" --body "❌ AI run failed.
-
-Run: $RUN_URL
-
-Please review logs. Common causes: disallowed paths, rebase conflicts, or OpenAI API errors."
+          gh issue comment "$ISSUE_NUMBER" --body "❌ AI run failed. Run: $RUN_URL - Please review logs."
