@@ -346,9 +346,10 @@ function Try-GetStatus([string]$Url) {
 }
 
 function Ensure-ToolServer([string]$RepoRoot, [string]$StatusUrl, [int]$MaxWaitSec, [switch]$NoAutoStart) {
+  # Quick check if server is already running
   $r = Try-GetStatus $StatusUrl
   if ($null -ne $r -and $r.ok -eq $true) {
-    Info ("Server already running. /git/status ok:true (branch={0}, dirty={1})" -f $r.branch, $r.dirty)
+    Info ("Server ready (branch={0}, dirty={1})" -f $r.branch, $r.dirty)
     return
   }
 
@@ -356,29 +357,27 @@ function Ensure-ToolServer([string]$RepoRoot, [string]$StatusUrl, [int]$MaxWaitS
     Fail ("Tool server not reachable at {0}. Start it via .\tools\dev.ps1 and retry." -f $StatusUrl)
   }
 
+  # Use dev.ps1 for all server start logic (single source of truth)
   $dev = Join-Path $RepoRoot "tools\dev.ps1"
   if (-not (Test-Path -LiteralPath $dev)) {
     Fail ("tools\dev.ps1 not found at: {0}" -f $dev)
   }
 
-  Info ("Starting tool server via tools\dev.ps1 (BindHost={0}, Port={1})" -f $BindHost, $Port)
-  try {
-    & $dev -BindHost $BindHost -Port $Port | Out-Host
-  } catch {
-    Warn ("tools\dev.ps1 failed to start server: {0}" -f $_.Exception.Message)
+  Info "Starting tool server via dev.ps1..."
+  & $dev -BindHost $BindHost -Port $Port -Quiet
+  
+  if ($LASTEXITCODE -ne 0) {
+    Fail "dev.ps1 failed to start server. Run .\tools\dev.ps1 manually to see errors."
   }
 
-  $deadline = (Get-Date).AddSeconds($MaxWaitSec)
-  while ((Get-Date) -lt $deadline) {
-    Start-Sleep -Milliseconds 500
-    $r = Try-GetStatus $StatusUrl
-    if ($null -ne $r -and $r.ok -eq $true) {
-      Info ("OK: /git/status ok:true (branch={0}, dirty={1})" -f $r.branch, $r.dirty)
-      return
-    }
+  # Verify server is now reachable
+  $r = Try-GetStatus $StatusUrl
+  if ($null -ne $r -and $r.ok -eq $true) {
+    Info ("Server ready (branch={0}, dirty={1})" -f $r.branch, $r.dirty)
+    return
   }
 
-  Fail ("Server did not become ready within {0}s. Check the uvicorn window/logs." -f $MaxWaitSec)
+  Fail ("Server started but not responding at {0}. Check .\tools\dev.ps1 output." -f $StatusUrl)
 }
 
 # ===============================
