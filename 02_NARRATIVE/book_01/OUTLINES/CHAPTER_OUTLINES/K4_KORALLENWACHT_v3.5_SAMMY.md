@@ -1,6 +1,7 @@
 # KAPITEL 4: KORALLENWACHT
 
 **v3.5-SAMMY (Canon-Review + Fixes)**
+**📌 REVIEW TRIGGER**
 *(Basis: Chatti v3.4-FIXED | Review: Sammy 31.12.2025)*
 
 ---
