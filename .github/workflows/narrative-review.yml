@@ -38,6 +38,9 @@ jobs:
         id: model
         run: |
           MODEL="${{ env.MODEL_DEFAULT }}"
+          if echo '${{ toJson(github.event.pull_request.labels) }}' | grep -q '"name":"${{ env.DEEP_LABEL }}"'; then
+            MODEL="${{ env.MODEL_DEEP }}"
+          fi
           echo "model=$MODEL" >> "$GITHUB_OUTPUT"
 
       - name: Collect files
@@ -58,6 +61,10 @@ jobs:
           mkdir -p .tmp_narrative_review
           echo "$CHANGED" > .tmp_narrative_review/files.txt
           python3 .github/scripts/chunk_chapters.py
+        env:
+          TOKEN_LIMIT: ${{ env.TOKEN_LIMIT }}
+          TARGET_CHUNK_TOKENS: ${{ env.TARGET_CHUNK_TOKENS }}
+          TARGET_BATCH_TOKENS: ${{ env.TARGET_BATCH_TOKENS }}
 
       - name: Run AI review
         if: steps.collect.outputs.has_files == 'true'
@@ -68,6 +75,17 @@ jobs:
           COMMENT=".tmp_narrative_review/review_comment.md"
           echo "<!-- NARRATIVE_REVIEW -->" > "$COMMENT"
           echo "# Narrative Review (AI)" >> "$COMMENT"
+          echo "" >> "$COMMENT"
+          echo "- Model: \`${MODEL}\`" >> "$COMMENT"
+          echo "- PR: #${{ github.event.pull_request.number }}" >> "$COMMENT"
+          echo "" >> "$COMMENT"
+          
+          BATCH_COUNT=$(jq 'length' .tmp_narrative_review/batches.json)
+          
+          for idx in $(seq 0 $((BATCH_COUNT-1))); do
+            FILE=$(jq -r ".[$idx].file" .tmp_narrative_review/batches.json)
+            BATCH=$(jq -r ".[$idx].batch" .tmp_narrative_review/batches.json)
+            
           echo "- Model: ${MODEL}" >> "$COMMENT"
           echo "- PR: #${{ github.event.pull_request.number }}" >> "$COMMENT"
           echo "" >> "$COMMENT"
@@ -78,6 +96,48 @@ jobs:
             CHUNK_COUNT=$(jq -r ".[$idx].chunks | length" .tmp_narrative_review/batches.json)
             for cidx in $(seq 0 $((CHUNK_COUNT-1))); do
               CPATH=$(jq -r ".[$idx].chunks[$cidx].chunk_path" .tmp_narrative_review/batches.json)
+              CNUM=$(jq -r ".[$idx].chunks[$cidx].chunk" .tmp_narrative_review/batches.json)
+              CTOT=$(jq -r ".[$idx].chunks[$cidx].chunk_count" .tmp_narrative_review/batches.json)
+              CTEXT=$(cat "$CPATH")
+              TEXT="${TEXT}
+
+---
+[CHUNK ${CNUM}/${CTOT}]
+
+${CTEXT}"
+            done
+            
+            PROMPT="Du bist Lektor für ein deutsches YA-Fantasy-Franchise. Reviewe diesen Text.
+Ausgabe: 1) Kurzfazit 2) BLOCKER 3) WICHTIG 4) NITPICK 5) Fragen
+
+Datei: ${FILE} (Batch ${BATCH})
+${TEXT}"
+            
+            PAYLOAD=$(jq -n --arg m "$MODEL" --arg p "$PROMPT" \
+              '{model:$m, input:[{role:"user",content:[{type:"text",text:$p}]}], temperature:0.15, max_output_tokens:1400}')
+            
+            RESP=$(curl -sS -w "\n%{http_code}" \
+              -H "Authorization: Bearer $OPENAI_API_KEY" \
+              -H "Content-Type: application/json" \
+              https://api.openai.com/v1/responses \
+              -d "$PAYLOAD")
+            
+            HTTP_CODE=$(echo "$RESP" | tail -1)
+            BODY=$(echo "$RESP" | sed '$d')
+            
+            if [ "$HTTP_CODE" -ge 400 ]; then
+              ERR=$(echo "$BODY" | jq -r '.error.message // "Unknown"')
+              echo "" >> "$COMMENT"
+              echo "## ${FILE} — Batch ${BATCH}" >> "$COMMENT"
+              echo "" >> "$COMMENT"
+              echo "**Error** (HTTP ${HTTP_CODE}): ${ERR}" >> "$COMMENT"
+              continue
+            fi
+            
+            OUT=$(echo "$BODY" | jq -r '.output_text // "No output"')
+            echo "" >> "$COMMENT"
+            echo "## ${FILE} — Batch ${BATCH}" >> "$COMMENT"
+            echo "" >> "$COMMENT"
               CTEXT=$(cat "$CPATH")
               TEXT="${TEXT} ${CTEXT}"
             done
@@ -112,6 +172,12 @@ jobs:
           PR="${{ github.event.pull_request.number }}"
           REPO="${{ github.repository }}"
           FILE=".tmp_narrative_review/review_comment.md"
+          [ ! -f "$FILE" ] && exit 0
+          EXISTING=$(gh api "repos/$REPO/issues/$PR/comments" --paginate | jq -r '.[] | select(.body | contains("<!-- NARRATIVE_REVIEW -->")) | .id' | head -1 || true)
+          if [ -n "$EXISTING" ]; then
+            gh api -X PATCH "repos/$REPO/issues/comments/$EXISTING" -f "body=@$FILE"
+          else
+            gh api -X POST "repos/$REPO/issues/$PR/comments" -f "body=@$FILE"
           if [ ! -f "$FILE" ]; then exit 0; fi
           BODY=$(cat "$FILE")
           EXISTING=$(gh api "repos/$REPO/issues/$PR/comments" --paginate | jq -r '.[] | select(.body | contains("<!-- NARRATIVE_REVIEW -->")) | .id' | head -1 || true)
