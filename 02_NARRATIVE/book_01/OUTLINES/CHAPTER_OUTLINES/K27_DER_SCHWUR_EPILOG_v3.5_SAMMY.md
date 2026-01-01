@@ -1,6 +1,7 @@
 # KAPITEL 27: DER SCHWUR + EPILOG
 
 **v3.5-SAMMY (Canon-Review – FINAL MIT KEY MOMENTS)**
+**📌 REVIEW TRIGGER**
 *(Basis: Chatti v3.4-FIXED + KEY MOMENTS | Review: Sammy 31.12.2025)*
 
 ---
