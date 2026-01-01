@@ -1,6 +1,7 @@
 # KAPITEL 7: GLUTFELS
 
 **v3.5-SAMMY (Canon-Review + Fixes)**
+**📌 REVIEW TRIGGER**
 *(Basis: Chatti v3.5-FIXED mit System-Plausibility | Review: Sammy 31.12.2025)*
 
 ---
