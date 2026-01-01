@@ -1,6 +1,7 @@
 # KAPITEL 8: MITTERNACHTSFENSTER
 
 **v3.5-SAMMY (Canon-Review + Fixes)**
+**📌 REVIEW TRIGGER**
 *(Basis: Chatti v3.5-FIXED mit Breather | Review: Sammy 31.12.2025)*
 
 ---
