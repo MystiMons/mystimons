@@ -2,7 +2,7 @@ name: Narrative Chapter Review (PR)
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, edited, labeled, unlabeled]
+    types: [opened, synchronize, reopened]
     paths:
       - "02_NARRATIVE/book_01/CHAPTERS/**"
 
@@ -37,9 +37,10 @@ env:
 jobs:
   narrative-review:
     runs-on: ubuntu-latest
+    env:
+      MODEL: gpt-5-mini
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -63,10 +64,6 @@ jobs:
           
       - name: Collect files
         id: collect
-        env:
-          TOKEN_LIMIT: ${{ env.TOKEN_LIMIT }}
-          TARGET_CHUNK_TOKENS: ${{ env.TARGET_CHUNK_TOKENS }}
-          TARGET_BATCH_TOKENS: ${{ env.TARGET_BATCH_TOKENS }}
         run: |
           BASE="${{ github.event.pull_request.base.sha }}"
           HEAD="${{ github.event.pull_request.head.sha }}"
@@ -145,13 +142,7 @@ jobs:
           
           python3 .tmp_narrative_review/chunk.py
           echo "has_files=true" >> "$GITHUB_OUTPUT"
-          mkdir -p .tmp_narrative_review
-          echo "$CHANGED" > .tmp_narrative_review/files.txt
-          python3 .github/scripts/chunk_chapters.py
-        env:
-          TOKEN_LIMIT: ${{ env.TOKEN_LIMIT }}
-          TARGET_CHUNK_TOKENS: ${{ env.TARGET_CHUNK_TOKENS }}
-          TARGET_BATCH_TOKENS: ${{ env.TARGET_BATCH_TOKENS }}
+          echo "$CHANGED" > /tmp/files.txt
 
       - name: Run AI review
         if: steps.collect.outputs.has_files == 'true'
@@ -165,9 +156,10 @@ jobs:
           COMMENT=".tmp_narrative_review/review_comment.md"
           
         run: |
-          COMMENT=".tmp_narrative_review/review_comment.md"
+          COMMENT="/tmp/review.md"
           echo "<!-- NARRATIVE_REVIEW -->" > "$COMMENT"
           echo "# Narrative Review (AI)" >> "$COMMENT"
+          echo "Model: $MODEL" >> "$COMMENT"
           echo "" >> "$COMMENT"
           echo "- Model: \`${MODEL}\`" >> "$COMMENT"
           echo "- PR: #${PR}" >> "$COMMENT"
@@ -225,8 +217,13 @@ ${TEXT}"
             
             PAYLOAD=$(jq -n --arg m "$MODEL" --arg p "$PROMPT" \
               '{model:$m, input:[{role:"user",content:[{type:"text",text:$p}]}], temperature:0.15, max_output_tokens:1400}')
+          
+          while IFS= read -r FILE; do
+            [ -z "$FILE" ] && continue
+            TEXT=$(cat "$FILE" | head -c 10000)
+            PROMPT="Reviewe diesen deutschen YA-Fantasy Text kurz: $TEXT"
             
-            RESP=$(curl -sS -w "\n%{http_code}" \
+            RESP=$(curl -sS https://api.openai.com/v1/chat/completions \
               -H "Authorization: Bearer $OPENAI_API_KEY" \
               -H "Content-Type: application/json" \
               https://api.openai.com/v1/responses \
@@ -250,36 +247,18 @@ ${TEXT}"
               echo "**Error** (HTTP ${HTTP_CODE}): ${ERR}" >> "$COMMENT"
               continue
             fi
+              -d "$(jq -n --arg m "$MODEL" --arg p "$PROMPT" '{model:$m,messages:[{role:"user",content:$p}],max_tokens:1000}')")
             
-            OUT=$(echo "$BODY" | jq -r '.output_text // "No output"')
-            echo "" >> "$COMMENT"
-            echo "## ${FILE} — Batch ${BATCH}" >> "$COMMENT"
-            echo "" >> "$COMMENT"
-              CTEXT=$(cat "$CPATH")
-              TEXT="${TEXT} ${CTEXT}"
-            done
-            PROMPT="Reviewe diesen Text: ${TEXT}"
-            PAYLOAD=$(jq -n --arg m "$MODEL" --arg p "$PROMPT" '{model:$m,messages:[{role:"user",content:$p}],temperature:0.15,max_tokens:1400}')
-            RESP=$(curl -sS -w "HTTP_CODE:%{http_code}" -H "Authorization: Bearer $OPENAI_API_KEY" -H "Content-Type: application/json" https://api.openai.com/v1/chat/completions -d "$PAYLOAD")
-            HTTP_CODE=$(echo "$RESP" | grep -oP 'HTTP_CODE:\K[0-9]+')
-            BODY=$(echo "$RESP" | sed 's/HTTP_CODE:[0-9]*$//')
-            if [ "$HTTP_CODE" -ge 400 ]; then
-              echo "## ${FILE}" >> "$COMMENT"
-              echo "Error: HTTP ${HTTP_CODE}" >> "$COMMENT"
-              continue
-            fi
-            OUT=$(echo "$BODY" | jq -r '.choices[0].message.content // "No output"')
-            echo "## ${FILE}" >> "$COMMENT"
+            OUT=$(echo "$RESP" | jq -r '.choices[0].message.content // .error.message // "Error"')
+            echo "## $FILE" >> "$COMMENT"
             echo "$OUT" >> "$COMMENT"
-          done
-
-      - name: Upload artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: narrative-review
-          path: .tmp_narrative_review/
-          if-no-files-found: ignore
+            echo "" >> "$COMMENT"
+          done < /tmp/files.txt
+          
+          cat "$COMMENT"
+          echo "COMMENT_BODY<<EOF" >> $GITHUB_ENV
+          cat "$COMMENT" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
       - name: Post comment
         if: steps.collect.outputs.has_files == 'true'
@@ -314,3 +293,28 @@ ${TEXT}"
             gh api -X POST "repos/$REPO/issues/$PR/comments" -f body="$BODY"
           fi
       
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = process.env.COMMENT_BODY;
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number
+            });
+            const existing = comments.find(c => c.body.includes('<!-- NARRATIVE_REVIEW -->'));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body: body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: body
+              });
+            }
