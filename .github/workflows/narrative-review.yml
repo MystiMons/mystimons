@@ -134,7 +134,7 @@ jobs:
           COMMENT=".tmp_narrative_review/review_comment.md"
           
           echo "<!-- NARRATIVE_REVIEW -->" > "$COMMENT"
-          echo "# Narrative Review (AI)" >> "$COMMENT"
+          echo "# Narrative Review (AI) - DEBUG MODE" >> "$COMMENT"
           echo "" >> "$COMMENT"
           echo "- Model: \`${MODEL}\`" >> "$COMMENT"
           echo "- PR: #${PR}" >> "$COMMENT"
@@ -195,9 +195,20 @@ jobs:
               continue
             fi
             
-            OUT=$(echo "$BODY" | jq -r '.output_text // ([.output[]?.content[]? | select(.type=="text") | .text] | join("\n")) // "No output"')
+            # DEBUG: Show the complete API response
             echo "" >> "$COMMENT"
             echo "## ${FILE} — Batch ${BATCH}" >> "$COMMENT"
+            echo "" >> "$COMMENT"
+            echo "### 🔍 DEBUG: Complete API Response" >> "$COMMENT"
+            echo "" >> "$COMMENT"
+            echo '```json' >> "$COMMENT"
+            echo "$BODY" | jq '.' >> "$COMMENT"
+            echo '```' >> "$COMMENT"
+            echo "" >> "$COMMENT"
+            
+            # Try to extract the output
+            OUT=$(echo "$BODY" | jq -r '.output_text // ([.output[]?.content[]? | select(.type=="text") | .text] | join("\n")) // "No output"')
+            echo "### Parsed Output:" >> "$COMMENT"
             echo "" >> "$COMMENT"
             echo "$OUT" >> "$COMMENT"
           done
