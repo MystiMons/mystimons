@@ -1,6 +1,7 @@
 # KAPITEL 6: DIE FLUCHT
 
 **v3.5-SAMMY (Canon-Review + Fixes)**
+**📌 REVIEW TRIGGER**
 *(Basis: Chatti v3.4-FIXED | Review: Sammy 31.12.2025)*
 
 ---
@@ -153,11 +154,11 @@ Das Schiff bewegt sich zu langsam! Soldaten sind zu schnell! Finn und Nila müss
 
 Finn auf Deck, auf Rücken.
 Atem jagt.
-Nila neben ihm, lacht (hysterisch?)
+Nila neben ihm, lacht (hysterisch?).
 "Das... war knapp."
 
 Aquor klettert aus Wasser (tropft!).
-Schüttelt sich (spritz alle!)
+Schüttelt sich (spritz alle!).
 Sylphira faucht (nass!).
 
 Captain Harrow ruft: "UNTER DECK! JETZT!"
