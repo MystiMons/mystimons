@@ -1,6 +1,7 @@
 # KAPITEL 15: DIE WANDERNDE STADT
 
 **v3.5-SAMMY (Canon-Review + Klärung)**
+**📌 REVIEW TRIGGER**
 *(Basis: Chatti v3.4-FIXED | Review: Sammy 31.12.2025)*
 
 ---
