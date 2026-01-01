@@ -140,6 +140,25 @@ Absorption ist dabei nicht „Grauzone": Sie ist immer Zerstörung.
   * Finn realisiert: Theo braucht keine „Rettung". Theo braucht **Hilfe**. 
   * **⚠️ HIER PAUSE EINBAUEN – Finn muss mit dieser Erkenntnis sitzen, bevor Chaos losbricht**
 
+**TEXTVORSCHLAG FÜR AUSFÜHRUNG:**
+
+```
+Finn lehnt sich zurück. Das Papier zittert in seiner Hand.
+Theo ist nicht geflohen. Theo kämpft.
+Sein Bruder – der, der ihm Fishtails beigebracht hat, der morgens immer zu spät zum Frühstück kam – der ist jetzt jemand, der Beweise sammelt. Der sich gegen ein System stellt.
+
+Finn hat zwei Jahre lang nach jemandem gesucht, der gerettet werden muss.
+Aber Theo braucht keine Rettung.
+Theo braucht Hilfe.
+
+[DANN Schritte im Gang]
+[DANN Verrat]
+```
+
+**Länge:** 3-4 Sätze innerer Monolog  
+**Effekt:** Der Leser kann mit Finn sitzen, bevor Chaos losbricht
+
+
 ### VERRAT (Ende Szene / Kapitel-Climax)
 
 Ohne POV-Wechsel: Finn hört Schritte im Gang – nicht hastig wie Angst, eher „dienstlich". Dann ein gedämpftes Metallklacken (Siegel/Token). Ein Mönch flüstert ein paar Worte, die nicht für Finn sind.

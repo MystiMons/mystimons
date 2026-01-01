@@ -92,7 +92,13 @@ Sylphira kommt zu ihm. Nicht auf die Schulter „wie gewohnt", sondern **direkt 
 ### KEY MOMENTS TO SHOW
 
 * **Stille Nähe:** kein großes Leuchten, kein „Magie-Effekt". Nur: sie ist da. Und bleibt.
-* **Finn hört sie klar (aus Outline):** kein Distanzrauschen, kein Chaos – nur **Vertrauen**. 
+**Finn hört sie klar (aus Outline):** 
+- Kein Distanzrauschen, kein Chaos – nur **Vertrauen**
+- So klar, dass es fast wehtut
+- **Metallischer Geschmack im Mund**
+- Ein Tropfen Blut läuft über seine Oberlippe
+- Er wischt ihn weg, ohne den Blick von Sylphira zu nehmen
+- **Der Preis für Klarheit** (@PIL-004)
 * **Bildsequenz (aus Outline) – visuell, nicht erklärt:**
   Sylphira zeigt ihm ein Bild: **IHN**, wie er anderen hilft. (Nicht „Held" – eher: Türen öffnen, jemanden hochziehen, Wasser teilen, Hände reichen.) 
 

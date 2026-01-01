@@ -50,7 +50,12 @@ Dann trifft ihn etwas Vertrautes wie ein Griff in den Nacken: **Verdantis.** Nic
 ### KEY MOMENTS TO SHOW (NICHT ERKLÄREN!)
 
 * **Erkennung ohne Info-Dump:** nicht „Finn erkannte Verdantis", sondern: Atem stoppt, Finger um Theos Armband/den eigenen Ärmel, der Raum kippt einen Millimeter.
-* **Preis der Gabe (@PIL-004):** kurzer Druck hinter den Augen, Übelkeit, ein Schritt zu schnell → Knie stößt gegen Kiste/Seil.
+**Preis der Gabe (@PIL-004):** 
+- Kurzer Druck hinter den Augen
+- Übelkeit
+- Ein Schritt zu schnell → Knie stößt gegen Kiste/Seil
+- **Wärme in der Nase** – Finn wischt reflexartig, Hand kommt rot weg
+- Er ignoriert es (keine Zeit)
 * **Finns Logik in Panik:** Nicht „wo?", sondern: *nah.* *hier.* *versteckt.*
 * **Team-Reaktion:**
 
@@ -92,10 +97,26 @@ Kein „Wiedersehen wie früher". Eher ein Crash zweier Leben, die nicht mehr pa
   * Finn: „Ich hab dich gesucht. Zwei Jahre ohne ein Wort!" 
   * Theo: „Es war zu gefährlich…" 
 
-**📌 HIER: Timeline-Erklärung einfügen**
-> Finn: "Die Anführer sagten, du bist weg. Vor einer Woche."
-> Theo (kurz, hart): "Niemand weiß, dass ich noch hier bin. Das war der Plan."
-> ODER: "Verdantis wollte nicht gehen. Er spürte etwas."
+**📌 TIMELINE-FIX (nach initialem Schock):**
+
+Finn: "Die Anführer sagten, du bist weg. Vor einer Woche nach Lumion."
+
+Theo wird still. Kurz. Dann:
+"Niemand weiß, dass ich noch hier bin. Auch der Widerstand nicht."
+
+Finn: "Warum?"
+
+"Weil ich nicht weiß, wem ich trauen kann. Und weil Verdantis..."
+Theo schaut zu seinem Resonanten.
+"Er wollte nicht gehen. Er spürte etwas."
+
+Verdantis senkt den Kopf minimal – Bestätigung, nicht Befehl.
+
+**Effekt:**
+- Erklärt Timeline-Inkonsistenz
+- Verstärkt Theos Paranoia (Character Change)
+- Gibt Verdantis Agency (@LAW-004)
+- Macht Widerstand nicht zu Lügnern
 
 * **Verdantis als Schutz, nicht Deko:** Er stellt sich automatisch zwischen Theo und Tür. Dann erkennt er Finn und lockert minimal. (Eigenwille, kein Befehl.)
 * **Finns Körper statt „Emotion":** Hals zu eng, Worte stolpern raus, Hände finden Theos Jacke/Arm und lassen sofort wieder los.
