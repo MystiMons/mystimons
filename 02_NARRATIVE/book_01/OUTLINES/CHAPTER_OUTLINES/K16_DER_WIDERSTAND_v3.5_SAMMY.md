@@ -56,7 +56,7 @@ Sie werden in einen Raum geführt, der wie eine Brücke wirkt: Karten, Listen, M
 ### KONFLIKT
 
 Finn will Theo. Sofort.
-Die Anführer wollen zuerst klären, ob Finn ein Risiko ist – oder eine Chance.
+Die Anführerinen wollen zuerst klären, ob Finn ein Risiko ist – oder eine Chance.
 
 ### KEY MOMENTS TO SHOW
 
