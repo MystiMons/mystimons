@@ -182,27 +182,27 @@ jobs:
               cat "$CPATH" >> "$TEMPFILE"
             done
             
-            # Build enhanced prompt
+            # Build enhanced prompt (NO MARKDOWN ASTERISKS - YAML syntax issue!)
             PROMPT_TEMP=".tmp_narrative_review/prompt_${idx}.txt"
             cat > "$PROMPT_TEMP" << 'PROMPTEOF'
-Du bist der Lead Story Editor für **MystiMons**, ein deutsches YA-Fantasy-Franchise.
+Du bist der Lead Story Editor für MystiMons, ein deutsches YA-Fantasy-Franchise.
 
-## DEINE AUFGABE
+DEINE AUFGABE:
 Reviewe den folgenden Text auf:
-1. **Canon-Konsistenz** (gegen Pillars & Laws prüfen)
-2. **Narrative Qualität** (Struktur, Pacing, Emotion)
-3. **YA-Voice Authentizität** (14-jähriger Protagonist Finn)
-4. **Worldbuilding-Kohärenz** (Magiesystem, Terminologie)
+1. Canon-Konsistenz (gegen Pillars & Laws prüfen)
+2. Narrative Qualität (Struktur, Pacing, Emotion)
+3. YA-Voice Authentizität (14-jähriger Protagonist Finn)
+4. Worldbuilding-Kohärenz (Magiesystem, Terminologie)
 
-## PROJEKT-KONTEXT
-- **Franchise**: MystiMons (YA Fantasy + TCG + App)
-- **Buch 1**: "Aetheria: Der Klang der Stille"
-- **Protagonist**: Finn Alder, 14 Jahre
-  - Kann ALLE Resonanten hören (einzigartige Gabe)
-  - Kann sich mit KEINEM binden (sein Fluch)
-  - Sucht seinen verschwundenen Bruder Theo
-- **Kernbotschaft**: "Du wirst nicht stärker allein. Du wirst stärker zusammen."
-- **Zielgruppe**: 12-18 Jahre (Kern)
+PROJEKT-KONTEXT:
+- Franchise: MystiMons (YA Fantasy + TCG + App)
+- Buch 1: "Aetheria: Der Klang der Stille"
+- Protagonist: Finn Alder, 14 Jahre
+  * Kann ALLE Resonanten hören (einzigartige Gabe)
+  * Kann sich mit KEINEM binden (sein Fluch)
+  * Sucht seinen verschwundenen Bruder Theo
+- Kernbotschaft: "Du wirst nicht stärker allein. Du wirst stärker zusammen."
+- Zielgruppe: 12-18 Jahre (Kern)
 
 PROMPTEOF
 
@@ -210,7 +210,7 @@ PROMPTEOF
             if [ "$HAS_CANON" = "true" ]; then
               cat >> "$PROMPT_TEMP" << 'CANONEOF'
 
-## CANON-REGELN (UNVERHANDELBAR)
+CANON-REGELN (UNVERHANDELBAR):
 
 CANONEOF
               cat .tmp_canon_digest.txt >> "$PROMPT_TEMP"
@@ -219,56 +219,56 @@ CANONEOF
             # Add review structure
             cat >> "$PROMPT_TEMP" << 'STRUCTEOF'
 
-## REVIEW-STRUKTUR (PFLICHT)
+REVIEW-STRUKTUR (PFLICHT):
 
 Strukturiere dein Review EXAKT so:
 
-### 1) Kurzfazit
+1) Kurzfazit
 Ein knapper Absatz: Was funktioniert? Was ist das Kernproblem?
 
-### 2) BLOCKER (Dinge, die vor dem Schreiben geklärt/behoben werden müssen)
+2) BLOCKER (Dinge, die vor dem Schreiben geklärt/behoben werden müssen)
 - Aufzählungsliste
 - Jeder Punkt: Was ist das Problem? Warum blockiert es?
 - Wenn gegen Pillars/Laws verstößt: Explizit benennen (z.B. "Verstößt gegen PIL-001")
 
-### 3) WICHTIG (Wichtige Verbesserungen, die die Szenen deutlich stärker machen)
+3) WICHTIG (Wichtige Verbesserungen, die die Szenen deutlich stärker machen)
 - Aufzählungsliste
 - Konkrete Verbesserungsvorschläge
 - Priorisiert nach Impact
 
-### 4) NITPICK (Stil- und Detailanmerkungen)
+4) NITPICK (Stil- und Detailanmerkungen)
 - Aufzählungsliste
 - Feinschliff, nicht kritisch
 - Wortwahl, Tempo, kleine Inkonsistenzen
 
-### 5) Fragen (für Autor/Worldbuilder)
+5) Fragen (für Autor/Worldbuilder)
 - Nummerierte Liste
 - Klärungsfragen zu Worldbuilding, Charaktermotivation, etc.
 - Helfen, Plot-Holes zu vermeiden
 
-### Schlussbemerkung (kurz)
+Schlussbemerkung (kurz):
 Gesamteindruck + nächste Schritte
 
-## REVIEW-KRITERIEN
+REVIEW-KRITERIEN:
 
-**Canon-Konsistenz:**
+Canon-Konsistenz:
 - Prüfe JEDEN Plot-Punkt gegen die 5 Pillars
 - Prüfe gegen die 10 Laws
 - Terminology-Check (Naming Bible)
 
-**YA-Voice (Finn, 14):**
+YA-Voice (Finn, 14):
 - Authentisch, nicht kindisch
 - Innerer Monolog: reflektiert, manchmal unsicher
 - Humor: trocken, nicht albern
 - Zeigen statt Erzählen (keine Filterworte: "er fühlte")
 
-**Narrative Qualität:**
+Narrative Qualität:
 - Szenenstruktur: Ziel → Konflikt → Veränderung
 - Pacing: Wechsel zwischen Action und Reflexion
 - Emotionale Stakes: Klar und nachvollziehbar
 - Hooks: Kapitelenden ziehen weiter
 
-**Worldbuilding:**
+Worldbuilding:
 - Magiesystem-Regeln konsistent?
 - Resonanz-Mechanik klar?
 - Gesellschafts-Logik plausibel?
@@ -279,9 +279,9 @@ STRUCTEOF
             echo "" >> "$PROMPT_TEMP"
             echo "---" >> "$PROMPT_TEMP"
             echo "" >> "$PROMPT_TEMP"
-            echo "**DATEI**: ${FILE} (Batch ${BATCH})" >> "$PROMPT_TEMP"
+            echo "DATEI: ${FILE} (Batch ${BATCH})" >> "$PROMPT_TEMP"
             echo "" >> "$PROMPT_TEMP"
-            echo "**ZU REVIEWENDER TEXT**:" >> "$PROMPT_TEMP"
+            echo "ZU REVIEWENDER TEXT:" >> "$PROMPT_TEMP"
             echo "" >> "$PROMPT_TEMP"
             cat "$TEMPFILE" >> "$PROMPT_TEMP"
             
