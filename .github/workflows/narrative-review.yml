@@ -43,7 +43,7 @@ jobs:
           while IFS= read -r FILE; do
             [ -z "$FILE" ] && continue
             TEXT=$(head -c 10000 "$FILE")
-            PAYLOAD=$(jq -n --arg m "$MODEL" --arg p "Reviewe diesen Text kurz: $TEXT" '{model:$m,messages:[{role:"user",content:$p}],max_tokens:1000}')
+            PAYLOAD=$(jq -n --arg m "$MODEL" --arg p "Reviewe diesen Text kurz: $TEXT" '{model:$m,messages:[{role:"user",content:$p}],max_completion_tokens:1000}')
             RESP=$(curl -sS https://api.openai.com/v1/chat/completions -H "Authorization: Bearer $OPENAI_API_KEY" -H "Content-Type: application/json" -d "$PAYLOAD")
             OUT=$(echo "$RESP" | jq -r '.choices[0].message.content // .error.message // "Error"')
             echo "## $FILE" >> $COMMENT
