@@ -195,11 +195,25 @@ jobs:
               continue
             fi
             
-            OUT=$(echo "$BODY" | jq -r '.output_text // ([.output[]?.content[]? | select(.type=="text") | .text] | join("\n")) // "No output"')
-            echo "" >> "$COMMENT"
-            echo "## ${FILE} — Batch ${BATCH}" >> "$COMMENT"
-            echo "" >> "$COMMENT"
-            echo "$OUT" >> "$COMMENT"
+            # FIXED: Correct parsing for output_text type
+            OUT=$(echo "$BODY" | jq -r '[.output[]? | select(.type=="message") | .content[]? | select(.type=="output_text") | .text] | join("\n\n")')
+            
+            # Handle incomplete responses
+            STATUS=$(echo "$BODY" | jq -r '.status // "complete"')
+            if [ "$STATUS" = "incomplete" ]; then
+              REASON=$(echo "$BODY" | jq -r '.incomplete_details.reason // "unknown"')
+              echo "" >> "$COMMENT"
+              echo "## ${FILE} — Batch ${BATCH}" >> "$COMMENT"
+              echo "" >> "$COMMENT"
+              echo "> ⚠️ **Response incomplete** (reason: ${REASON})" >> "$COMMENT"
+              echo "" >> "$COMMENT"
+              echo "$OUT" >> "$COMMENT"
+            else
+              echo "" >> "$COMMENT"
+              echo "## ${FILE} — Batch ${BATCH}" >> "$COMMENT"
+              echo "" >> "$COMMENT"
+              echo "$OUT" >> "$COMMENT"
+            fi
           done
 
       - name: Post comment
