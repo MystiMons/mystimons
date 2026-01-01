@@ -134,7 +134,7 @@ jobs:
           COMMENT=".tmp_narrative_review/review_comment.md"
           
           echo "<!-- NARRATIVE_REVIEW -->" > "$COMMENT"
-          echo "# Narrative Review (AI) - DEBUG MODE" >> "$COMMENT"
+          echo "# Narrative Review (AI)" >> "$COMMENT"
           echo "" >> "$COMMENT"
           echo "- Model: \`${MODEL}\`" >> "$COMMENT"
           echo "- PR: #${PR}" >> "$COMMENT"
@@ -195,22 +195,25 @@ jobs:
               continue
             fi
             
-            # DEBUG: Show the complete API response
-            echo "" >> "$COMMENT"
-            echo "## ${FILE} — Batch ${BATCH}" >> "$COMMENT"
-            echo "" >> "$COMMENT"
-            echo "### 🔍 DEBUG: Complete API Response" >> "$COMMENT"
-            echo "" >> "$COMMENT"
-            echo '```json' >> "$COMMENT"
-            echo "$BODY" | jq '.' >> "$COMMENT"
-            echo '```' >> "$COMMENT"
-            echo "" >> "$COMMENT"
+            # FIXED: Correct parsing for output_text type
+            OUT=$(echo "$BODY" | jq -r '[.output[]? | select(.type=="message") | .content[]? | select(.type=="output_text") | .text] | join("\n\n")')
             
-            # Try to extract the output
-            OUT=$(echo "$BODY" | jq -r '.output_text // ([.output[]?.content[]? | select(.type=="text") | .text] | join("\n")) // "No output"')
-            echo "### Parsed Output:" >> "$COMMENT"
-            echo "" >> "$COMMENT"
-            echo "$OUT" >> "$COMMENT"
+            # Handle incomplete responses
+            STATUS=$(echo "$BODY" | jq -r '.status // "complete"')
+            if [ "$STATUS" = "incomplete" ]; then
+              REASON=$(echo "$BODY" | jq -r '.incomplete_details.reason // "unknown"')
+              echo "" >> "$COMMENT"
+              echo "## ${FILE} — Batch ${BATCH}" >> "$COMMENT"
+              echo "" >> "$COMMENT"
+              echo "> ⚠️ **Response incomplete** (reason: ${REASON})" >> "$COMMENT"
+              echo "" >> "$COMMENT"
+              echo "$OUT" >> "$COMMENT"
+            else
+              echo "" >> "$COMMENT"
+              echo "## ${FILE} — Batch ${BATCH}" >> "$COMMENT"
+              echo "" >> "$COMMENT"
+              echo "$OUT" >> "$COMMENT"
+            fi
           done
 
       - name: Post comment
