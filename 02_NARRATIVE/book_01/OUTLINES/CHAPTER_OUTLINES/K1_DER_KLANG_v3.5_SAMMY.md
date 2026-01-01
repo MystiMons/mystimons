@@ -40,7 +40,7 @@ Er kann die Stimmen nicht abstellen. Sein "Hören" ist unkontrollierbar – ein 
 - Emotionen wie Wellen: Hunger (Mossling), Freude (Waldgeist), Neugier (Vogel-Resonant)
 - Keine Worte, nur Gefühle in Farben
 - Grün = Ruhe, Rot = Alarm, Blau = Trauer
-- Kein verlässlicher Kompass. Nur Lauter/Leiser. Nur Wellen.
+- Kein verlässiger Kompass. Nur Lauter/Leiser. Nur Wellen.
 
 **Meditation:**
 - Atmet nach Muster: 4-4-4-4
