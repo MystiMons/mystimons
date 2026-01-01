@@ -1,6 +1,7 @@
 # KAPITEL 20: DIE HAUPTSTADT
 
 **v3.5-SAMMY (Canon-Review)**
+**📌 REVIEW TRIGGER**
 *(Basis: Chatti v3.4-FIXED | Review: Sammy 31.12.2025)*
 
 ---
