@@ -37,12 +37,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Ensure jq present
-        run: |
-          if ! command -v jq >/dev/null 2>&1; then
-            sudo apt-get update && sudo apt-get install -y jq
-          fi
-
       - name: Select model
         id: model
         run: |
@@ -52,219 +46,158 @@ jobs:
             MODEL="${{ env.MODEL_DEEP }}"
           fi
           echo "model=$MODEL" >> "$GITHUB_OUTPUT"
-          echo "Using model: $MODEL"
 
-      - name: Collect and chunk files
+      - name: Collect and process files
         id: collect
-        env:
-          TOKEN_LIMIT: ${{ env.TOKEN_LIMIT }}
-          TARGET_CHUNK_TOKENS: ${{ env.TARGET_CHUNK_TOKENS }}
-          TARGET_BATCH_TOKENS: ${{ env.TARGET_BATCH_TOKENS }}
         run: |
-          set -euo pipefail
           BASE_SHA="${{ github.event.pull_request.base.sha }}"
           HEAD_SHA="${{ github.event.pull_request.head.sha }}"
           
-          CHANGED_FILES=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" -- "02_NARRATIVE/book_01/CHAPTERS/**" | grep -v '^\s*$' || true)
+          CHANGED=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" -- "02_NARRATIVE/book_01/CHAPTERS/**" || true)
           
-          if [[ -z "$CHANGED_FILES" ]]; then
+          if [ -z "$CHANGED" ]; then
             echo "has_files=false" >> "$GITHUB_OUTPUT"
-            echo "No changed chapter files."
             exit 0
           fi
           
           echo "has_files=true" >> "$GITHUB_OUTPUT"
           mkdir -p .tmp_narrative_review
+          echo "$CHANGED" > .tmp_narrative_review/files.txt
           
-          echo "$CHANGED_FILES" > .tmp_narrative_review/files.txt
-          
-          python3 << 'PYTHON_SCRIPT'
+          # Create Python script
+          cat > .tmp_narrative_review/chunk.py << 'PYTHONSCRIPT'
           import os, json, re, pathlib
           
           with open(".tmp_narrative_review/files.txt") as f:
-              files = [line.strip() for line in f if line.strip()]
+              files = [l.strip() for l in f if l.strip()]
           
           TOKEN_LIMIT = int(os.environ.get("TOKEN_LIMIT", "4000"))
           TARGET_CHUNK = int(os.environ.get("TARGET_CHUNK_TOKENS", "3500"))
           TARGET_BATCH = int(os.environ.get("TARGET_BATCH_TOKENS", "7000"))
-          
           outdir = pathlib.Path(".tmp_narrative_review")
           
           def est_tokens(s): return max(1, len(s) // 4)
-          def sanitize(name): return re.sub(r"[^A-Za-z0-9._-]+", "_", name)
+          def sanitize(n): return re.sub(r"[^A-Za-z0-9._-]+", "_", n)
           
           def chunk_text(text):
-              if est_tokens(text) <= TOKEN_LIMIT:
-                  return [text]
-              lines = text.splitlines(keepends=True)
-              chunks, buf, buf_tokens = [], [], 0
+              if est_tokens(text) <= TOKEN_LIMIT: return [text]
+              lines, chunks, buf, buf_tok = text.splitlines(keepends=True), [], [], 0
               for ln in lines:
-                  ln_tokens = est_tokens(ln)
-                  is_break = (ln.strip() == "") or ln.lstrip().startswith("#")
-                  if buf and (buf_tokens + ln_tokens > TARGET_CHUNK) and is_break:
+                  ln_tok = est_tokens(ln)
+                  is_brk = ln.strip() == "" or ln.lstrip().startswith("#")
+                  if buf and buf_tok + ln_tok > TARGET_CHUNK and is_brk:
                       chunks.append("".join(buf).strip("\n") + "\n")
-                      buf, buf_tokens = [], 0
+                      buf, buf_tok = [], 0
                   buf.append(ln)
-                  buf_tokens += ln_tokens
-                  if buf_tokens > TOKEN_LIMIT:
+                  buf_tok += ln_tok
+                  if buf_tok > TOKEN_LIMIT:
                       chunks.append("".join(buf).strip("\n") + "\n")
-                      buf, buf_tokens = [], 0
-              if buf:
-                  chunks.append("".join(buf).strip("\n") + "\n")
+                      buf, buf_tok = [], 0
+              if buf: chunks.append("".join(buf).strip("\n") + "\n")
               return [c for c in chunks if c.strip()] or [text]
           
-          manifest_chunks = []
+          manifest = []
           for f in files:
               p = pathlib.Path(f)
-              if not p.exists():
-                  continue
+              if not p.exists(): continue
               text = p.read_text(encoding="utf-8", errors="ignore")
               parts = chunk_text(text)
-              total_est = est_tokens(text)
-              for i, part in enumerate(parts, start=1):
-                  chunk_path = outdir / f"{sanitize(p.as_posix())}__chunk{i:02d}.txt"
-                  chunk_path.write_text(part, encoding="utf-8")
-                  manifest_chunks.append({
-                      "file": p.as_posix(), "chunk": i, "chunk_count": len(parts),
-                      "chunk_path": chunk_path.as_posix(), "est_tokens": est_tokens(part),
-                      "est_tokens_total": total_est
-                  })
+              for i, part in enumerate(parts, 1):
+                  cp = outdir / f"{sanitize(p.as_posix())}__chunk{i:02d}.txt"
+                  cp.write_text(part, encoding="utf-8")
+                  manifest.append({"file": p.as_posix(), "chunk": i, "chunk_count": len(parts),
+                                   "chunk_path": cp.as_posix(), "est_tokens": est_tokens(part),
+                                   "est_tokens_total": est_tokens(text)})
           
           batches = []
-          for f in sorted(set(c["file"] for c in manifest_chunks)):
-              chunks = sorted([c for c in manifest_chunks if c["file"] == f], key=lambda x: x["chunk"])
-              batch, batch_tokens, batch_idx = [], 0, 1
-              for c in chunks:
-                  if batch and (batch_tokens + c["est_tokens"] > TARGET_BATCH):
-                      batches.append({"file": f, "batch": batch_idx, "chunks": batch, "batch_est_tokens": batch_tokens,
-                                      "file_est_tokens_total": chunks[0]["est_tokens_total"]})
-                      batch, batch_tokens, batch_idx = [], 0, batch_idx + 1
-                  batch.append({"chunk": c["chunk"], "chunk_count": c["chunk_count"], "chunk_path": c["chunk_path"], "est_tokens": c["est_tokens"]})
-                  batch_tokens += c["est_tokens"]
+          for f in sorted(set(c["file"] for c in manifest)):
+              chs = sorted([c for c in manifest if c["file"] == f], key=lambda x: x["chunk"])
+              batch, batch_tok, batch_idx = [], 0, 1
+              for c in chs:
+                  if batch and batch_tok + c["est_tokens"] > TARGET_BATCH:
+                      batches.append({"file": f, "batch": batch_idx, "chunks": batch, "batch_est_tokens": batch_tok})
+                      batch, batch_tok, batch_idx = [], 0, batch_idx + 1
+                  batch.append({"chunk": c["chunk"], "chunk_count": c["chunk_count"], 
+                                "chunk_path": c["chunk_path"], "est_tokens": c["est_tokens"]})
+                  batch_tok += c["est_tokens"]
               if batch:
-                  batches.append({"file": f, "batch": batch_idx, "chunks": batch, "batch_est_tokens": batch_tokens,
-                                  "file_est_tokens_total": chunks[0]["est_tokens_total"] if chunks else 0})
+                  batches.append({"file": f, "batch": batch_idx, "chunks": batch, "batch_est_tokens": batch_tok})
           
-          (outdir / "chunks.json").write_text(json.dumps(manifest_chunks, ensure_ascii=False, indent=2))
-          (outdir / "batches.json").write_text(json.dumps(batches, ensure_ascii=False, indent=2))
-          print(f"Files: {len(set(c['file'] for c in manifest_chunks))}, Chunks: {len(manifest_chunks)}, Batches: {len(batches)}")
-          PYTHON_SCRIPT
+          (outdir / "batches.json").write_text(json.dumps(batches, indent=2))
+          print(f"Files: {len(files)}, Batches: {len(batches)}")
+          PYTHONSCRIPT
+          
+          python3 .tmp_narrative_review/chunk.py
+        env:
+          TOKEN_LIMIT: ${{ env.TOKEN_LIMIT }}
+          TARGET_CHUNK_TOKENS: ${{ env.TARGET_CHUNK_TOKENS }}
+          TARGET_BATCH_TOKENS: ${{ env.TARGET_BATCH_TOKENS }}
 
-      - name: Run review
+      - name: Run AI review
         if: steps.collect.outputs.has_files == 'true'
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           MODEL: ${{ steps.model.outputs.model }}
-          GH_TOKEN: ${{ github.token }}
           TEMPERATURE: ${{ env.TEMPERATURE }}
-          MAX_OUTPUT_TOKENS: ${{ env.MAX_OUTPUT_TOKENS_PER_BATCH }}
+          MAX_TOKENS: ${{ env.MAX_OUTPUT_TOKENS_PER_BATCH }}
         run: |
-          set -euo pipefail
+          PR="${{ github.event.pull_request.number }}"
+          COMMENT=".tmp_narrative_review/review_comment.md"
           
-          CANON_CTX=""
-          if [[ -f "${{ env.CANON_DIGEST_PATH }}" ]]; then
-            CANON_CTX=$(head -c ${{ env.CANON_DIGEST_MAX_CHARS }} "${{ env.CANON_DIGEST_PATH }}" || true)
-          fi
-          
-          PR_NUMBER="${{ github.event.pull_request.number }}"
-          COMMENT_FILE=".tmp_narrative_review/review_comment.md"
-          QUOTA_EXCEEDED="false"
-          
-          cat > "$COMMENT_FILE" << 'HEADER'
-          <!-- NARRATIVE_REVIEW -->
-          # Narrative Review (AI)
-          HEADER
-          
-          echo "" >> "$COMMENT_FILE"
-          echo "- Model: \`${MODEL}\`" >> "$COMMENT_FILE"
-          echo "- Scope: \`02_NARRATIVE/book_01/CHAPTERS/**\`" >> "$COMMENT_FILE"
-          echo "- PR: #${PR_NUMBER}" >> "$COMMENT_FILE"
-          echo "" >> "$COMMENT_FILE"
+          echo "<!-- NARRATIVE_REVIEW -->" > "$COMMENT"
+          echo "# Narrative Review (AI)" >> "$COMMENT"
+          echo "" >> "$COMMENT"
+          echo "- Model: \`${MODEL}\`" >> "$COMMENT"
+          echo "- PR: #${PR}" >> "$COMMENT"
+          echo "" >> "$COMMENT"
           
           BATCH_COUNT=$(jq 'length' .tmp_narrative_review/batches.json)
           
           for idx in $(seq 0 $((BATCH_COUNT-1))); do
-            [[ "$QUOTA_EXCEEDED" == "true" ]] && break
-            
             FILE=$(jq -r ".[$idx].file" .tmp_narrative_review/batches.json)
             BATCH=$(jq -r ".[$idx].batch" .tmp_narrative_review/batches.json)
-            BATCHTOK=$(jq -r ".[$idx].batch_est_tokens" .tmp_narrative_review/batches.json)
             
-            # Build text block from chunks
-            TEXT_BLOCK=""
+            # Get chunk text
+            TEXT=""
             CHUNK_COUNT=$(jq -r ".[$idx].chunks | length" .tmp_narrative_review/batches.json)
             for cidx in $(seq 0 $((CHUNK_COUNT-1))); do
-              CHUNK_PATH=$(jq -r ".[$idx].chunks[$cidx].chunk_path" .tmp_narrative_review/batches.json)
-              CHUNK_NUM=$(jq -r ".[$idx].chunks[$cidx].chunk" .tmp_narrative_review/batches.json)
-              CHUNK_TOTAL=$(jq -r ".[$idx].chunks[$cidx].chunk_count" .tmp_narrative_review/batches.json)
-              CHUNK_TEXT=$(cat "$CHUNK_PATH")
-              TEXT_BLOCK="${TEXT_BLOCK}
+              CPATH=$(jq -r ".[$idx].chunks[$cidx].chunk_path" .tmp_narrative_review/batches.json)
+              CNUM=$(jq -r ".[$idx].chunks[$cidx].chunk" .tmp_narrative_review/batches.json)
+              CTOT=$(jq -r ".[$idx].chunks[$cidx].chunk_count" .tmp_narrative_review/batches.json)
+              TEXT="$TEXT
           
-          ---
-          [CHUNK ${CHUNK_NUM}/${CHUNK_TOTAL}]
+          --- [CHUNK $CNUM/$CTOT] ---
           
-          ${CHUNK_TEXT}"
+          $(cat "$CPATH")"
             done
             
-            PROMPT="SYSTEM:
-          Du bist ein strenger Lektor für ein deutsches YA-Fantasy-Franchise.
-          Reviewe den Kapiteltext. Keine Neuschreibung, nur konkrete Verbesserungsvorschläge.
+            PROMPT="Du bist Lektor für ein deutsches YA-Fantasy-Franchise. Reviewe diesen Text.
+          Ausgabe: 1) Kurzfazit 2) BLOCKER 3) WICHTIG 4) NITPICK 5) Fragen
           
-          Ausgabeformat:
-          1) Kurzfazit (2-4 Sätze)
-          2) BLOCKER (falls vorhanden)
-          3) WICHTIG
-          4) NITPICK
-          5) Canon-Risiken
-          6) Fragen an Autor
-          
-          CANON CONTEXT:
-          ${CANON_CTX}
-          
-          USER:
-          Datei: ${FILE}
-          Batch: ${BATCH} (est. ${BATCHTOK} tokens)
-          ---
-          ${TEXT_BLOCK}"
+          Datei: $FILE (Batch $BATCH)
+          $TEXT"
             
-            PAYLOAD=$(jq -n \
-              --arg model "$MODEL" \
-              --arg prompt "$PROMPT" \
-              --argjson temp "${TEMPERATURE}" \
-              --argjson maxout "${MAX_OUTPUT_TOKENS}" \
-              '{model: $model, input: [{role:"user", content:[{type:"text", text:$prompt}]}], temperature: $temp, max_output_tokens: $maxout}')
+            PAYLOAD=$(jq -n --arg m "$MODEL" --arg p "$PROMPT" --argjson t "$TEMPERATURE" --argjson mt "$MAX_TOKENS" \
+              '{model:$m, input:[{role:"user",content:[{type:"text",text:$p}]}], temperature:$t, max_output_tokens:$mt}')
             
-            HTTP_CODE=$(curl -sS -w "%{http_code}" -o resp.json \
+            RESP=$(curl -sS -w "\n%{http_code}" \
               -H "Authorization: Bearer $OPENAI_API_KEY" \
               -H "Content-Type: application/json" \
               https://api.openai.com/v1/responses \
               -d "$PAYLOAD")
             
-            if [[ "$HTTP_CODE" -ge 400 ]]; then
-              ERR_CODE=$(jq -r '.error.code // empty' resp.json)
-              ERR_MSG=$(jq -r '.error.message // empty' resp.json)
-              
-              if [[ "$HTTP_CODE" == "429" && "$ERR_CODE" == "insufficient_quota" ]]; then
-                echo -e "\n## OpenAI Quota\n\n**Quota exhausted** (HTTP 429). Bitte Billing prüfen.\n\n> ${ERR_MSG}" >> "$COMMENT_FILE"
-                QUOTA_EXCEEDED="true"
-                continue
-              fi
-              
-              echo -e "\n## ${FILE} — Batch ${BATCH}\n\n**API Error** (HTTP ${HTTP_CODE}) \`${ERR_CODE}\`\n\n> ${ERR_MSG}" >> "$COMMENT_FILE"
+            HTTP_CODE=$(echo "$RESP" | tail -1)
+            BODY=$(echo "$RESP" | sed '$d')
+            
+            if [ "$HTTP_CODE" -ge 400 ]; then
+              ERR=$(echo "$BODY" | jq -r '.error.message // "Unknown error"')
+              echo -e "\n## $FILE — Batch $BATCH\n\n**Error** (HTTP $HTTP_CODE): $ERR" >> "$COMMENT"
               continue
             fi
             
-            OUT=$(jq -r 'if .output_text then .output_text else ([.output[]?.content[]? | select(.type=="output_text" or .type=="text") | .text] | join("\n")) end' resp.json)
-            
-            echo -e "\n## ${FILE} — Batch ${BATCH}\n\n${OUT}" >> "$COMMENT_FILE"
+            OUT=$(echo "$BODY" | jq -r '.output_text // ([.output[]?.content[]? | select(.type=="text") | .text] | join("\n")) // "No output"')
+            echo -e "\n## $FILE — Batch $BATCH\n\n$OUT" >> "$COMMENT"
           done
-          
-          # Truncate if too long
-          if [[ $(wc -c < "$COMMENT_FILE") -gt 60000 ]]; then
-            head -c 60000 "$COMMENT_FILE" > "${COMMENT_FILE}.tmp"
-            echo -e "\n\n---\n\n(Truncated)" >> "${COMMENT_FILE}.tmp"
-            mv "${COMMENT_FILE}.tmp" "$COMMENT_FILE"
-          fi
 
       - name: Upload artifacts
         if: always()
@@ -272,22 +205,24 @@ jobs:
         with:
           name: narrative-review
           path: .tmp_narrative_review/
+          if-no-files-found: ignore
 
-      - name: Upsert PR comment
+      - name: Post comment
         if: steps.collect.outputs.has_files == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          PR_NUMBER="${{ github.event.pull_request.number }}"
+          PR="${{ github.event.pull_request.number }}"
           REPO="${{ github.repository }}"
-          BODY_FILE=".tmp_narrative_review/review_comment.md"
+          FILE=".tmp_narrative_review/review_comment.md"
           
-          [[ ! -f "$BODY_FILE" ]] && exit 0
+          [ ! -f "$FILE" ] && exit 0
           
-          COMMENT_ID=$(gh api "repos/${REPO}/issues/${PR_NUMBER}/comments" --paginate | jq -r '.[] | select(.body | contains("<!-- NARRATIVE_REVIEW -->")) | .id' | head -n 1 || true)
+          # Find existing comment
+          EXISTING=$(gh api "repos/$REPO/issues/$PR/comments" --paginate | jq -r '.[] | select(.body | contains("<!-- NARRATIVE_REVIEW -->")) | .id' | head -1 || true)
           
-          if [[ -n "$COMMENT_ID" && "$COMMENT_ID" != "null" ]]; then
-            gh api -X PATCH "repos/${REPO}/issues/comments/${COMMENT_ID}" -f "body=@${BODY_FILE}"
+          if [ -n "$EXISTING" ]; then
+            gh api -X PATCH "repos/$REPO/issues/comments/$EXISTING" -f "body=@$FILE"
           else
-            gh api -X POST "repos/${REPO}/issues/${PR_NUMBER}/comments" -f "body=@${BODY_FILE}"
+            gh api -X POST "repos/$REPO/issues/$PR/comments" -f "body=@$FILE"
           fi
