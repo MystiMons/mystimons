@@ -113,9 +113,11 @@ jobs:
           REPO="${{ github.repository }}"
           FILE=".tmp_narrative_review/review_comment.md"
           if [ ! -f "$FILE" ]; then exit 0; fi
+          BODY=$(cat "$FILE")
           EXISTING=$(gh api "repos/$REPO/issues/$PR/comments" --paginate | jq -r '.[] | select(.body | contains("<!-- NARRATIVE_REVIEW -->")) | .id' | head -1 || true)
           if [ -n "$EXISTING" ]; then
-            gh api -X PATCH "repos/$REPO/issues/comments/$EXISTING" -f "body=@$FILE"
+            gh api -X PATCH "repos/$REPO/issues/comments/$EXISTING" -f body="$BODY"
           else
-            gh api -X POST "repos/$REPO/issues/$PR/comments" -f "body=@$FILE"
+            gh api -X POST "repos/$REPO/issues/$PR/comments" -f body="$BODY"
           fi
+      
