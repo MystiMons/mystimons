@@ -28,7 +28,6 @@ env:
 jobs:
   narrative-review:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -46,6 +45,10 @@ jobs:
 
       - name: Collect files
         id: collect
+        env:
+          TOKEN_LIMIT: ${{ env.TOKEN_LIMIT }}
+          TARGET_CHUNK_TOKENS: ${{ env.TARGET_CHUNK_TOKENS }}
+          TARGET_BATCH_TOKENS: ${{ env.TARGET_BATCH_TOKENS }}
         run: |
           BASE="${{ github.event.pull_request.base.sha }}"
           HEAD="${{ github.event.pull_request.head.sha }}"
@@ -83,6 +86,12 @@ jobs:
             FILE=$(jq -r ".[$idx].file" .tmp_narrative_review/batches.json)
             BATCH=$(jq -r ".[$idx].batch" .tmp_narrative_review/batches.json)
             
+          echo "- Model: ${MODEL}" >> "$COMMENT"
+          echo "- PR: #${{ github.event.pull_request.number }}" >> "$COMMENT"
+          echo "" >> "$COMMENT"
+          BATCH_COUNT=$(jq 'length' .tmp_narrative_review/batches.json)
+          for idx in $(seq 0 $((BATCH_COUNT-1))); do
+            FILE=$(jq -r ".[$idx].file" .tmp_narrative_review/batches.json)
             TEXT=""
             CHUNK_COUNT=$(jq -r ".[$idx].chunks | length" .tmp_narrative_review/batches.json)
             for cidx in $(seq 0 $((CHUNK_COUNT-1))); do
@@ -129,6 +138,21 @@ ${TEXT}"
             echo "" >> "$COMMENT"
             echo "## ${FILE} — Batch ${BATCH}" >> "$COMMENT"
             echo "" >> "$COMMENT"
+              CTEXT=$(cat "$CPATH")
+              TEXT="${TEXT} ${CTEXT}"
+            done
+            PROMPT="Reviewe diesen Text: ${TEXT}"
+            PAYLOAD=$(jq -n --arg m "$MODEL" --arg p "$PROMPT" '{model:$m,messages:[{role:"user",content:$p}],temperature:0.15,max_tokens:1400}')
+            RESP=$(curl -sS -w "HTTP_CODE:%{http_code}" -H "Authorization: Bearer $OPENAI_API_KEY" -H "Content-Type: application/json" https://api.openai.com/v1/chat/completions -d "$PAYLOAD")
+            HTTP_CODE=$(echo "$RESP" | grep -oP 'HTTP_CODE:\K[0-9]+')
+            BODY=$(echo "$RESP" | sed 's/HTTP_CODE:[0-9]*$//')
+            if [ "$HTTP_CODE" -ge 400 ]; then
+              echo "## ${FILE}" >> "$COMMENT"
+              echo "Error: HTTP ${HTTP_CODE}" >> "$COMMENT"
+              continue
+            fi
+            OUT=$(echo "$BODY" | jq -r '.choices[0].message.content // "No output"')
+            echo "## ${FILE}" >> "$COMMENT"
             echo "$OUT" >> "$COMMENT"
           done
 
@@ -154,4 +178,12 @@ ${TEXT}"
             gh api -X PATCH "repos/$REPO/issues/comments/$EXISTING" -f "body=@$FILE"
           else
             gh api -X POST "repos/$REPO/issues/$PR/comments" -f "body=@$FILE"
+          if [ ! -f "$FILE" ]; then exit 0; fi
+          BODY=$(cat "$FILE")
+          EXISTING=$(gh api "repos/$REPO/issues/$PR/comments" --paginate | jq -r '.[] | select(.body | contains("<!-- NARRATIVE_REVIEW -->")) | .id' | head -1 || true)
+          if [ -n "$EXISTING" ]; then
+            gh api -X PATCH "repos/$REPO/issues/comments/$EXISTING" -f body="$BODY"
+          else
+            gh api -X POST "repos/$REPO/issues/$PR/comments" -f body="$BODY"
           fi
+      

@@ -29,6 +29,12 @@ def chunk_text(text):
             buf, buf_tok = [], 0
     if buf: chunks.append("".join(buf).strip("\n") + "\n")
     return [c for c in chunks if c.strip()] or [text]
+            chunks.append("".join(buf))
+            buf, buf_tok = [], 0
+        buf.append(ln)
+        buf_tok += ln_tok
+    if buf: chunks.append("".join(buf))
+    return chunks or [text]
 
 manifest = []
 for f in files:
@@ -42,6 +48,7 @@ for f in files:
         manifest.append({"file": p.as_posix(), "chunk": i, "chunk_count": len(parts),
                          "chunk_path": cp.as_posix(), "est_tokens": est_tokens(part),
                          "est_tokens_total": est_tokens(text)})
+                         "chunk_path": cp.as_posix(), "est_tokens": est_tokens(part)})
 
 batches = []
 for f in sorted(set(c["file"] for c in manifest)):
@@ -56,6 +63,15 @@ for f in sorted(set(c["file"] for c in manifest)):
         batch_tok += c["est_tokens"]
     if batch:
         batches.append({"file": f, "batch": batch_idx, "chunks": batch, "batch_est_tokens": batch_tok})
+
+(outdir / "batches.json").write_text(json.dumps(batches, indent=2))
+print(f"Files: {len(files)}, Batches: {len(batches)}")
+            batches.append({"file": f, "batch": batch_idx, "chunks": batch})
+            batch, batch_tok, batch_idx = [], 0, batch_idx + 1
+        batch.append(c)
+        batch_tok += c["est_tokens"]
+    if batch:
+        batches.append({"file": f, "batch": batch_idx, "chunks": batch})
 
 (outdir / "batches.json").write_text(json.dumps(batches, indent=2))
 print(f"Files: {len(files)}, Batches: {len(batches)}")
