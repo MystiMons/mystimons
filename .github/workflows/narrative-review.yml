@@ -2,50 +2,26 @@ name: Narrative Chapter Review (PR)
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, edited, labeled, unlabeled]
+    types: [opened, synchronize, reopened]
     paths:
       - "02_NARRATIVE/book_01/CHAPTERS/**"
 
 permissions:
   contents: read
   pull-requests: write
-  issues: write
-
-concurrency:
-  group: narrative-review-${{ github.event.pull_request.number }}
-  cancel-in-progress: true
-
-env:
-  MODEL_DEFAULT: gpt-5-mini
-  MODEL_DEEP: gpt-5.2
-  DEEP_LABEL: deep-review
-  TOKEN_LIMIT: "4000"
-  TARGET_CHUNK_TOKENS: "3500"
-  TARGET_BATCH_TOKENS: "7000"
-  MAX_OUTPUT_TOKENS: "1400"
-  TEMPERATURE: "0.15"
 
 jobs:
   narrative-review:
     runs-on: ubuntu-latest
+    env:
+      MODEL: gpt-5-mini
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Select model
-        id: model
-        run: |
-          MODEL="${{ env.MODEL_DEFAULT }}"
-          echo "model=$MODEL" >> "$GITHUB_OUTPUT"
-
       - name: Collect files
         id: collect
-        env:
-          TOKEN_LIMIT: ${{ env.TOKEN_LIMIT }}
-          TARGET_CHUNK_TOKENS: ${{ env.TARGET_CHUNK_TOKENS }}
-          TARGET_BATCH_TOKENS: ${{ env.TARGET_BATCH_TOKENS }}
         run: |
           BASE="${{ github.event.pull_request.base.sha }}"
           HEAD="${{ github.event.pull_request.head.sha }}"
@@ -55,54 +31,39 @@ jobs:
             exit 0
           fi
           echo "has_files=true" >> "$GITHUB_OUTPUT"
-          mkdir -p .tmp_narrative_review
-          echo "$CHANGED" > .tmp_narrative_review/files.txt
-          python3 .github/scripts/chunk_chapters.py
+          echo "$CHANGED" > /tmp/files.txt
 
       - name: Run AI review
         if: steps.collect.outputs.has_files == 'true'
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          MODEL: ${{ steps.model.outputs.model }}
         run: |
-          COMMENT=".tmp_narrative_review/review_comment.md"
+          COMMENT="/tmp/review.md"
           echo "<!-- NARRATIVE_REVIEW -->" > "$COMMENT"
           echo "# Narrative Review (AI)" >> "$COMMENT"
-          echo "- Model: ${MODEL}" >> "$COMMENT"
-          echo "- PR: #${{ github.event.pull_request.number }}" >> "$COMMENT"
+          echo "Model: $MODEL" >> "$COMMENT"
           echo "" >> "$COMMENT"
-          BATCH_COUNT=$(jq 'length' .tmp_narrative_review/batches.json)
-          for idx in $(seq 0 $((BATCH_COUNT-1))); do
-            FILE=$(jq -r ".[$idx].file" .tmp_narrative_review/batches.json)
-            TEXT=""
-            CHUNK_COUNT=$(jq -r ".[$idx].chunks | length" .tmp_narrative_review/batches.json)
-            for cidx in $(seq 0 $((CHUNK_COUNT-1))); do
-              CPATH=$(jq -r ".[$idx].chunks[$cidx].chunk_path" .tmp_narrative_review/batches.json)
-              CTEXT=$(cat "$CPATH")
-              TEXT="${TEXT} ${CTEXT}"
-            done
-            PROMPT="Reviewe diesen Text: ${TEXT}"
-            PAYLOAD=$(jq -n --arg m "$MODEL" --arg p "$PROMPT" '{model:$m,input:[{role:"user",content:[{type:"text",text:$p}]}],temperature:0.15,max_output_tokens:1400}')
-            RESP=$(curl -sS -w "HTTP_CODE:%{http_code}" -H "Authorization: Bearer $OPENAI_API_KEY" -H "Content-Type: application/json" https://api.openai.com/v1/responses -d "$PAYLOAD")
-            HTTP_CODE=$(echo "$RESP" | grep -oP 'HTTP_CODE:\K[0-9]+')
-            BODY=$(echo "$RESP" | sed 's/HTTP_CODE:[0-9]*$//')
-            if [ "$HTTP_CODE" -ge 400 ]; then
-              echo "## ${FILE}" >> "$COMMENT"
-              echo "Error: HTTP ${HTTP_CODE}" >> "$COMMENT"
-              continue
-            fi
-            OUT=$(echo "$BODY" | jq -r '.output_text // "No output"')
-            echo "## ${FILE}" >> "$COMMENT"
+          
+          while IFS= read -r FILE; do
+            [ -z "$FILE" ] && continue
+            TEXT=$(cat "$FILE" | head -c 10000)
+            PROMPT="Reviewe diesen deutschen YA-Fantasy Text kurz: $TEXT"
+            
+            RESP=$(curl -sS https://api.openai.com/v1/chat/completions \
+              -H "Authorization: Bearer $OPENAI_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d "$(jq -n --arg m "$MODEL" --arg p "$PROMPT" '{model:$m,messages:[{role:"user",content:$p}],max_tokens:1000}')")
+            
+            OUT=$(echo "$RESP" | jq -r '.choices[0].message.content // .error.message // "Error"')
+            echo "## $FILE" >> "$COMMENT"
             echo "$OUT" >> "$COMMENT"
-          done
-
-      - name: Upload artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: narrative-review
-          path: .tmp_narrative_review/
-          if-no-files-found: ignore
+            echo "" >> "$COMMENT"
+          done < /tmp/files.txt
+          
+          cat "$COMMENT"
+          echo "COMMENT_BODY<<EOF" >> $GITHUB_ENV
+          cat "$COMMENT" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
       - name: Post comment
         if: steps.collect.outputs.has_files == 'true'
@@ -121,3 +82,28 @@ jobs:
             gh api -X POST "repos/$REPO/issues/$PR/comments" -f body="$BODY"
           fi
       
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = process.env.COMMENT_BODY;
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number
+            });
+            const existing = comments.find(c => c.body.includes('<!-- NARRATIVE_REVIEW -->'));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body: body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: body
+              });
+            }

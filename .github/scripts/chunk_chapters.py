@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+"""Chunk chapter files for narrative review workflow."""
 import os, json, re, pathlib
 
 with open(".tmp_narrative_review/files.txt") as f:
@@ -18,6 +20,15 @@ def chunk_text(text):
         ln_tok = est_tokens(ln)
         is_brk = ln.strip() == "" or ln.lstrip().startswith("#")
         if buf and buf_tok + ln_tok > TARGET_CHUNK and is_brk:
+            chunks.append("".join(buf).strip("\n") + "\n")
+            buf, buf_tok = [], 0
+        buf.append(ln)
+        buf_tok += ln_tok
+        if buf_tok > TOKEN_LIMIT:
+            chunks.append("".join(buf).strip("\n") + "\n")
+            buf, buf_tok = [], 0
+    if buf: chunks.append("".join(buf).strip("\n") + "\n")
+    return [c for c in chunks if c.strip()] or [text]
             chunks.append("".join(buf))
             buf, buf_tok = [], 0
         buf.append(ln)
@@ -35,6 +46,8 @@ for f in files:
         cp = outdir / f"{sanitize(p.as_posix())}__chunk{i:02d}.txt"
         cp.write_text(part, encoding="utf-8")
         manifest.append({"file": p.as_posix(), "chunk": i, "chunk_count": len(parts),
+                         "chunk_path": cp.as_posix(), "est_tokens": est_tokens(part),
+                         "est_tokens_total": est_tokens(text)})
                          "chunk_path": cp.as_posix(), "est_tokens": est_tokens(part)})
 
 batches = []
@@ -43,6 +56,16 @@ for f in sorted(set(c["file"] for c in manifest)):
     batch, batch_tok, batch_idx = [], 0, 1
     for c in chs:
         if batch and batch_tok + c["est_tokens"] > TARGET_BATCH:
+            batches.append({"file": f, "batch": batch_idx, "chunks": batch, "batch_est_tokens": batch_tok})
+            batch, batch_tok, batch_idx = [], 0, batch_idx + 1
+        batch.append({"chunk": c["chunk"], "chunk_count": c["chunk_count"], 
+                      "chunk_path": c["chunk_path"], "est_tokens": c["est_tokens"]})
+        batch_tok += c["est_tokens"]
+    if batch:
+        batches.append({"file": f, "batch": batch_idx, "chunks": batch, "batch_est_tokens": batch_tok})
+
+(outdir / "batches.json").write_text(json.dumps(batches, indent=2))
+print(f"Files: {len(files)}, Batches: {len(batches)}")
             batches.append({"file": f, "batch": batch_idx, "chunks": batch})
             batch, batch_tok, batch_idx = [], 0, batch_idx + 1
         batch.append(c)
