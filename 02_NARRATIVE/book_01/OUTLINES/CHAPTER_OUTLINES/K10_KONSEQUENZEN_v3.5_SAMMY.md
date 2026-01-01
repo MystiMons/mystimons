@@ -32,10 +32,10 @@ Rex will ihn mitnehmen. Brennan blockt ab. Nicht aus Stolz – aus Realität. Er
 **Aftermath körperlich:**
 
 * Finns Beine zittern beim Stehen. Ruß klebt im Hals. Jeder Atemzug kratzt.
-* Sylphira unter seiner Jacke: klein, warm, wachsam (kein "süß" – **Überleben**).
+* Sylphira unter seiner Jacke: klein, warm, wachsam (kein „süß" – **Überleben**).
 * In der Ferne: vereinzeltes Grollen/Metallklang aus der Mine (nicht erklären – nur da).
 
-**Brennan zeigen (nicht "er ist schwach"):**
+**Brennan zeigen (nicht „er ist schwach"):**
 
 * Hände: aufgerissen, schwarze Risse, Nägel halb ab.
 * Husten passt nicht in die Brust. Er muss sich setzen nach drei Schritten.
@@ -44,7 +44,7 @@ Rex will ihn mitnehmen. Brennan blockt ab. Nicht aus Stolz – aus Realität. Er
 **Abschied als Aktion, nicht Rede:**
 
 * Brennan zieht Rex näher, aber **nur einmal** (kostet ihn Kraft).
-* Er drückt Rex etwas in die Hand (z. B. ein Stück Stoff/Marke aus der Mine) – *"Damit du weißt, dass das echt war."*
+* Er drückt Rex etwas in die Hand (z. B. ein Stück Stoff/Marke aus der Mine) – *„Damit du weißt, dass das echt war."*
 * Rex will widersprechen → Brennan unterbricht ihn mit einem Blick: *genug.*
 
 **⚠️ SAMMY-FIX: Brennans "Familie gefunden"**
@@ -58,12 +58,12 @@ Rex will ihn mitnehmen. Brennan blockt ab. Nicht aus Stolz – aus Realität. Er
 
 Brennan zu Rex (leise, hart, endgültig):
 
-> "Geh mit ihnen. Du hast eine Familie gefunden." 
+> „Geh mit ihnen. Du hast eine Familie gefunden." 
 > Finn spürt, wie Rex' Atmung kurz hängenbleibt. Und irgendwo im Tal: ein Horn. Ein zweites.
 
 ### VOICE NOTE
 
-* Finn benennt keine Emotionen. Körper + kurze Gedankenfetzen: "Nicht fair." / "Zu früh." / "Wir müssen los."
+* Finn benennt keine Emotionen. Körper + kurze Gedankenfetzen: „Nicht fair." / „Zu früh." / „Wir müssen los."
 * Rex' Schmerz = Wut/Abwehr, nicht Weinen (YA-realistisch, aber tough).
 
 ### CANON CHECK
@@ -82,21 +82,21 @@ Abmarsch-Vorbereitung. Flüchtlinge übernehmen Brennan. Finn, Nila, Rex checken
 
 ### KONFLIKT
 
-Rex steht zwischen "Schuld" und "Wollen". Er will nicht als "Ballast" mitlaufen – aber auch nicht allein zurückbleiben. Finn muss das erste Mal **aktiv** Zugehörigkeit anbieten, ohne sich zu verstecken.
+Rex steht zwischen „Schuld" und „Wollen". Er will nicht als „Ballast" mitlaufen – aber auch nicht allein zurückbleiben. Finn muss das erste Mal **aktiv** Zugehörigkeit anbieten, ohne sich zu verstecken.
 
 ### KEY MOMENTS TO SHOW
 
 **Rex' Entscheidung sichtbar machen:**
 
 * Er bindet sich die Mine-Schnur/Marke um's Handgelenk (oder steckt sie in die Jacke).
-* Embrix flackert auf seiner Schulter – nicht "niedlich", sondern nervös, bereit.
+* Embrix flackert auf seiner Schulter – nicht „niedlich", sondern nervös, bereit.
 
 **⚠️ SAMMY-FIX: Dialog mit Subtext – REX' MOTIVATION**
 
 Der Dialog bleibt:
-* Rex: "Ich schulde euch was." 
-* Finn: "Du schuldest uns nichts. Aber… wir könnten dich brauchen." 
-* Nila (trocken): "Er ist laut und impulsiv." *Pause.* "Er passt zu uns." 
+* Rex: „Ich schulde euch was." 
+* Finn: „Du schuldest uns nichts. Aber… wir könnten dich brauchen." 
+* Nila (trocken): „Er ist laut und impulsiv." *Pause.* "Er passt zu uns." 
 
 **ABER:** Rex' "Ich schulde euch was" ist sein EINSTIEG ins Gespräch – nicht sein Grund zu bleiben. Er sagt das, weil er nicht weiß, wie man um Zugehörigkeit bittet. Finns "Wir könnten dich brauchen" gibt ihm den Ausweg: Er darf GEBRAUCHT werden, statt SCHULDEN abzuarbeiten. Das ist der Shift.
 
@@ -104,7 +104,7 @@ Bei der Ausführung: Rex' Körpersprache nach Finns Antwort zeigt Erleichterung,
 
 **Team-Siegel (kleiner Moment):**
 
-* Finn korrigiert sich in Gedanken von "ich" zu "wir". Nur einmal. Kurz.
+* Finn korrigiert sich in Gedanken von „ich" zu „wir". Nur einmal. Kurz.
 
 ### EXIT HOOK (SZENE)
 
@@ -113,12 +113,12 @@ Und dann: Sylphira bewegt sich unter Finns Jacke – als würde sie sagen: *okay
 
 ### VOICE NOTE
 
-* Keine große "Wir sind jetzt Familie"-Rede. Das ist zu erwachsen.
-* Humor darf kurz rein ("Idiot"-Vibe), aber nicht die Szene entwerten.
+* Keine große „Wir sind jetzt Familie"-Rede. Das ist zu erwachsen.
+* Humor darf kurz rein („Idiot"-Vibe), aber nicht die Szene entwerten.
 
 ### CANON CHECK
 
-* **@PIL-001:** Keine erzwungene Resonanz/Bindung. Rex kommt freiwillig, nicht "weil Finn ihn rettete".
+* **@PIL-001:** Keine erzwungene Resonanz/Bindung. Rex kommt freiwillig, nicht „weil Finn ihn rettete".
 * **@PIL-003:** Team wächst organisch (Rex als permanentes Mitglied).
 * **@PIL-005:** System bleibt grau: Flüchtlinge helfen Brennan (Menschlichkeit im Dreck).
 
@@ -132,7 +132,7 @@ Fluchtweg in den Hügeln. Asche wird weniger, Wind kühler. Hinter ihnen: Pyros 
 
 ### KONFLIKT
 
-Finn realisiert: Das ist nicht "Patrouille". Das ist **Jagd** – und sie gilt ihm. Calder wird etabliert, ohne POV-Wechsel: durch das, was Finn sieht/überhört/spürt. 
+Finn realisiert: Das ist nicht „Patrouille". Das ist **Jagd** – und sie gilt ihm. Calder wird etabliert, ohne POV-Wechsel: durch das, was Finn sieht/überhört/spürt. 
 
 ### KEY MOMENTS TO SHOW
 
@@ -142,13 +142,13 @@ Finn realisiert: Das ist nicht "Patrouille". Das ist **Jagd** – und sie gilt i
 * Um ihn: Soldaten bewegen sich schneller als er – als wären sie seine Hände.
 * Ein kurzer Befehl trägt im Wind (abgehackt, kalt):
 
-  > "Finde ihn. Ich will ihn lebend." 
+  > „Finde ihn. Ich will ihn lebend." 
 * Finn reagiert körperlich: Nacken wird heiß, Magen kippt, Schritt stolpert.
 
 **Finn verknüpft Ursache und Konsequenz:**
 
 * Die Käfige. Die Sirenen. Die Resonanten.
-* Nicht "wir haben sie befreit" – sondern: *"Das war ich."* (als Schlag, nicht Stolz)
+* Nicht „wir haben sie befreit" – sondern: *„Das war ich."* (als Schlag, nicht Stolz)
 
 **Tempo-Shift (Action → Fokus):**
 
@@ -178,7 +178,7 @@ Nur… Stille.
 
 ### VOICE NOTE
 
-* Calder ist "Monster durch Ruhe", nicht durch Schreien.
+* Calder ist „Monster durch Ruhe", nicht durch Schreien.
 * Finn endet nicht heroisch, sondern wachsam/angefasst: Konsequenzen sind real.
 
 ### CANON CHECK
@@ -193,19 +193,19 @@ Nur… Stille.
 
 ### SHOW > TELL
 
-* [ ] 0 Emotions-Namen (kein "Trauer", "Angst", "Erleichterung")
+* [ ] 0 Emotions-Namen (kein „Trauer", „Angst", „Erleichterung")
 * [ ] Abschied über Hände/Atmung/Handlungen
 * [ ] Calder über Distanz + einzelne Sätze, nicht Erklärung
 
 ### DEEP POV
 
-* [ ] 0 Filter ("hörte/sah/fühlte…")
+* [ ] 0 Filter („hörte/sah/fühlte…")
 * [ ] Stille in Terravok als **körperliches** Gefühl
 
 ### HOOKS
 
 * [ ] Szene 1 endet mit Horn/Signal = Gefahr
-* [ ] Szene 2 endet mit Team-Positionierung (Rex "neben" Finn)
+* [ ] Szene 2 endet mit Team-Positionierung (Rex „neben" Finn)
 * [ ] Kapitel-Ende: Terravok-Stille als unheimlicher Sog
 
 ---
