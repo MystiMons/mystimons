@@ -1,6 +1,7 @@
 # KAPITEL 9: DIE BEFREIUNG
 
 **v3.5-SAMMY (Canon-Review + Struktur-Cleanup)**
+**📌 REVIEW TRIGGER**
 *(Basis: Chatti v3.4-FIXED | Review: Sammy 31.12.2025)*
 
 ---
