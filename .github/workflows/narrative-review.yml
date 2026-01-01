@@ -74,8 +74,7 @@ jobs:
           mkdir -p .tmp_narrative_review
           echo "$CHANGED" > .tmp_narrative_review/files.txt
           
-          # Create Python script
-          cat > .tmp_narrative_review/chunk.py << 'PYTHONSCRIPT'
+          cat > .tmp_narrative_review/chunk.py << 'PYSCRIPT'
           import os, json, re, pathlib
           
           with open(".tmp_narrative_review/files.txt") as f:
@@ -135,9 +134,91 @@ jobs:
           
           (outdir / "batches.json").write_text(json.dumps(batches, indent=2))
           print(f"Files: {len(files)}, Batches: {len(batches)}")
-          PYTHONSCRIPT
+          PYSCRIPT
           
           python3 .tmp_narrative_review/chunk.py
+
+      - name: Create prompt builder
+        run: |
+          cat > .tmp_narrative_review/build_prompt.py << 'PYSCRIPT'
+          import sys, pathlib
+          
+          output_file = sys.argv[1]
+          file_path = sys.argv[2]
+          batch_num = sys.argv[3]
+          content_file = sys.argv[4]
+          canon_file = sys.argv[5] if len(sys.argv) > 5 and sys.argv[5] != "NONE" else None
+          
+          parts = []
+          parts.append("Du bist der Lead Story Editor fuer MystiMons, ein deutsches YA-Fantasy-Franchise.\n\n")
+          parts.append("DEINE AUFGABE:\n")
+          parts.append("Reviewe den folgenden Text auf:\n")
+          parts.append("1. Canon-Konsistenz (gegen Pillars & Laws pruefen)\n")
+          parts.append("2. Narrative Qualitaet (Struktur, Pacing, Emotion)\n")
+          parts.append("3. YA-Voice Authentizitaet (14-jaehriger Protagonist Finn)\n")
+          parts.append("4. Worldbuilding-Kohaerenz (Magiesystem, Terminologie)\n\n")
+          parts.append("PROJEKT-KONTEXT:\n")
+          parts.append("- Franchise: MystiMons (YA Fantasy + TCG + App)\n")
+          parts.append("- Buch 1: Aetheria: Der Klang der Stille\n")
+          parts.append("- Protagonist: Finn Alder, 14 Jahre\n")
+          parts.append("  * Kann ALLE Resonanten hoeren (einzigartige Gabe)\n")
+          parts.append("  * Kann sich mit KEINEM binden (sein Fluch)\n")
+          parts.append("  * Sucht seinen verschwundenen Bruder Theo\n")
+          parts.append("- Kernbotschaft: Du wirst nicht staerker allein. Du wirst staerker zusammen.\n")
+          parts.append("- Zielgruppe: 12-18 Jahre (Kern)\n")
+          
+          if canon_file and pathlib.Path(canon_file).exists():
+              parts.append("\nCANON-REGELN (UNVERHANDELBAR):\n\n")
+              parts.append(pathlib.Path(canon_file).read_text(encoding='utf-8'))
+          
+          parts.append("\nREVIEW-STRUKTUR (PFLICHT):\n\n")
+          parts.append("Strukturiere dein Review EXAKT so:\n\n")
+          parts.append("1) Kurzfazit\n")
+          parts.append("Ein knapper Absatz: Was funktioniert? Was ist das Kernproblem?\n\n")
+          parts.append("2) BLOCKER (Dinge, die vor dem Schreiben geklaert/behoben werden muessen)\n")
+          parts.append("- Aufzaehlungsliste\n")
+          parts.append("- Jeder Punkt: Was ist das Problem? Warum blockiert es?\n")
+          parts.append("- Wenn gegen Pillars/Laws verstoesst: Explizit benennen (z.B. Verstoesst gegen PIL-001)\n\n")
+          parts.append("3) WICHTIG (Wichtige Verbesserungen, die die Szenen deutlich staerker machen)\n")
+          parts.append("- Aufzaehlungsliste\n")
+          parts.append("- Konkrete Verbesserungsvorschlaege\n")
+          parts.append("- Priorisiert nach Impact\n\n")
+          parts.append("4) NITPICK (Stil- und Detailanmerkungen)\n")
+          parts.append("- Aufzaehlungsliste\n")
+          parts.append("- Feinschliff, nicht kritisch\n")
+          parts.append("- Wortwahl, Tempo, kleine Inkonsistenzen\n\n")
+          parts.append("5) Fragen (fuer Autor/Worldbuilder)\n")
+          parts.append("- Nummerierte Liste\n")
+          parts.append("- Klaerungsfragen zu Worldbuilding, Charaktermotivation, etc.\n")
+          parts.append("- Helfen, Plot-Holes zu vermeiden\n\n")
+          parts.append("Schlussbemerkung (kurz):\n")
+          parts.append("Gesamteindruck + naechste Schritte\n\n")
+          parts.append("REVIEW-KRITERIEN:\n\n")
+          parts.append("Canon-Konsistenz:\n")
+          parts.append("- Pruefe JEDEN Plot-Punkt gegen die 5 Pillars\n")
+          parts.append("- Pruefe gegen die 10 Laws\n")
+          parts.append("- Terminology-Check (Naming Bible)\n\n")
+          parts.append("YA-Voice (Finn, 14):\n")
+          parts.append("- Authentisch, nicht kindisch\n")
+          parts.append("- Innerer Monolog: reflektiert, manchmal unsicher\n")
+          parts.append("- Humor: trocken, nicht albern\n")
+          parts.append("- Zeigen statt Erzaehlen (keine Filterworte: er fuehlte)\n\n")
+          parts.append("Narrative Qualitaet:\n")
+          parts.append("- Szenenstruktur: Ziel -> Konflikt -> Veraenderung\n")
+          parts.append("- Pacing: Wechsel zwischen Action und Reflexion\n")
+          parts.append("- Emotionale Stakes: Klar und nachvollziehbar\n")
+          parts.append("- Hooks: Kapitelenden ziehen weiter\n\n")
+          parts.append("Worldbuilding:\n")
+          parts.append("- Magiesystem-Regeln konsistent?\n")
+          parts.append("- Resonanz-Mechanik klar?\n")
+          parts.append("- Gesellschafts-Logik plausibel?\n\n")
+          parts.append("---\n\n")
+          parts.append(f"DATEI: {file_path} (Batch {batch_num})\n\n")
+          parts.append("ZU REVIEWENDER TEXT:\n\n")
+          parts.append(pathlib.Path(content_file).read_text(encoding='utf-8'))
+          
+          pathlib.Path(output_file).write_text(''.join(parts), encoding='utf-8')
+          PYSCRIPT
 
       - name: Run AI review
         if: steps.collect.outputs.has_files == 'true'
@@ -166,7 +247,6 @@ jobs:
             FILE=$(jq -r ".[$idx].file" .tmp_narrative_review/batches.json)
             BATCH=$(jq -r ".[$idx].batch" .tmp_narrative_review/batches.json)
             
-            # Build content from chunks using temp file
             TEMPFILE=".tmp_narrative_review/batch_${idx}_content.txt"
             > "$TEMPFILE"
             
@@ -182,108 +262,12 @@ jobs:
               cat "$CPATH" >> "$TEMPFILE"
             done
             
-            # Build enhanced prompt (NO MARKDOWN ASTERISKS - YAML syntax issue!)
             PROMPT_TEMP=".tmp_narrative_review/prompt_${idx}.txt"
-            cat > "$PROMPT_TEMP" << 'PROMPTEOF'
-Du bist der Lead Story Editor für MystiMons, ein deutsches YA-Fantasy-Franchise.
-
-DEINE AUFGABE:
-Reviewe den folgenden Text auf:
-1. Canon-Konsistenz (gegen Pillars & Laws prüfen)
-2. Narrative Qualität (Struktur, Pacing, Emotion)
-3. YA-Voice Authentizität (14-jähriger Protagonist Finn)
-4. Worldbuilding-Kohärenz (Magiesystem, Terminologie)
-
-PROJEKT-KONTEXT:
-- Franchise: MystiMons (YA Fantasy + TCG + App)
-- Buch 1: "Aetheria: Der Klang der Stille"
-- Protagonist: Finn Alder, 14 Jahre
-  * Kann ALLE Resonanten hören (einzigartige Gabe)
-  * Kann sich mit KEINEM binden (sein Fluch)
-  * Sucht seinen verschwundenen Bruder Theo
-- Kernbotschaft: "Du wirst nicht stärker allein. Du wirst stärker zusammen."
-- Zielgruppe: 12-18 Jahre (Kern)
-
-PROMPTEOF
-
-            # Add Canon-Digest if available
+            CANON_ARG="NONE"
             if [ "$HAS_CANON" = "true" ]; then
-              cat >> "$PROMPT_TEMP" << 'CANONEOF'
-
-CANON-REGELN (UNVERHANDELBAR):
-
-CANONEOF
-              cat .tmp_canon_digest.txt >> "$PROMPT_TEMP"
+              CANON_ARG=".tmp_canon_digest.txt"
             fi
-
-            # Add review structure
-            cat >> "$PROMPT_TEMP" << 'STRUCTEOF'
-
-REVIEW-STRUKTUR (PFLICHT):
-
-Strukturiere dein Review EXAKT so:
-
-1) Kurzfazit
-Ein knapper Absatz: Was funktioniert? Was ist das Kernproblem?
-
-2) BLOCKER (Dinge, die vor dem Schreiben geklärt/behoben werden müssen)
-- Aufzählungsliste
-- Jeder Punkt: Was ist das Problem? Warum blockiert es?
-- Wenn gegen Pillars/Laws verstößt: Explizit benennen (z.B. "Verstößt gegen PIL-001")
-
-3) WICHTIG (Wichtige Verbesserungen, die die Szenen deutlich stärker machen)
-- Aufzählungsliste
-- Konkrete Verbesserungsvorschläge
-- Priorisiert nach Impact
-
-4) NITPICK (Stil- und Detailanmerkungen)
-- Aufzählungsliste
-- Feinschliff, nicht kritisch
-- Wortwahl, Tempo, kleine Inkonsistenzen
-
-5) Fragen (für Autor/Worldbuilder)
-- Nummerierte Liste
-- Klärungsfragen zu Worldbuilding, Charaktermotivation, etc.
-- Helfen, Plot-Holes zu vermeiden
-
-Schlussbemerkung (kurz):
-Gesamteindruck + nächste Schritte
-
-REVIEW-KRITERIEN:
-
-Canon-Konsistenz:
-- Prüfe JEDEN Plot-Punkt gegen die 5 Pillars
-- Prüfe gegen die 10 Laws
-- Terminology-Check (Naming Bible)
-
-YA-Voice (Finn, 14):
-- Authentisch, nicht kindisch
-- Innerer Monolog: reflektiert, manchmal unsicher
-- Humor: trocken, nicht albern
-- Zeigen statt Erzählen (keine Filterworte: "er fühlte")
-
-Narrative Qualität:
-- Szenenstruktur: Ziel → Konflikt → Veränderung
-- Pacing: Wechsel zwischen Action und Reflexion
-- Emotionale Stakes: Klar und nachvollziehbar
-- Hooks: Kapitelenden ziehen weiter
-
-Worldbuilding:
-- Magiesystem-Regeln konsistent?
-- Resonanz-Mechanik klar?
-- Gesellschafts-Logik plausibel?
-
-STRUCTEOF
-
-            # Add file info and content
-            echo "" >> "$PROMPT_TEMP"
-            echo "---" >> "$PROMPT_TEMP"
-            echo "" >> "$PROMPT_TEMP"
-            echo "DATEI: ${FILE} (Batch ${BATCH})" >> "$PROMPT_TEMP"
-            echo "" >> "$PROMPT_TEMP"
-            echo "ZU REVIEWENDER TEXT:" >> "$PROMPT_TEMP"
-            echo "" >> "$PROMPT_TEMP"
-            cat "$TEMPFILE" >> "$PROMPT_TEMP"
+            python3 .tmp_narrative_review/build_prompt.py "$PROMPT_TEMP" "$FILE" "$BATCH" "$TEMPFILE" "$CANON_ARG"
             
             CONTENT=$(cat "$PROMPT_TEMP")
             
