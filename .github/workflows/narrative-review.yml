@@ -82,8 +82,8 @@ jobs:
               TEXT="${TEXT} ${CTEXT}"
             done
             PROMPT="Reviewe diesen Text: ${TEXT}"
-            PAYLOAD=$(jq -n --arg m "$MODEL" --arg p "$PROMPT" '{model:$m,input:[{role:"user",content:[{type:"text",text:$p}]}],temperature:0.15,max_output_tokens:1400}')
-            RESP=$(curl -sS -w "HTTP_CODE:%{http_code}" -H "Authorization: Bearer $OPENAI_API_KEY" -H "Content-Type: application/json" https://api.openai.com/v1/responses -d "$PAYLOAD")
+            PAYLOAD=$(jq -n --arg m "$MODEL" --arg p "$PROMPT" '{model:$m,messages:[{role:"user",content:$p}],temperature:0.15,max_tokens:1400}')
+            RESP=$(curl -sS -w "HTTP_CODE:%{http_code}" -H "Authorization: Bearer $OPENAI_API_KEY" -H "Content-Type: application/json" https://api.openai.com/v1/chat/completions -d "$PAYLOAD")
             HTTP_CODE=$(echo "$RESP" | grep -oP 'HTTP_CODE:\K[0-9]+')
             BODY=$(echo "$RESP" | sed 's/HTTP_CODE:[0-9]*$//')
             if [ "$HTTP_CODE" -ge 400 ]; then
@@ -91,7 +91,7 @@ jobs:
               echo "Error: HTTP ${HTTP_CODE}" >> "$COMMENT"
               continue
             fi
-            OUT=$(echo "$BODY" | jq -r '.output_text // "No output"')
+            OUT=$(echo "$BODY" | jq -r '.choices[0].message.content // "No output"')
             echo "## ${FILE}" >> "$COMMENT"
             echo "$OUT" >> "$COMMENT"
           done
