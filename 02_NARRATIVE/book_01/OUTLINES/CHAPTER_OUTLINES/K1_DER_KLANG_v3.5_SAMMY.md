@@ -12,7 +12,7 @@
 **Emotional Arc:** Isolation/Scham → Neugier/Hoffnung → Entschlossenheit
 **Key Theme:** "Anders sein" ist nicht kaputt sein
 **POV:** NUR Finn! Keine Switches!
-**Workflow Test:** v4 - Testing with comment posting fix
+**Workflow Test:** v5 - FINAL TEST with all fixes (escaping + comment + API)
 
 ---
 
