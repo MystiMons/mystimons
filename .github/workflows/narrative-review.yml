@@ -216,11 +216,17 @@ jobs:
           
           [ ! -f "$FILE" ] && exit 0
           
+          # Read comment body
+          BODY=$(cat "$FILE")
+          
           # Find existing comment
           EXISTING=$(gh api "repos/$REPO/issues/$PR/comments" --paginate | jq -r '.[] | select(.body | contains("<!-- NARRATIVE_REVIEW -->")) | .id' | head -1 || true)
           
+          # Build JSON payload with jq (handles escaping)
+          PAYLOAD=$(jq -n --arg body "$BODY" '{body:$body}')
+          
           if [ -n "$EXISTING" ]; then
-            gh api -X PATCH "repos/$REPO/issues/comments/$EXISTING" -f "body=@$FILE"
+            gh api -X PATCH "repos/$REPO/issues/comments/$EXISTING" --input - <<< "$PAYLOAD"
           else
-            gh api -X POST "repos/$REPO/issues/$PR/comments" -f "body=@$FILE"
+            gh api -X POST "repos/$REPO/issues/$PR/comments" --input - <<< "$PAYLOAD"
           fi
