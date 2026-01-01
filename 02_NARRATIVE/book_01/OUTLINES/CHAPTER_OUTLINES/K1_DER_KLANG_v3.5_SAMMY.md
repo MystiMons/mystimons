@@ -12,7 +12,7 @@
 **Emotional Arc:** Isolation/Scham → Neugier/Hoffnung → Entschlossenheit
 **Key Theme:** "Anders sein" ist nicht kaputt sein
 **POV:** NUR Finn! Keine Switches!
-**Test:** Workflow-Test für Chatti Review
+**Workflow Test:** v2 - Bitte OFFEN lassen für Chatti Review
 
 ---
 
