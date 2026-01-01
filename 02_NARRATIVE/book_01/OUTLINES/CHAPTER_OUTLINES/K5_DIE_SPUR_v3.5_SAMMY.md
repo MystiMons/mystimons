@@ -1,6 +1,7 @@
 # KAPITEL 5: DIE SPUR
 
 **v3.5-SAMMY (Canon-Review + Fixes)**
+**📌 REVIEW TRIGGER**
 *(Basis: Chatti v3.5-FIXED mit Flickerling-Bridge | Review: Sammy 31.12.2025)*
 
 ---
