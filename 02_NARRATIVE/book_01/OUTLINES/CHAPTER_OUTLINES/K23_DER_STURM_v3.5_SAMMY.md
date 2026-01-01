@@ -62,7 +62,15 @@ Problem: Der Turm ist gebaut gegen genau das, was er tut: hören, finden, bewege
 ### KEY MOMENTS TO SHOW
 
 * **Hören als Navigations-Tool, nicht Cheat:** Finn sucht nicht „Theo", sondern Cluster: viele Resonanten an einem Ort, gedämpft, eingesperrt. 
-* **Kosten (@PIL-004):** Ohrdruck, kurze Übelkeit, „Wind" fehlt – die Luft im Turm ist tot. Finn muss Pausen erzwingen.
+* **Kosten (@PIL-004):** 
+- Ohrdruck
+- Kurze Übelkeit
+- „Wind" fehlt – die Luft im Turm ist tot
+- Finn muss Pausen erzwingen
+- **Nach mehreren Minuten: Nase blutet** (nicht viel, aber stetig)
+- Er wischt mit dem Ärmel, hinterlässt Fleck
+- Atmet durch den Mund weiter
+- Das Hören durch magische Barrieren kostet mehr als normales Lauschen
 * **System-Kontrolle sichtbar:** Symbole/Runen/Siegel an Türen, nicht erklärt, nur als „das Ding, das dich stoppt". (Keine Lore-Rede, keine Aetherion-Erklärung @LAW-008)
 * **Fast-Discovery:** Ein Wachwechsel, ein falscher Schritt, ein Schatten. Finn rettet sich nicht durch Heldentum, sondern durch Timing/Deckung/Team-Vorarbeit.
 
@@ -93,7 +101,11 @@ Finn kann die Türen nicht öffnen. **Magische Schlösser.** Er kann hören, er 
 
 * **Absorption-Horror ohne Exposition:** Finn hört nicht Schreie, sondern *Warten*. Ein stumpfer, resignierter Puls. (Absorption bleibt eindeutig böse @LAW-005, aber ohne Infodump.)
 * **Resonanten-Willen (LAW-004):** Einige ziehen sich zurück. Einige rutschen näher. Einige schlagen gegen Gitter, aber nicht „für Finn", sondern weil Freiheit riechbar ist.
-* **Finns Ohnmacht als echter Tiefpunkt:** Hände an Schloss, nichts passiert. Er versucht's anders (Werkzeug, Druck, Rhythmus), nichts. Er merkt: Das System hat hier eine Grenze gebaut, die nicht mit Mut fällt.
+* **Finns Ohnmacht als echter Tiefpunkt:**
+- Hände an Schloss, nichts passiert
+- Er versucht's anders (Werkzeug, Druck, Rhythmus), nichts
+- **Blut tropft auf seine Finger** (von der Nase, hat er gar nicht gemerkt)
+- Er merkt: Das System hat hier eine Grenze gebaut, die nicht mit Mut fällt
 * **Der Satz (aus v2):**
 
   > „Ich brauche Hilfe." 

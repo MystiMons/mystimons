@@ -149,6 +149,14 @@ jobs:
           TEMPERATURE: ${{ env.TEMPERATURE }}
           MAX_TOKENS: ${{ env.MAX_OUTPUT_TOKENS_PER_BATCH }}
         run: |
+          MODEL="gpt-5-mini"
+          COMMENT="/tmp/review.md"
+          echo "<!-- NARRATIVE_REVIEW -->" > $COMMENT
+          echo "# Narrative Review" >> $COMMENT
+          echo "Model: $MODEL" >> $COMMENT
+          echo "" >> $COMMENT
+          while IFS= read -r FILE; do
+            [ -z "$FILE" ] && continue
           PR="${{ github.event.pull_request.number }}"
           COMMENT=".tmp_narrative_review/review_comment.md"
           
@@ -267,6 +275,7 @@ ${TEXT}"
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          gh pr comment ${{ github.event.pull_request.number }} --body-file /tmp/review.md
           PR="${{ github.event.pull_request.number }}"
           REPO="${{ github.repository }}"
           FILE=".tmp_narrative_review/review_comment.md"
