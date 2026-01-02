@@ -30,6 +30,9 @@ param(
   [string[]]$Files = @(),
 
   [Parameter()]
+  [switch]$AllowDirtyOutsideFiles,
+
+  [Parameter()]
   [string]$Remote = "origin",
 
   [Parameter()]
@@ -196,7 +199,7 @@ function Get-Porcelain([string]$RepoRoot) {
   return $lines
 }
 
-function Ensure-Clean([string]$RepoRoot, [string[]]$AllowedPaths) {
+function Ensure-Clean([string]$RepoRoot, [string[]]$AllowedPaths, [switch]$AllowDirtyOutsideFiles) {
   $porc = @(Get-Porcelain $RepoRoot)
   if ($porc.Count -eq 0) { return }
 
@@ -220,6 +223,10 @@ function Ensure-Clean([string]$RepoRoot, [string[]]$AllowedPaths) {
 
   if ($unexpected.Count -gt 0) {
     $list = ($unexpected | Sort-Object | Get-Unique) -join "`n"
+    if ($AllowDirtyOutsideFiles) {
+      Warn ("Working tree has changes outside -Files scope (allowed to continue):`n{0}" -f $list)
+      return
+    }
     Fail ("Working tree not clean. Commit/restore first:`n{0}" -f $list)
   }
 }
@@ -622,7 +629,7 @@ if ($Files -and $Files.Count -gt 0) {
   $allowed += ($Files | ForEach-Object { $_.Replace("\","/") })
 }
 $allowed += @("tools/flow.ps1")
-Ensure-Clean -RepoRoot $repoRoot -AllowedPaths $allowed
+Ensure-Clean -RepoRoot $repoRoot -AllowedPaths $allowed -AllowDirtyOutsideFiles:$AllowDirtyOutsideFiles
 
 # 2) Checkout/create branch
 Info ("Creating/checkout branch: {0}" -f $Branch)
