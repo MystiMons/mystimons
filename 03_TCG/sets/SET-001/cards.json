@@ -3,29 +3,401 @@
   "name": "Starter Set",
   "version": "1.0.0",
   "cards": [
-    { "id": "CARD-SET-001-001", "name": "Embrix", "card_type": "Resonant", "rarity": "Common" },
-    { "id": "CARD-SET-001-002", "name": "Aquor", "card_type": "Resonant", "rarity": "Common" },
-    { "id": "CARD-SET-001-003", "name": "Sylphira", "card_type": "Resonant", "rarity": "Common" },
-    { "id": "CARD-SET-001-004", "name": "Terragus", "card_type": "Resonant", "rarity": "Common" },
-    { "id": "CARD-SET-001-005", "name": "Aeris", "card_type": "Resonant", "rarity": "Common" },
-    { "id": "CARD-SET-001-006", "name": "Frostix", "card_type": "Resonant", "rarity": "Common" },
-    { "id": "CARD-SET-001-007", "name": "Voltis", "card_type": "Resonant", "rarity": "Common" },
-    { "id": "CARD-SET-001-008", "name": "Shadowstrike", "card_type": "Resonant", "rarity": "Common" },
-    { "id": "CARD-SET-001-009", "name": "Lumix", "card_type": "Resonant", "rarity": "Common" },
-    { "id": "CARD-SET-001-010", "name": "Ironix", "card_type": "Resonant", "rarity": "Common" },
-    { "id": "CARD-SET-001-011", "name": "Drakyn", "card_type": "Resonant", "rarity": "Common" },
-
-    { "id": "CARD-SET-001-012", "name": "Mossling", "card_type": "MiniResonant", "rarity": "Common" },
-    { "id": "CARD-SET-001-013", "name": "Bublin", "card_type": "MiniResonant", "rarity": "Common" },
-    { "id": "CARD-SET-001-014", "name": "Flickerling", "card_type": "MiniResonant", "rarity": "Common" },
-    { "id": "CARD-SET-001-015", "name": "Peblit", "card_type": "MiniResonant", "rarity": "Common" },
-    { "id": "CARD-SET-001-016", "name": "Breezel", "card_type": "MiniResonant", "rarity": "Common" },
-    { "id": "CARD-SET-001-017", "name": "Shardling", "card_type": "MiniResonant", "rarity": "Common" },
-    { "id": "CARD-SET-001-018", "name": "Sparklin", "card_type": "MiniResonant", "rarity": "Common" },
-    { "id": "CARD-SET-001-019", "name": "Gloomlet", "card_type": "MiniResonant", "rarity": "Common" },
-    { "id": "CARD-SET-001-020", "name": "Glimmer", "card_type": "MiniResonant", "rarity": "Common" },
-    { "id": "CARD-SET-001-021", "name": "Coglet", "card_type": "MiniResonant", "rarity": "Common" },
-
-    { "id": "CARD-SET-001-022", "name": "Moosveil", "card_type": "Resonant", "rarity": "Champion" }
+    {
+      "id": "CARD-SET-001-001",
+      "name": "Embrix",
+      "card_type": "MystiMon",
+      "rarity": "Common",
+      "set_id": "SET-001",
+      "print": {
+        "cost": 0,
+        "text": "TBD"
+      },
+      "digital": {
+        "patchable": false,
+        "rng": {
+          "allowed": false
+        },
+        "tracking": []
+      }
+    },
+    {
+      "id": "CARD-SET-001-002",
+      "name": "Aquor",
+      "card_type": "MystiMon",
+      "rarity": "Common",
+      "set_id": "SET-001",
+      "print": {
+        "cost": 0,
+        "text": "TBD"
+      },
+      "digital": {
+        "patchable": false,
+        "rng": {
+          "allowed": false
+        },
+        "tracking": []
+      }
+    },
+    {
+      "id": "CARD-SET-001-003",
+      "name": "Sylphira",
+      "card_type": "MystiMon",
+      "rarity": "Common",
+      "set_id": "SET-001",
+      "print": {
+        "cost": 0,
+        "text": "TBD"
+      },
+      "digital": {
+        "patchable": false,
+        "rng": {
+          "allowed": false
+        },
+        "tracking": []
+      }
+    },
+    {
+      "id": "CARD-SET-001-004",
+      "name": "Terragus",
+      "card_type": "MystiMon",
+      "rarity": "Common",
+      "set_id": "SET-001",
+      "print": {
+        "cost": 0,
+        "text": "TBD"
+      },
+      "digital": {
+        "patchable": false,
+        "rng": {
+          "allowed": false
+        },
+        "tracking": []
+      }
+    },
+    {
+      "id": "CARD-SET-001-005",
+      "name": "Aeris",
+      "card_type": "MystiMon",
+      "rarity": "Common",
+      "set_id": "SET-001",
+      "print": {
+        "cost": 0,
+        "text": "TBD"
+      },
+      "digital": {
+        "patchable": false,
+        "rng": {
+          "allowed": false
+        },
+        "tracking": []
+      }
+    },
+    {
+      "id": "CARD-SET-001-006",
+      "name": "Frostix",
+      "card_type": "MystiMon",
+      "rarity": "Common",
+      "set_id": "SET-001",
+      "print": {
+        "cost": 0,
+        "text": "TBD"
+      },
+      "digital": {
+        "patchable": false,
+        "rng": {
+          "allowed": false
+        },
+        "tracking": []
+      }
+    },
+    {
+      "id": "CARD-SET-001-007",
+      "name": "Voltis",
+      "card_type": "MystiMon",
+      "rarity": "Common",
+      "set_id": "SET-001",
+      "print": {
+        "cost": 0,
+        "text": "TBD"
+      },
+      "digital": {
+        "patchable": false,
+        "rng": {
+          "allowed": false
+        },
+        "tracking": []
+      }
+    },
+    {
+      "id": "CARD-SET-001-008",
+      "name": "Shadowstrike",
+      "card_type": "MystiMon",
+      "rarity": "Common",
+      "set_id": "SET-001",
+      "print": {
+        "cost": 0,
+        "text": "TBD"
+      },
+      "digital": {
+        "patchable": false,
+        "rng": {
+          "allowed": false
+        },
+        "tracking": []
+      }
+    },
+    {
+      "id": "CARD-SET-001-009",
+      "name": "Lumix",
+      "card_type": "MystiMon",
+      "rarity": "Common",
+      "set_id": "SET-001",
+      "print": {
+        "cost": 0,
+        "text": "TBD"
+      },
+      "digital": {
+        "patchable": false,
+        "rng": {
+          "allowed": false
+        },
+        "tracking": []
+      }
+    },
+    {
+      "id": "CARD-SET-001-010",
+      "name": "Ironix",
+      "card_type": "MystiMon",
+      "rarity": "Common",
+      "set_id": "SET-001",
+      "print": {
+        "cost": 0,
+        "text": "TBD"
+      },
+      "digital": {
+        "patchable": false,
+        "rng": {
+          "allowed": false
+        },
+        "tracking": []
+      }
+    },
+    {
+      "id": "CARD-SET-001-011",
+      "name": "Drakyn",
+      "card_type": "MystiMon",
+      "rarity": "Common",
+      "set_id": "SET-001",
+      "print": {
+        "cost": 0,
+        "text": "TBD"
+      },
+      "digital": {
+        "patchable": false,
+        "rng": {
+          "allowed": false
+        },
+        "tracking": []
+      }
+    },
+    {
+      "id": "CARD-SET-001-012",
+      "name": "Mossling",
+      "card_type": "MystiMon",
+      "rarity": "Common",
+      "set_id": "SET-001",
+      "print": {
+        "cost": 0,
+        "text": "TBD"
+      },
+      "digital": {
+        "patchable": false,
+        "rng": {
+          "allowed": false
+        },
+        "tracking": []
+      }
+    },
+    {
+      "id": "CARD-SET-001-013",
+      "name": "Bublin",
+      "card_type": "MystiMon",
+      "rarity": "Common",
+      "set_id": "SET-001",
+      "print": {
+        "cost": 0,
+        "text": "TBD"
+      },
+      "digital": {
+        "patchable": false,
+        "rng": {
+          "allowed": false
+        },
+        "tracking": []
+      }
+    },
+    {
+      "id": "CARD-SET-001-014",
+      "name": "Flickerling",
+      "card_type": "MystiMon",
+      "rarity": "Common",
+      "set_id": "SET-001",
+      "print": {
+        "cost": 0,
+        "text": "TBD"
+      },
+      "digital": {
+        "patchable": false,
+        "rng": {
+          "allowed": false
+        },
+        "tracking": []
+      }
+    },
+    {
+      "id": "CARD-SET-001-015",
+      "name": "Peblit",
+      "card_type": "MystiMon",
+      "rarity": "Common",
+      "set_id": "SET-001",
+      "print": {
+        "cost": 0,
+        "text": "TBD"
+      },
+      "digital": {
+        "patchable": false,
+        "rng": {
+          "allowed": false
+        },
+        "tracking": []
+      }
+    },
+    {
+      "id": "CARD-SET-001-016",
+      "name": "Breezel",
+      "card_type": "MystiMon",
+      "rarity": "Common",
+      "set_id": "SET-001",
+      "print": {
+        "cost": 0,
+        "text": "TBD"
+      },
+      "digital": {
+        "patchable": false,
+        "rng": {
+          "allowed": false
+        },
+        "tracking": []
+      }
+    },
+    {
+      "id": "CARD-SET-001-017",
+      "name": "Shardling",
+      "card_type": "MystiMon",
+      "rarity": "Common",
+      "set_id": "SET-001",
+      "print": {
+        "cost": 0,
+        "text": "TBD"
+      },
+      "digital": {
+        "patchable": false,
+        "rng": {
+          "allowed": false
+        },
+        "tracking": []
+      }
+    },
+    {
+      "id": "CARD-SET-001-018",
+      "name": "Sparklin",
+      "card_type": "MystiMon",
+      "rarity": "Common",
+      "set_id": "SET-001",
+      "print": {
+        "cost": 0,
+        "text": "TBD"
+      },
+      "digital": {
+        "patchable": false,
+        "rng": {
+          "allowed": false
+        },
+        "tracking": []
+      }
+    },
+    {
+      "id": "CARD-SET-001-019",
+      "name": "Gloomlet",
+      "card_type": "MystiMon",
+      "rarity": "Common",
+      "set_id": "SET-001",
+      "print": {
+        "cost": 0,
+        "text": "TBD"
+      },
+      "digital": {
+        "patchable": false,
+        "rng": {
+          "allowed": false
+        },
+        "tracking": []
+      }
+    },
+    {
+      "id": "CARD-SET-001-020",
+      "name": "Glimmer",
+      "card_type": "MystiMon",
+      "rarity": "Common",
+      "set_id": "SET-001",
+      "print": {
+        "cost": 0,
+        "text": "TBD"
+      },
+      "digital": {
+        "patchable": false,
+        "rng": {
+          "allowed": false
+        },
+        "tracking": []
+      }
+    },
+    {
+      "id": "CARD-SET-001-021",
+      "name": "Coglet",
+      "card_type": "MystiMon",
+      "rarity": "Common",
+      "set_id": "SET-001",
+      "print": {
+        "cost": 0,
+        "text": "TBD"
+      },
+      "digital": {
+        "patchable": false,
+        "rng": {
+          "allowed": false
+        },
+        "tracking": []
+      }
+    },
+    {
+      "id": "CARD-SET-001-022",
+      "name": "Moosveil",
+      "card_type": "MystiMon",
+      "rarity": "Champion",
+      "set_id": "SET-001",
+      "print": {
+        "cost": 0,
+        "text": "TBD"
+      },
+      "digital": {
+        "patchable": false,
+        "rng": {
+          "allowed": false
+        },
+        "tracking": []
+      }
+    }
   ]
 }

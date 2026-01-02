@@ -14,14 +14,23 @@ Works in Windows PowerShell 5.1 and PowerShell 7+ (no PS7-only operators).
 
 [CmdletBinding()]
 param(
-  [Parameter(Mandatory=$true)]
+  [Parameter()]
   [string]$Branch,
 
   [Parameter(Mandatory=$true)]
   [string]$Message,
 
   [Parameter()]
-  [string[]]$Files = @("README.md"),
+  [switch]$All,
+
+  [Parameter()]
+  [string]$Prefix = "feature",
+
+  [Parameter()]
+  [string[]]$Files = @(),
+
+  [Parameter()]
+  [switch]$AllowDirtyOutsideFiles,
 
   [Parameter()]
   [string]$Remote = "origin",
@@ -190,7 +199,7 @@ function Get-Porcelain([string]$RepoRoot) {
   return $lines
 }
 
-function Ensure-Clean([string]$RepoRoot, [string[]]$AllowedPaths) {
+function Ensure-Clean([string]$RepoRoot, [string[]]$AllowedPaths, [switch]$AllowDirtyOutsideFiles) {
   $porc = @(Get-Porcelain $RepoRoot)
   if ($porc.Count -eq 0) { return }
 
@@ -214,6 +223,10 @@ function Ensure-Clean([string]$RepoRoot, [string[]]$AllowedPaths) {
 
   if ($unexpected.Count -gt 0) {
     $list = ($unexpected | Sort-Object | Get-Unique) -join "`n"
+    if ($AllowDirtyOutsideFiles) {
+      Warn ("Working tree has changes outside -Files scope (allowed to continue):`n{0}" -f $list)
+      return
+    }
     Fail ("Working tree not clean. Commit/restore first:`n{0}" -f $list)
   }
 }
@@ -589,19 +602,56 @@ $repoRoot = Get-RepoRoot $script:GitExe
 if (-not $repoRoot) { Fail "Repo root not found. Run this script from within the repo (or below it)." }
 Info ("RepoRoot: {0}" -f $repoRoot)
 
-# 0) Ensure tree clean except the files we intend to touch (+ this script itself)
-$allowed = @()
-$allowed += ($Files | ForEach-Object { $_.Replace("\","/") })
-$allowed += @("tools/flow.ps1")
-Ensure-Clean -RepoRoot $repoRoot -AllowedPaths $allowed
+# 0) Determine base branch early (needed for Auto-Branching decisions)
+$baseBranch = Get-DefaultBranch $repoRoot
+Info ("Base branch: {0}" -f $baseBranch)
 
-# 1) Checkout/create branch
+# If Branch not provided: auto select / auto create
+if ([string]::IsNullOrWhiteSpace($Branch)) {
+  # get current branch
+  $cur = Git @("rev-parse","--abbrev-ref","HEAD") $repoRoot
+  if ($cur.ExitCode -ne 0) { Fail ("git rev-parse failed: {0}{1}" -f $cur.StdErr, $cur.StdOut) }
+  $curBranch = $cur.StdOut.Trim()
+
+  if ($curBranch -eq $baseBranch) {
+    $stamp = Get-Date -Format "yyyyMMdd-HHmmss"
+    $Branch = ("{0}/{1}" -f $Prefix, $stamp)
+    Info ("No -Branch provided and on base branch. Auto-creating branch: {0}" -f $Branch)
+  } else {
+    $Branch = $curBranch
+    Info ("No -Branch provided. Using current branch: {0}" -f $Branch)
+  }
+}
+
+# 1) Ensure tree clean except the files we intend to touch (+ this script itself)
+$allowed = @()
+if ($Files -and $Files.Count -gt 0) {
+  $allowed += ($Files | ForEach-Object { $_.Replace("\","/") })
+}
+$allowed += @("tools/flow.ps1")
+Ensure-Clean -RepoRoot $repoRoot -AllowedPaths $allowed -AllowDirtyOutsideFiles:$AllowDirtyOutsideFiles
+
+# 2) Checkout/create branch
 Info ("Creating/checkout branch: {0}" -f $Branch)
 Ensure-Branch -RepoRoot $repoRoot -Branch $Branch
 
+
 # 2) Stage files
-Info ("git add: {0}" -f ($Files -join ", "))
-$staged = Stage-Files -RepoRoot $repoRoot -Files $Files
+$staged = $false
+if ($All -or -not $Files -or $Files.Count -eq 0) {
+  Info "git add -A"
+  $addAll = Git @("add","-A") $repoRoot
+  if ($addAll.ExitCode -ne 0) { Fail ("git add -A failed: {0}{1}" -f $addAll.StdErr, $addAll.StdOut) }
+
+  $diff = Git @("diff","--cached","--quiet") $repoRoot
+  if ($diff.ExitCode -eq 1) { $staged = $true }
+  elseif ($diff.ExitCode -eq 0) { $staged = $false }
+  else { Fail ("git diff --cached failed: {0}{1}" -f $diff.StdErr, $diff.StdOut) }
+} else {
+  Info ("git add: {0}" -f ($Files -join ", "))
+  $staged = Stage-Files -RepoRoot $repoRoot -Files $Files
+}
+
 if (-not $staged) {
   Info "No staged changes. Nothing to commit."
   exit 0
@@ -636,19 +686,47 @@ $body = @{
   run_smoke_test = (-not $SkipSmokeTest)
 } | ConvertTo-Json -Depth 5
 
+$resp = $null
+
 Info ("POST /git/push (remote={0}, branch={1})" -f $Remote, $Branch)
 try {
   $resp = Invoke-RestMethod -Method Post -Uri $pushUrl -ContentType "application/json" -Body $body
 } catch {
   $msg = $_.Exception.Message
-  if ($_.Exception.Response -and $_.Exception.Response.GetResponseStream()) {
-    try {
-      $reader = New-Object System.IO.StreamReader($_.Exception.Response.GetResponseStream())
+  # Prefer ErrorDetails in PS7+
+if ($_.ErrorDetails -and $_.ErrorDetails.Message) {
+  $msg = $_.ErrorDetails.Message
+}
+
+$respMsg = $_.Exception.Response
+if ($respMsg) {
+  try {
+    # PS7+: HttpResponseMessage
+    if ($respMsg -is [System.Net.Http.HttpResponseMessage]) {
+      $raw = $respMsg.Content.ReadAsStringAsync().GetAwaiter().GetResult()
+      if ($raw) { $msg = $raw }
+    }
+    # PS5.1: HttpWebResponse
+    elseif ($respMsg -is [System.Net.HttpWebResponse]) {
+      $reader = New-Object System.IO.StreamReader($respMsg.GetResponseStream())
       $raw = $reader.ReadToEnd()
       if ($raw) { $msg = $raw }
-    } catch { }
-  }
-  Fail ("POST /git/push failed: {0}" -f $msg)
+    }
+    # Fallback: only call GetResponseStream if method exists
+    else {
+      $m = $respMsg | Get-Member -Name GetResponseStream -MemberType Method -ErrorAction SilentlyContinue
+      if ($m) {
+        $reader = New-Object System.IO.StreamReader($respMsg.GetResponseStream())
+        $raw = $reader.ReadToEnd()
+        if ($raw) { $msg = $raw }
+      }
+    }
+  } catch { }
+}
+}
+
+if ($null -eq $resp) {
+  Fail "POST /git/push failed (no response returned)."
 }
 
 if ($resp.ok -ne $true) {

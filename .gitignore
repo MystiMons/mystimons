@@ -19,3 +19,7 @@ Widerherstellungscode.txt
 # Local helper scripts
 *.ps1
 
+
+# Local WIP
+.wip/
+
