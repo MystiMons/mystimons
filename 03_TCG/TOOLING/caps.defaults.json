@@ -1,0 +1,72 @@
+{
+  "version": "0.5",
+  "note": "Per-turn caps are defaults, not canon law. Keep configurable.",
+  "formats": {
+    "starter": {
+      "turn_caps": {
+        "max_actions": 2,
+        "max_attacks": 1,
+        "max_switches": 1,
+        "max_energy_attach": 1,
+        "max_cards_drawn_from_effects": 2,
+        "max_resonances_started": 1
+      },
+      "deck_rules": {
+        "main_deck_min": 40,
+        "main_deck_max": 40,
+        "sideboard_max": 0,
+        "max_copies_per_card": 3,
+        "max_champions": 1,
+        "rarity_warn_threshold": 18
+      }
+    },
+    "standard": {
+      "turn_caps": {
+        "max_actions": 3,
+        "max_attacks": 1,
+        "max_switches": 1,
+        "max_energy_attach": 1,
+        "max_cards_drawn_from_effects": 3,
+        "max_resonances_started": 1
+      },
+      "deck_rules": {
+        "main_deck_min": 40,
+        "main_deck_max": 60,
+        "sideboard_max": 10,
+        "max_copies_per_card": 3,
+        "max_champions": 2,
+        "rarity_warn_threshold": 26
+      }
+    },
+    "limited": {
+      "turn_caps": {
+        "max_actions": 2,
+        "max_attacks": 1,
+        "max_switches": 1,
+        "max_energy_attach": 1,
+        "max_cards_drawn_from_effects": 2,
+        "max_resonances_started": 1
+      },
+      "deck_rules": {
+        "main_deck_min": 30,
+        "main_deck_max": 40,
+        "sideboard_max": 0,
+        "max_copies_per_card": 99,
+        "max_champions": 1,
+        "rarity_warn_threshold": 20
+      }
+    }
+  },
+  "naming_guard": {
+    "deprecated_names": {
+      "Verdantis": "Moosveil"
+    }
+  },
+  "rarity_weights": {
+    "common": 0,
+    "uncommon": 1,
+    "rare": 2,
+    "ultra_rare": 4,
+    "champion": 6
+  }
+}
