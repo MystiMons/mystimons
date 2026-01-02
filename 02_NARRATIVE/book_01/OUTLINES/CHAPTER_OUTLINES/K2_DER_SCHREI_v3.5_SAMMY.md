@@ -143,7 +143,7 @@ Sylphira hat Angst vor Finn (Menschen haben sie gejagt!). Finn will helfen aber 
 - BILD 3: System-Symbol (goldener Kreis, verschlungene Linien)
 - BILD 4: Resonanten in Käfigen, stumm
 - BILD 5: Ein Gesicht – THEO. Älter. Härter. Lebt!
-- BILD 6: Verdantis neben ihm
+- BILD 6: Moosveil neben ihm
 - BILD 7: Schiff. Segel. Richtung: OSTEN. Aquarion.
 
 **📌 KOMMUNIKATIONS-REGEL:** Keine Worte. Nur Bilder. Aber NUR weil sie vertraut. (Ohne Vertrauen/Bindung = nur Emotionen)
@@ -175,7 +175,7 @@ Ihr Atem. Flach. Zu flach.
 * **@LAW-004:** Sie handelt eigenständig (zeigt Bilder aktiv)
 * Telepathische Bilder = ihre Kommunikation VOR Bindung (braucht Vertrauen)
 * Theo lebt, nach Aquarion geflohen
-* Verdantis bei ihm (bestätigt)
+* Moosveil bei ihm (bestätigt)
 
 ---
 

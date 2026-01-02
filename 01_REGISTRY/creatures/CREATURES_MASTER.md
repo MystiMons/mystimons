@@ -463,17 +463,17 @@ tcg_role: Relic-Support
 
 ---
 
-## VERDANTIS (Theos Partner)
+## MOOSVEIL (Theos Partner)
 
 ```yaml
 id: CRE-SPECIAL-001
-name: Verdantis
+name: Moosveil
 element: ELM-009
 type: Special (Stufe 3 Natur)
 description: "Seltener Waldwächter"
 partner: Theo Alder (Finns Bruder)
 first_appearance: Kapitel 2 (in Sylphiras Vision)
-reunion: Kapitel 19
+reunion: Kapitel 17
 ```
 
 ---

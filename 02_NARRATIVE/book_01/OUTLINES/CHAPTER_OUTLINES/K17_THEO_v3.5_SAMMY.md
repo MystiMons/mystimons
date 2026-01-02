@@ -26,14 +26,14 @@
 **Das ist ein Plothole ohne Erklärung.**
 
 **Lösung (empfohlen – Option 3):**
-Theo versteckt sich sogar vor dem Widerstand. Er ist zu paranoid geworden, um irgendjemandem zu trauen. Die Führung GLAUBT wirklich, er ist weg. Nur Verdantis "verrät" ihn an Finn durch Finns einzigartige Gabe.
+Theo versteckt sich sogar vor dem Widerstand. Er ist zu paranoid geworden, um irgendjemandem zu trauen. Die Führung GLAUBT wirklich, er ist weg. Nur Moosveil "verrät" ihn an Finn durch Finns einzigartige Gabe.
 
 **Bei Ausführung:** Theo muss in Szene 2 oder 3 erklären, warum er noch hier ist:
 - "Ich sollte los. Verdantis… wollte nicht. Er spürte etwas."
 - ODER: "Die Route war kompromittiert. Ich warte auf ein neues Fenster."
 - ODER: "Niemand weiß, dass ich noch hier bin. Das war der Plan."
 
-Das verstärkt auch seinen Character Change (härter, paranoider) und gibt Verdantis Agency.
+Das verstärkt auch seinen Character Change (härter, paranoider) und gibt Moosveil Agency.
 
 ---
 
@@ -67,11 +67,11 @@ Dann trifft ihn etwas Vertrautes wie ein Griff in den Nacken: **Verdantis.** Nic
 
 Finn bewegt sich, bevor er es entscheidet.
 Nicht heldenhaft. Reflex.
-Und Verdantis' Echo zieht ihn wie ein Faden durch das Holz und die Taue. 
+Und Moosveils Echo zieht ihn wie ein Faden durch das Holz und die Taue. 
 
 ### CANON CHECK
 
-* **@LAW-004:** Verdantis ist Präsenz/Person, nicht „Signal".
+* **@LAW-004:** Moosveil ist Präsenz/Person, nicht „Signal".
 * **@PIL-004:** Hören verursacht körperliche Kosten, kein Gratis-GPS.
 
 ---
@@ -115,7 +115,7 @@ Verdantis senkt den Kopf minimal – Bestätigung, nicht Befehl.
 **Effekt:**
 - Erklärt Timeline-Inkonsistenz
 - Verstärkt Theos Paranoia (Character Change)
-- Gibt Verdantis Agency (@LAW-004)
+- gibt Moosveil Agency (@LAW-004)
 - Macht Widerstand nicht zu Lügnern
 
 * **Verdantis als Schutz, nicht Deko:** Er stellt sich automatisch zwischen Theo und Tür. Dann erkennt er Finn und lockert minimal. (Eigenwille, kein Befehl.)
