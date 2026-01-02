@@ -1,0 +1,21 @@
+{
+  "id": "DECK-STARTER-E-002",
+  "name": "Tide-Spark (EINFACH)",
+  "format": "EINFACH",
+  "version": "1.0",
+  "cards": [
+    { "card_id": "CARD-SET-001-002", "count": 3 },
+    { "card_id": "CARD-SET-001-007", "count": 3 },
+    { "card_id": "CARD-SET-001-006", "count": 2 },
+    { "card_id": "CARD-SET-001-009", "count": 2 },
+
+    { "card_id": "CARD-SET-001-013", "count": 3 },
+    { "card_id": "CARD-SET-001-018", "count": 3 },
+    { "card_id": "CARD-SET-001-017", "count": 2 },
+    { "card_id": "CARD-SET-001-020", "count": 2 },
+
+    { "card_id": "ENERGY_WATER", "count": 5 },
+    { "card_id": "ENERGY_LIGHTNING", "count": 5 }
+  ],
+  "notes": "Tempo Starter. Fokus: Water + Lightning. Minis: Heal + Paralyze + Search."
+}

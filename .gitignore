@@ -15,3 +15,7 @@ server/.tmp/
 
 # Sensitive files
 Widerherstellungscode.txt
+
+# Local helper scripts
+*.ps1
+

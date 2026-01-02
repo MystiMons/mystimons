@@ -1,0 +1,22 @@
+{
+  "id": "DECK-STARTER-S-001",
+  "name": "Blaze-Grove (STANDARD)",
+  "format": "STANDARD",
+  "version": "1.0",
+  "cards": [
+    { "card_id": "CARD-SET-001-001", "count": 4 },
+    { "card_id": "CARD-SET-001-003", "count": 4 },
+    { "card_id": "CARD-SET-001-004", "count": 3 },
+    { "card_id": "CARD-SET-001-005", "count": 2 },
+    { "card_id": "CARD-SET-001-022", "count": 1 },
+
+    { "card_id": "CARD-SET-001-014", "count": 4 },
+    { "card_id": "CARD-SET-001-012", "count": 4 },
+    { "card_id": "CARD-SET-001-015", "count": 2 },
+    { "card_id": "CARD-SET-001-016", "count": 2 },
+
+    { "card_id": "ENERGY_FIRE", "count": 7 },
+    { "card_id": "ENERGY_NATURE", "count": 7 }
+  ],
+  "notes": "Standard Starter. Moosveil als 1× Finisher/Flavor (noch placeholder, bis finaler Effekt steht)."
+}

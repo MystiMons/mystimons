@@ -1,0 +1,32 @@
+{
+  "formats": {
+    "EINFACH": {
+      "deck_size": 30,
+      "max_copies_per_card": 3,
+      "min_resonants": 10,
+      "min_energy": 10,
+      "sideboard_size": 0,
+      "energy_unlimited": true
+    },
+    "STANDARD": {
+      "deck_size": 40,
+      "max_copies_per_card": 4,
+      "min_resonants": 12,
+      "min_energy": 12,
+      "sideboard_size": 0,
+      "energy_unlimited": true
+    },
+    "TURNIER": {
+      "deck_size": 40,
+      "max_copies_per_card": 4,
+      "min_resonants": 15,
+      "min_energy": 10,
+      "sideboard_size": 10,
+      "energy_unlimited": true,
+      "max_rarity_copies": {
+        "Champion": 1
+      }
+    }
+  },
+  "energy_id_prefix": "ENERGY_"
+}

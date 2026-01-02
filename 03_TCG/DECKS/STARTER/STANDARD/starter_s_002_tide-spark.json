@@ -1,0 +1,22 @@
+{
+  "id": "DECK-STARTER-S-002",
+  "name": "Tide-Spark (STANDARD)",
+  "format": "STANDARD",
+  "version": "1.0",
+  "cards": [
+    { "card_id": "CARD-SET-001-002", "count": 4 },
+    { "card_id": "CARD-SET-001-007", "count": 4 },
+    { "card_id": "CARD-SET-001-006", "count": 3 },
+    { "card_id": "CARD-SET-001-009", "count": 2 },
+    { "card_id": "CARD-SET-001-010", "count": 1 },
+
+    { "card_id": "CARD-SET-001-013", "count": 4 },
+    { "card_id": "CARD-SET-001-018", "count": 4 },
+    { "card_id": "CARD-SET-001-017", "count": 2 },
+    { "card_id": "CARD-SET-001-020", "count": 2 },
+
+    { "card_id": "ENERGY_WATER", "count": 7 },
+    { "card_id": "ENERGY_LIGHTNING", "count": 7 }
+  ],
+  "notes": "Standard Starter. Ironix 1× als stabiler Body/Defense Slot (bis Items/Terrain reinkommen)."
+}
