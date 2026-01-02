@@ -29,7 +29,7 @@
 Theo versteckt sich sogar vor dem Widerstand. Er ist zu paranoid geworden, um irgendjemandem zu trauen. Die Führung GLAUBT wirklich, er ist weg. Nur Moosveil "verrät" ihn an Finn durch Finns einzigartige Gabe.
 
 **Bei Ausführung:** Theo muss in Szene 2 oder 3 erklären, warum er noch hier ist:
-- "Ich sollte los. Verdantis… wollte nicht. Er spürte etwas."
+- "Ich sollte los. Moosveil… wollte nicht. Er spürte etwas."
 - ODER: "Die Route war kompromittiert. Ich warte auf ein neues Fenster."
 - ODER: "Niemand weiß, dass ich noch hier bin. Das war der Plan."
 
@@ -45,11 +45,11 @@ Planung mit dem Widerstand läuft noch: Karten, Routen, „unmöglich"-Listen. F
 
 ### KONFLIKT
 
-Dann trifft ihn etwas Vertrautes wie ein Griff in den Nacken: **Verdantis.** Nicht „ein Natur-Resonant", sondern *DER* Klang, den Finn seit zwei Jahren im Brustkorb trägt. 
+Dann trifft ihn etwas Vertrautes wie ein Griff in den Nacken: **Moosveil.** Nicht „ein Natur-Resonant", sondern *DER* Klang, den Finn seit zwei Jahren im Brustkorb trägt. 
 
 ### KEY MOMENTS TO SHOW (NICHT ERKLÄREN!)
 
-* **Erkennung ohne Info-Dump:** nicht „Finn erkannte Verdantis", sondern: Atem stoppt, Finger um Theos Armband/den eigenen Ärmel, der Raum kippt einen Millimeter.
+* **Erkennung ohne Info-Dump:** nicht „Finn erkannte Moosveil", sondern: Atem stoppt, Finger um Theos Armband/den eigenen Ärmel, der Raum kippt einen Millimeter.
 **Preis der Gabe (@PIL-004):** 
 - Kurzer Druck hinter den Augen
 - Übelkeit
@@ -80,7 +80,7 @@ Und Moosveils Echo zieht ihn wie ein Faden durch das Holz und die Taue.
 
 ### SETUP
 
-Finn rennt durch schmale Gänge/Stege, vorbei an Segeltuch, Kisten, Wachen. Der Wind verschluckt Geräusche – aber Verdantis nicht. Er findet eine **versteckte Kabine**. 
+Finn rennt durch schmale Gänge/Stege, vorbei an Segeltuch, Kisten, Wachen. Der Wind verschluckt Geräusche – aber Moosveil nicht. Er findet eine **versteckte Kabine**. 
 
 ### KONFLIKT
 
@@ -106,11 +106,11 @@ Theo wird still. Kurz. Dann:
 
 Finn: "Warum?"
 
-"Weil ich nicht weiß, wem ich trauen kann. Und weil Verdantis..."
+"Weil ich nicht weiß, wem ich trauen kann. Und weil Moosveil..."
 Theo schaut zu seinem Resonanten.
 "Er wollte nicht gehen. Er spürte etwas."
 
-Verdantis senkt den Kopf minimal – Bestätigung, nicht Befehl.
+Moosveil senkt den Kopf minimal – Bestätigung, nicht Befehl.
 
 **Effekt:**
 - Erklärt Timeline-Inkonsistenz
@@ -118,7 +118,7 @@ Verdantis senkt den Kopf minimal – Bestätigung, nicht Befehl.
 - gibt Moosveil Agency (@LAW-004)
 - Macht Widerstand nicht zu Lügnern
 
-* **Verdantis als Schutz, nicht Deko:** Er stellt sich automatisch zwischen Theo und Tür. Dann erkennt er Finn und lockert minimal. (Eigenwille, kein Befehl.)
+* **Moosveil als Schutz, nicht Deko:** Er stellt sich automatisch zwischen Theo und Tür. Dann erkennt er Finn und lockert minimal. (Eigenwille, kein Befehl.)
 * **Finns Körper statt „Emotion":** Hals zu eng, Worte stolpern raus, Hände finden Theos Jacke/Arm und lassen sofort wieder los.
 
 **⚠️ SAMMY VOICE-NOTE:** 
@@ -132,7 +132,7 @@ Und Finn merkt: Er hat seinen Bruder gefunden… aber nicht den, der gegangen is
 
 ### CANON CHECK
 
-* **@LAW-004:** Verdantis handelt eigenständig (stellt sich vor Theo, lockert bei Finn)
+* **@LAW-004:** Moosveil handelt eigenständig (stellt sich vor Theo, lockert bei Finn)
 * **@PIL-005:** Theo ist härter geworden – grau, nicht "böse" oder "gut"
 
 ---
@@ -141,7 +141,7 @@ Und Finn merkt: Er hat seinen Bruder gefunden… aber nicht den, der gegangen is
 
 ### SETUP
 
-Kurz Ruhe in der Kabine. Nur Wind, Holzknarzen, Verdantis' leises Atmen. Theo hat Papiere/Beweise. Nicht ordentlich, eher „überlebt". 
+Kurz Ruhe in der Kabine. Nur Wind, Holzknarzen, Moosveils leises Atmen. Theo hat Papiere/Beweise. Nicht ordentlich, eher „überlebt". 
 
 ### KONFLIKT
 
@@ -196,7 +196,7 @@ Beide meinen „Schutz", beide erzeugen „Trennung".
 
 ### KAPITEL-EXIT HOOK (STARK!)
 
-Verdantis' Kopf ruckt hoch. Nicht panisch – *alarmiert.*
+Moosveils Kopf ruckt hoch. Nicht panisch – *alarmiert.*
 Draußen verändert sich das Geräuschmuster: Schritte werden schneller, Rufe kürzer, Seile schlagen anders.
 
 Theo wird still. Zu still.
@@ -207,7 +207,7 @@ Theo wird still. Zu still.
 ### CANON CHECK
 
 * **@PIL-003:** Finn insistiert auf Gemeinsamkeit, nicht Solo
-* **@LAW-004:** Verdantis' Alarm = eigenständige Wahrnehmung
+* **@LAW-004:** Moosveils Alarm = eigenständige Wahrnehmung
 
 ---
 
@@ -215,7 +215,7 @@ Theo wird still. Zu still.
 
 ### SHOW > TELL
 
-* [ ] Verdantis-Erkennung über Körperreaktion, nicht "er erkannte"
+* [ ] Moosveil-Erkennung über Körperreaktion, nicht "er erkannte"
 * [ ] Theo-Change über Narben/Haltung/Scannen
 * [ ] Absorption über Protokoll-Sprache, nicht große Worte
 
@@ -226,7 +226,7 @@ Theo wird still. Zu still.
 
 ### HOOKS
 
-* [ ] Szene 1: Verdantis-Gefühl trifft wie Griff
+* [ ] Szene 1: Moosveil-Gefühl trifft wie Griff
 * [ ] Szene 2: Theo gefunden, aber verändert
 * [ ] Szene 3: Lumion als Urteil
 * [ ] Szene 4: "Sie haben uns gefunden"
@@ -236,7 +236,7 @@ Theo wird still. Zu still.
 ## SAMMY REVIEW SUMMARY
 
 **Status:** ✅ APPROVED FOR WRITING (nach Pflicht-Fix)
-**Pflicht-Fix:** Timeline-Erklärung – warum ist Theo noch da? (Empfehlung: Er versteckt sich vor allen, Verdantis wollte nicht gehen)
+**Pflicht-Fix:** Timeline-Erklärung – warum ist Theo noch da? (Empfehlung: Er versteckt sich vor allen, Moosveil wollte nicht gehen)
 **Voice-Note:** Keine Interpretationen bei Körpersprache
 
 **Canon:** Sauber. Alle Pillars + Laws eingehalten.

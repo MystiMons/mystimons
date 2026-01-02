@@ -19,7 +19,7 @@
 
 ### SETUP
 
-Nacht. Finn schleicht aus dem Haus. Folgt dem Gefühl – Verdantis' Schrei zieht ihn nach Osten, tiefer in den Wald. Weiter als er je war. Dunkel. Kalt. Allein.
+Nacht. Finn schleicht aus dem Haus. Folgt dem Gefühl – Moosveils Schrei zieht ihn nach Osten, tiefer in den Wald. Weiter als er je war. Dunkel. Kalt. Allein.
 
 ### KONFLIKT
 

@@ -178,7 +178,7 @@ Nilas Versteck (über einem Fischladen). Sie erzählt: Theos Schiff "Sturmbreche
 
 ### KONFLIKT
 
-Theo ist nicht einfach verschwunden – er wird aktiv gejagt. Das System will ihn tot. Aber es gibt ein Gerücht: Jemand in Pyros gesehen, mit Natur-Resonant (Verdantis!).
+Theo ist nicht einfach verschwunden – er wird aktiv gejagt. Das System will ihn tot. Aber es gibt ein Gerücht: Jemand in Pyros gesehen, mit Natur-Resonant (Moosveil!).
 
 ### KEY MOMENTS TO SHOW
 
@@ -224,7 +224,7 @@ Theo ist nicht einfach verschwunden – er wird aktiv gejagt. Das System will ih
 - Sie zögert. Dann:
 - "Gerücht. Vor zwei Wochen. Pyros."
 - Zeigt auf Karte (Feuer-Region)
-- "Mann mit Natur-Resonant. Verdantis-ähnlich."
+- "Mann mit Natur-Resonant. Moosveil-ähnlich."
 - "Versteckt sich in Minen-Siedlung. Glutfels."
 - Finn: "Das... das könnte er sein."
 - Nila nickt. "Könnte."

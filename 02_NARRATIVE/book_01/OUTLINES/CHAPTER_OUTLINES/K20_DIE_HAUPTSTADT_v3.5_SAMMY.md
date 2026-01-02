@@ -113,7 +113,7 @@ Das System will, dass ganz Lumion ihn sieht. Dass alle lernen, was „Verrat" ko
   * Einige glotzen gierig.
   * Einige wirken ehrlich verängstigt.
   * Ein Kind fragt, ein Elternteil zerrt es weiter (ohne „Kind stirbt"-Moment, nur Realität).
-* **Finns Hören trifft Theo wie ein Phantom:** Nicht Theo selbst, eher das Echo seiner Präsenz in Finns Kopf (Verdantis-Klang-Erinnerung), das ihn in Bewegung zwingt.
+* **Finns Hören trifft Theo wie ein Phantom:** Nicht Theo selbst, eher das Echo seiner Präsenz in Finns Kopf (Moosveil-Klang-Erinnerung), das ihn in Bewegung zwingt.
 
 ### KAPITEL-EXIT HOOK (STARK!)
 

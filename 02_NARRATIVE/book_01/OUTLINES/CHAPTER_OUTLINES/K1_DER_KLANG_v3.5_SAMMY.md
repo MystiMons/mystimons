@@ -169,7 +169,7 @@ Theo versprach zurückzukommen. Zwei Jahre Stille. Keine Nachricht. Finn klammer
 - FLASH: Theos Hand auf Finns Schulter
 - Theos Stimme: "Nur bis zum Frühling, Kleiner."
 - Kälte des Morgens
-- Verdantis (Theos Resonant) neben ihm – grün leuchtend
+- Moosveil (Theos Resonant) neben ihm – grün leuchtend
 - Theos Rücken, der kleiner wird auf dem Weg
 - ZURÜCK INS JETZT: Armband in Hand, Zimmer dunkel
 
@@ -219,7 +219,7 @@ Was... was war das?
 Das Gefühl... kannte er.
 Grün. Warm. VERTRAUT.
 
-Verdantis.
+Moosveil.
 
 Theos Partner.
 
@@ -237,7 +237,7 @@ Seine Hände verkrampfen sich ums Armband.
 ### CANON CHECK
 
 * Theos Armband als physisches Symbol
-* Verdantis erwähnt (Theos Partner)
+* Moosveil erwähnt (Theos Partner)
 * 2 Jahre seit Verschwinden
 * **@PIL-004:** Spike hat massive Kosten
 * **RESONANZ-ECHO-REGEL etabliert:** Bei Extremstress können Resonanten Gefühle + Bildfetzen pushen – nur entlang starker Verbindungen. Finn kann auffangen, aber OHNE Richtung, OHNE Ort, fragmentarisch. NIE Worte.

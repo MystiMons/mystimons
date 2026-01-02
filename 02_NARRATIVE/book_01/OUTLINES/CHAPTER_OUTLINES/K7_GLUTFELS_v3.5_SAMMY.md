@@ -102,7 +102,7 @@ Nila schweigt. Dann:
 
 ### SETUP
 
-Finn und Nila suchen nach Theo/Verdantis. Fragen vorsichtig. Aber System ist paranoid hier. Jeder Fremde ist verdächtig. Soldaten stoppen sie – keine Papiere! Verhaftung.
+Finn und Nila suchen nach Theo/Moosveil. Fragen vorsichtig. Aber System ist paranoid hier. Jeder Fremde ist verdächtig. Soldaten stoppen sie – keine Papiere! Verhaftung.
 
 ### KONFLIKT
 
@@ -112,7 +112,7 @@ Finn macht Fehler: Er fragt zu direkt nach einem Mann mit grünem Resonanten. Je
 
 **Die Suche:**
 - Gehen durch Straßen (vorsichtig!)
-- Finn versucht "Hören" (grüne Welle? Verdantis?)
+- Finn versucht "Hören" (grüne Welle? Moosveil?)
 - Aber: Zu viele Stimmen. Zu viel Schmerz.
 - Kann nicht filtern
 - Nila fragt (Händler, alt):
@@ -181,7 +181,7 @@ Finn macht Fehler: Er fragt zu direkt nach einem Mann mit grünem Resonanten. Je
 
 **Finns Verzweiflung:**
 - Finn schließt Augen
-- Versucht "Hören" (Verdantis? Irgendwo?)
+- Versucht "Hören" (Moosveil? Irgendwo?)
 - Aber: Nichts. Nur Schmerz von hundert Resonanten.
 - Zu laut. Zu viel.
 - Öffnet Augen. Blinzelt Tränen weg.
@@ -247,7 +247,7 @@ Rex traut niemandem. Er testet Finn. Bedrohlich. Wenn Finn lügt, geht Rex allei
 
 **Finns Beweis (ohne Gabe!):**
 - "Theo Alder. 18. Braune Haare."
-- "Sein Resonant: Verdantis. Natur-Element."
+- "Sein Resonant: Moosveil. Natur-Element."
 - "Er ist seit zwei Jahren weg."
 - "Sein Schiff wurde versenkt."
 - Rex hört zu. Messer noch in Hand.

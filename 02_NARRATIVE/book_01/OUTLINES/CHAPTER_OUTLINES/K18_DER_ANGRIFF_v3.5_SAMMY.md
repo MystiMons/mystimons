@@ -31,7 +31,7 @@ Der Widerstand reagiert sofort – zu organisiert, um neu zu sein. Finn merkt: D
 
 * **Alarm ist Körper:** Finns Magen fällt, Hände suchen Halt am Tau, Atem wird zu laut im Wind.
 * **Widerstand = Mechanik:** Flaggenzeichen, Läufer mit Klemmbrettern, Wachen rufen Sektoren, nicht Namen.
-* **Theo ist sofort „Mission":** Er stopft Beweise weg / sichert Verdantis / prüft einen Fluchtweg – nicht sentimental, sondern trainiert. 
+* **Theo ist sofort „Mission":** Er stopft Beweise weg / sichert Moosveil / prüft einen Fluchtweg – nicht sentimental, sondern trainiert. 
 * **Der Satz, der den Gegner setzt:** jemand ruft (nicht zu Finn, aber hörbar):
   **„Calder ist da. Persönlich."** 
 
@@ -134,7 +134,7 @@ Calder ist zu stark. Und schlimmer: Er versteht, wo Finn weh tut.
 **📌 SAMMY-NOTE:** Das ist PIL-003 als Negativspiegel. Finn ist nicht der tapfere Einzelkämpfer – er ist abgeschnitten und dadurch SCHWÄCHER. Das muss sich FALSCH anfühlen, nicht heroisch. Das unterscheidet uns von Standard-Fantasy.
 
 * **Theo entscheidet sich freiwillig (PIL-001/PIL-003):** Theo springt dazwischen – nicht, weil Calder ihn zwingt, sondern weil Theo Finn schützt. 
-* **Gefangennahme klar und hart:** Ferron packt/versperrt, System-Fesseln, Verdantis reagiert (Zorn/Schutz), aber Theo stoppt ihn mit einem Blick: *nicht jetzt*.
+* **Gefangennahme klar und hart:** Ferron packt/versperrt, System-Fesseln, Moosveil reagiert (Zorn/Schutz), aber Theo stoppt ihn mit einem Blick: *nicht jetzt*.
 * **Calder macht den Deal:**
 
   > „Der Flüchtling für den Jungen. Ein fairer Tausch." 
@@ -154,7 +154,7 @@ Und in seinem Kopf nur ein Satz, der nicht weggeht:
 * **@PIL-004:** Widerstand verliert Stadt/Leute/Schiffe; Finn verliert Theo direkt nach dem Finden
 * **@PIL-001:** Theo opfert sich freiwillig
 * **@LAW-006:** Keine Kindertode on-screen; Niederlage über Zerstörung + Gefangennahme
-* **@LAW-004:** Verdantis reagiert eigenständig (Zorn/Schutz), Theo stoppt ihn mit Blick
+* **@LAW-004:** Moosveil reagiert eigenständig (Zorn/Schutz), Theo stoppt ihn mit Blick
 
 ---
 

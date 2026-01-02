@@ -127,7 +127,7 @@ Finn schaut über die Luftschiffe hinweg nach Osten (oder „in Richtung", die s
 Der Wind trägt Stimmen. Viele. Zu viele.
 Und irgendwo darin: das Bild aus K12 in seinem Kopf – Dokumente, die töten können.
 
-**[KAPITEL ENDE → Setup für K17: THEO (Verdantis' Gefühl, versteckte Kabine, Wiedersehen)]** 
+**[KAPITEL ENDE → Setup für K17: THEO (Moosveils Gefühl, versteckte Kabine, Wiedersehen)]** 
 
 ### CANON CHECK
 
