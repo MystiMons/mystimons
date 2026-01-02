@@ -1,9 +1,9 @@
 # MYSTIMONS 22 STARTER – FINAL
 ## Buch 1 & TCG Set 1
 
-**Version:** 1.0 FINAL
-**Datum:** 25. Dezember 2025
-**Status:** ✅ APPROVED
+**Version:** 1.0.1 UPDATED
+**Datum:** 02. Januar 2026
+**Status:** ✅ APPROVED (Verdantis → Moosveil korrigiert)
 
 ---
 
@@ -63,7 +63,7 @@ Mini-Resonanten: Nicht-Evolution, selten gebunden, Atmosphäre
 
 **Partner in Buch 1:** Finn Alder (ab Kapitel 24)
 
-**Zusätzlich:** Verdantis (Theos Partner) – Stufe 3 Natur, seltener Waldwächter
+**Zusätzlich:** Moosveil (Theos Partner) – Stufe 3 Natur, seltener Waldwächter
 
 ---
 
@@ -218,7 +218,7 @@ Sie sind Atmosphäre, Worldbuilding, und TCG-Support.
 | Nila | Aquor | Kapitel 5 | Vor Buch (etabliert) |
 | Rex | Embrix | Kapitel 9 | Vor Buch (etabliert) |
 | Elara | Terragus | Kapitel 14 | Vor Buch (etabliert) |
-| Theo | Verdantis | Kapitel 19 | Vor Buch (etabliert) |
+| Theo | Moosveil | Kapitel 19 | Vor Buch (etabliert) |
 | Calder | Ferron | Kapitel 7 (erwähnt), 12 (erscheint) | Vor Buch |
 
 ---
@@ -230,7 +230,7 @@ Sie sind Atmosphäre, Worldbuilding, und TCG-Support.
 |----------|-------|----------|
 | Sylphira | Kapitel 2, verletzt im Wald | Hauptplot, zeigt Bilder von Theo |
 | Mossling | Kapitel 1, überall im Dorf | Atmosphäre, Worldbuilding |
-| Verdantis | Kapitel 2, in Sylphiras Vision | Setup für Theo |
+| Moosveil | Kapitel 2, in Sylphiras Vision | Setup für Theo |
 
 ### AQUARION (Kapitel 5-7)
 | Resonant | Szene | Funktion |
@@ -262,7 +262,7 @@ Sie sind Atmosphäre, Worldbuilding, und TCG-Support.
 | Aeris | Kapitel 17, im Wind | Atmosphäre |
 | Zephyros | Kapitel 18, bei Widerstandsführer | NPC-Partner |
 | Breezel | Kapitel 17, überall | Atmosphäre |
-| Verdantis | Kapitel 19, bei Theo | Wiedersehen |
+| Moosveil | Kapitel 19, bei Theo | Wiedersehen |
 
 ### LUMION (Kapitel 22-27)
 | Resonant | Szene | Funktion |
@@ -352,10 +352,11 @@ Shardling, Sparklin, Gloomlet, Glimmer, Coglet
 
 ---
 
-**STATUS:** ✅ FINAL
-**NÄCHSTER SCHRITT:** Kapitel 1 schreiben
+**STATUS:** ✅ UPDATED
+**CHANGELOG:** Verdantis → Moosveil (Verdantis = Ur-Resonant, nicht Theos Partner)
+**NÄCHSTER SCHRITT:** v3.6 Outlines finalisieren
 
 ---
 
-*Version: 1.0 FINAL*
-*Datum: 25. Dezember 2025*
+*Version: 1.0.1 UPDATED*
+*Datum: 02. Januar 2026*
