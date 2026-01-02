@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Effect Registry",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "id",
+      "name",
+      "kind",
+      "trigger",
+      "summary",
+      "determinism"
+    ],
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "^EFF_[A-Z0-9_]+$"
+      },
+      "name": {
+        "type": "string"
+      },
+      "kind": {
+        "type": "string",
+        "enum": [
+          "activated",
+          "triggered",
+          "passive"
+        ]
+      },
+      "trigger": {
+        "type": "string"
+      },
+      "summary": {
+        "type": "string"
+      },
+      "ui": {
+        "type": "object"
+      },
+      "tracking": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "determinism": {
+        "type": "string",
+        "enum": [
+          "Deterministic",
+          "RNG"
+        ]
+      },
+      "exploit_notes": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "additionalProperties": true
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "windows": [
+    {
+      "id": "SETUP.SELECT_ACTIVE",
+      "phase": "SETUP",
+      "mat_lock": "CHARGE",
+      "description": "Players choose their initial ACTIVE MystiMon (Stage 1)."
+    },
+    {
+      "id": "SETUP.SELECT_BENCH",
+      "phase": "SETUP",
+      "mat_lock": "CHARGE",
+      "description": "Players optionally place up to 2 Stage 1 MystiMons on BENCH."
+    },
+    {
+      "id": "SETUP.MULLIGAN",
+      "phase": "SETUP",
+      "mat_lock": "CHARGE",
+      "description": "Player declares mulligan if no eligible MystiMon in opening hand."
+    },
+    {
+      "id": "SETUP.READY",
+      "phase": "SETUP",
+      "mat_lock": "CHARGE",
+      "description": "Both players confirm setup completion; server starts Turn 1."
+    },
+    {
+      "id": "TURN.DRAW",
+      "phase": "TURN",
+      "mat_lock": "AFTERGLOW",
+      "description": "Start-of-turn draw step. Player 1 skips draw on Turn 1 (ruleset)."
+    },
+    {
+      "id": "TURN.ENERGY",
+      "phase": "TURN",
+      "mat_lock": "CHARGE",
+      "description": "Attach exactly 1 Energy card (ATTACHED or POOL)."
+    },
+    {
+      "id": "TURN.MAIN",
+      "phase": "TURN",
+      "mat_lock": "CHARGE",
+      "description": "Main actions in any order: summon Stage 1 (1x), evolve, play items/relics/terrain, switch (1x)."
+    },
+    {
+      "id": "TURN.COMBAT.DECLARE",
+      "phase": "COMBAT",
+      "mat_lock": "CHARGE",
+      "description": "Declare attack and targets; pay pool costs; validate legality."
+    },
+    {
+      "id": "TURN.COMBAT.RESOLVE",
+      "phase": "COMBAT",
+      "mat_lock": "CLASH",
+      "description": "Server resolves damage, effectiveness, status, KO, triggers. Zones locked."
+    },
+    {
+      "id": "TURN.END",
+      "phase": "END",
+      "mat_lock": "AFTERGLOW",
+      "description": "Cleanup: HP-Drain, status ticks, end-of-turn effects, hand limit discard; then End Turn."
+    },
+    {
+      "id": "MATCH.ENDED",
+      "phase": "END",
+      "mat_lock": "AFTERGLOW",
+      "description": "Terminal window after win/lose/surrender/deck-out."
+    }
+  ],
+  "mat_lock_states": [
+    "CHARGE",
+    "CLASH",
+    "AFTERGLOW"
+  ]
+}

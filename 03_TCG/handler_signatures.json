@@ -1,0 +1,205 @@
+[
+  {
+    "effect_id": "EFF_MINI_DRAW_001",
+    "handler_class": "MiniEffectHandler",
+    "begin_command": "ACTIVATE_EFFECT",
+    "triggered_by": null,
+    "allowed_windows": [
+      "TURN.MAIN"
+    ],
+    "prompt": {
+      "required": false
+    },
+    "emits": [
+      "EFFECT_ACTIVATED",
+      "EFFECT_RESOLVED"
+    ],
+    "domain_events": [],
+    "tracking_keys": [
+      "mini_draw_used_this_turn"
+    ]
+  },
+  {
+    "effect_id": "EFF_MINI_HEAL_001",
+    "handler_class": "MiniEffectHandler",
+    "begin_command": "ACTIVATE_EFFECT",
+    "triggered_by": null,
+    "allowed_windows": [
+      "TURN.END"
+    ],
+    "prompt": {
+      "required": false
+    },
+    "emits": [
+      "EFFECT_ACTIVATED",
+      "EFFECT_RESOLVED"
+    ],
+    "domain_events": [],
+    "tracking_keys": [
+      "mini_heal_used_this_turn"
+    ]
+  },
+  {
+    "effect_id": "EFF_MINI_BURN_001",
+    "handler_class": "MiniEffectHandler",
+    "begin_command": null,
+    "triggered_by": "OnAttackDeclared",
+    "allowed_windows": [
+      "TURN.COMBAT.DECLARE",
+      "TURN.COMBAT.RESOLVE"
+    ],
+    "prompt": {
+      "required": false
+    },
+    "emits": [
+      "EFFECT_ACTIVATED",
+      "EFFECT_RESOLVED"
+    ],
+    "domain_events": [],
+    "tracking_keys": [
+      "mini_burn_triggers_this_match"
+    ]
+  },
+  {
+    "effect_id": "EFF_MINI_DEF_001",
+    "handler_class": "MiniEffectHandler",
+    "begin_command": null,
+    "triggered_by": "WhileInPlay",
+    "allowed_windows": [
+      "*"
+    ],
+    "prompt": {
+      "required": false
+    },
+    "emits": [
+      "EFFECT_ACTIVATED",
+      "EFFECT_RESOLVED"
+    ],
+    "domain_events": [],
+    "tracking_keys": [
+      "mini_def_buffs_active"
+    ]
+  },
+  {
+    "effect_id": "EFF_MINI_SPD_001",
+    "handler_class": "MiniEffectHandler",
+    "begin_command": null,
+    "triggered_by": "WhileInPlay",
+    "allowed_windows": [
+      "*"
+    ],
+    "prompt": {
+      "required": false
+    },
+    "emits": [
+      "EFFECT_ACTIVATED",
+      "EFFECT_RESOLVED"
+    ],
+    "domain_events": [],
+    "tracking_keys": [
+      "mini_spd_buffs_active"
+    ]
+  },
+  {
+    "effect_id": "EFF_MINI_FREEZE_001",
+    "handler_class": "MiniEffectHandler",
+    "begin_command": null,
+    "triggered_by": "OnDamageDealt",
+    "allowed_windows": [
+      "TURN.COMBAT.RESOLVE"
+    ],
+    "prompt": {
+      "required": false
+    },
+    "emits": [
+      "EFFECT_ACTIVATED",
+      "EFFECT_RESOLVED"
+    ],
+    "domain_events": [],
+    "tracking_keys": [
+      "mini_freeze_marks_active"
+    ]
+  },
+  {
+    "effect_id": "EFF_MINI_PARALYZE_001",
+    "handler_class": "MiniEffectHandler",
+    "begin_command": null,
+    "triggered_by": "OnTurnStart",
+    "allowed_windows": [
+      "TURN.DRAW"
+    ],
+    "prompt": {
+      "required": true,
+      "type": "SELECT_TARGET_BENCH"
+    },
+    "emits": [
+      "EFFECT_ACTIVATED",
+      "EFFECT_RESOLVED"
+    ],
+    "domain_events": [],
+    "tracking_keys": [
+      "mini_paralyze_marks_active"
+    ]
+  },
+  {
+    "effect_id": "EFF_MINI_STEALTH_001",
+    "handler_class": "MiniEffectHandler",
+    "begin_command": "ACTIVATE_EFFECT",
+    "triggered_by": null,
+    "allowed_windows": [
+      "TURN.MAIN"
+    ],
+    "prompt": {
+      "required": false
+    },
+    "emits": [
+      "EFFECT_ACTIVATED",
+      "EFFECT_RESOLVED"
+    ],
+    "domain_events": [],
+    "tracking_keys": [
+      "mini_stealth_marks_active"
+    ]
+  },
+  {
+    "effect_id": "EFF_MINI_SEARCH_001",
+    "handler_class": "MiniEffectHandler",
+    "begin_command": "ACTIVATE_EFFECT",
+    "triggered_by": null,
+    "allowed_windows": [
+      "TURN.MAIN"
+    ],
+    "prompt": {
+      "required": true,
+      "type": "SELECT_CARD_FROM_REVEAL"
+    },
+    "emits": [
+      "EFFECT_ACTIVATED",
+      "EFFECT_RESOLVED"
+    ],
+    "domain_events": [],
+    "tracking_keys": [
+      "mini_search_used_this_turn"
+    ]
+  },
+  {
+    "effect_id": "EFF_MINI_RELIC_001",
+    "handler_class": "MiniEffectHandler",
+    "begin_command": null,
+    "triggered_by": "WhileInPlay",
+    "allowed_windows": [
+      "*"
+    ],
+    "prompt": {
+      "required": false
+    },
+    "emits": [
+      "EFFECT_ACTIVATED",
+      "EFFECT_RESOLVED"
+    ],
+    "domain_events": [],
+    "tracking_keys": [
+      "mini_relic_discount_used_this_turn"
+    ]
+  }
+]

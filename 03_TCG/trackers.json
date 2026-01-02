@@ -1,0 +1,81 @@
+{
+  "version": "0.5",
+  "trackers": [
+    {
+      "key": "cap_draw_used_this_turn",
+      "kind": "cap",
+      "scope": "PLAYER_TURN",
+      "reset": "TURN.START",
+      "default": 0,
+      "max": 1,
+      "notes": "Global draw cap per player per turn."
+    },
+    {
+      "key": "cap_heal_used_this_turn",
+      "kind": "cap",
+      "scope": "PLAYER_TURN",
+      "reset": "TURN.START",
+      "default": 0,
+      "max": 1,
+      "notes": "Global heal cap per player per turn (mini heal)."
+    },
+    {
+      "key": "cap_search_used_this_turn",
+      "kind": "cap",
+      "scope": "PLAYER_TURN",
+      "reset": "TURN.START",
+      "default": 0,
+      "max": 1,
+      "notes": "Global search cap per player per turn."
+    },
+    {
+      "key": "cap_relic_discount_used_this_turn",
+      "kind": "cap",
+      "scope": "PLAYER_TURN",
+      "reset": "TURN.START",
+      "default": 0,
+      "max": 1,
+      "notes": "Global relic discount cap per player per turn."
+    },
+    {
+      "key": "status_burn",
+      "kind": "status",
+      "scope": "CARD_INSTANCE",
+      "reset": "DURATION",
+      "default": 0,
+      "notes": "Burn status with intensity/duration tracked digitally."
+    },
+    {
+      "key": "status_freeze",
+      "kind": "status",
+      "scope": "CARD_INSTANCE",
+      "reset": "DURATION",
+      "default": 0,
+      "notes": "Freeze status tracked digitally."
+    },
+    {
+      "key": "status_paralyze",
+      "kind": "status",
+      "scope": "CARD_INSTANCE",
+      "reset": "DURATION",
+      "default": 0,
+      "notes": "Paralyze status tracked digitally."
+    },
+    {
+      "key": "status_stealth",
+      "kind": "status",
+      "scope": "CARD_INSTANCE",
+      "reset": "DURATION",
+      "default": 0,
+      "notes": "Stealth until break (attack or damage)."
+    },
+    {
+      "key": "spd",
+      "kind": "stat_overlay",
+      "scope": "CARD_INSTANCE",
+      "reset": "MATCH.END",
+      "default": null,
+      "notes": "SPD is digital-only; base SPD is stored in `digital.notes` and derived into runtime stats."
+    }
+  ]
+}

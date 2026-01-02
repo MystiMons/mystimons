@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Match Command",
+  "type": "object",
+  "required": [
+    "cmd_id",
+    "match_id",
+    "player_id",
+    "seq",
+    "window",
+    "type",
+    "payload",
+    "client_ts"
+  ],
+  "properties": {
+    "cmd_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "match_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "player_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "window": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Authoritative timing window identifier. Must match one of the canonical window IDs (see 03_TCG/AUTHORING/MATCH/WINDOWS.md).",
+      "enum": [
+        "SETUP.SELECT_ACTIVE",
+        "SETUP.SELECT_BENCH",
+        "SETUP.MULLIGAN",
+        "SETUP.READY",
+        "TURN.DRAW",
+        "TURN.ENERGY",
+        "TURN.MAIN",
+        "TURN.COMBAT.DECLARE",
+        "TURN.COMBAT.RESOLVE",
+        "TURN.END",
+        "MATCH.ENDED"
+      ]
+    },
+    "type": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Command type. Must match the canonical command vocabulary (see 03_TCG/AUTHORING/MATCH/CONTRACTS.md).",
+      "enum": [
+        "SETUP_SELECT_ACTIVE",
+        "SETUP_ADD_BENCH",
+        "SETUP_MULLIGAN",
+        "SETUP_READY",
+        "DRAW_ACK",
+        "ATTACH_ENERGY",
+        "SUMMON_STAGE1",
+        "EVOLVE",
+        "RITUAL_SUMMON",
+        "PLAY_ITEM",
+        "PLAY_RELIC",
+        "PLAY_TERRAIN",
+        "SWITCH",
+        "ATTACK",
+        "END_TURN",
+        "SURRENDER",
+        "ACTIVATE_EFFECT",
+        "SUBMIT_CHOICE"
+      ]
+    },
+    "payload": {
+      "type": "object"
+    },
+    "client_ts": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "client_build": {
+      "type": "string"
+    },
+    "content_manifest_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "signature": {
+      "type": "string",
+      "description": "Optional request signature or token for anti-tamper."
+    }
+  },
+  "additionalProperties": false
+}

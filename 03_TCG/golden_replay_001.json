@@ -1,0 +1,208 @@
+{
+  "match_id": "GOLDEN-001",
+  "mode": "STANDARD",
+  "content_manifest_hash": "5a410ef5179807217b12e7bc77cf2f63e8ed6f77bb675db49a19f162689afbde",
+  "players": [
+    {
+      "player_id": "P1"
+    },
+    {
+      "player_id": "P2"
+    }
+  ],
+  "note": "Illustrative golden log for contract validation and engine bring-up. Instance IDs are minted by the server during setup/draw.",
+  "commands": [
+    {
+      "cmd_id": "c1",
+      "match_id": "GOLDEN-001",
+      "player_id": "P1",
+      "seq": 0,
+      "window": "SETUP.SELECT_ACTIVE",
+      "type": "SETUP_SELECT_ACTIVE",
+      "payload": {
+        "card_id": "CARD-SET-001-001",
+        "source_zone": "HAND"
+      },
+      "client_ts": "2026-01-02T12:00:00Z"
+    },
+    {
+      "cmd_id": "c2",
+      "match_id": "GOLDEN-001",
+      "player_id": "P2",
+      "seq": 0,
+      "window": "SETUP.SELECT_ACTIVE",
+      "type": "SETUP_SELECT_ACTIVE",
+      "payload": {
+        "card_id": "CARD-SET-001-002",
+        "source_zone": "HAND"
+      },
+      "client_ts": "2026-01-02T12:00:00Z"
+    },
+    {
+      "cmd_id": "c3",
+      "match_id": "GOLDEN-001",
+      "player_id": "P1",
+      "seq": 1,
+      "window": "SETUP.SELECT_BENCH",
+      "type": "SETUP_ADD_BENCH",
+      "payload": {
+        "card_id": "CARD-SET-001-012",
+        "bench_slot": 1
+      },
+      "client_ts": "2026-01-02T12:00:00Z"
+    },
+    {
+      "cmd_id": "c4",
+      "match_id": "GOLDEN-001",
+      "player_id": "P1",
+      "seq": 2,
+      "window": "SETUP.READY",
+      "type": "SETUP_READY",
+      "payload": {
+        "confirm": true
+      },
+      "client_ts": "2026-01-02T12:00:00Z"
+    },
+    {
+      "cmd_id": "c5",
+      "match_id": "GOLDEN-001",
+      "player_id": "P2",
+      "seq": 1,
+      "window": "SETUP.READY",
+      "type": "SETUP_READY",
+      "payload": {
+        "confirm": true
+      },
+      "client_ts": "2026-01-02T12:00:00Z"
+    },
+    {
+      "cmd_id": "c6",
+      "match_id": "GOLDEN-001",
+      "player_id": "P1",
+      "seq": 3,
+      "window": "TURN.ENERGY",
+      "type": "ATTACH_ENERGY",
+      "payload": {
+        "energy_card_id": "ENERGY-FIRE-001",
+        "dest": "ATTACHED",
+        "target_instance_id": "I_P1_ACTIVE_001"
+      },
+      "client_ts": "2026-01-02T12:00:00Z"
+    },
+    {
+      "cmd_id": "c7",
+      "match_id": "GOLDEN-001",
+      "player_id": "P1",
+      "seq": 4,
+      "window": "TURN.MAIN",
+      "type": "SUMMON_STAGE1",
+      "payload": {
+        "card_id": "CARD-SET-001-012",
+        "dest": "BENCH",
+        "bench_slot": 1
+      },
+      "client_ts": "2026-01-02T12:00:00Z"
+    },
+    {
+      "cmd_id": "c8",
+      "match_id": "GOLDEN-001",
+      "player_id": "P1",
+      "seq": 5,
+      "window": "TURN.END",
+      "type": "END_TURN",
+      "payload": {
+        "confirm": true
+      },
+      "client_ts": "2026-01-02T12:00:00Z"
+    },
+    {
+      "cmd_id": "c9",
+      "match_id": "GOLDEN-001",
+      "player_id": "P2",
+      "seq": 2,
+      "window": "TURN.DRAW",
+      "type": "DRAW_ACK",
+      "payload": {
+        "confirm": true
+      },
+      "client_ts": "2026-01-02T12:00:00Z"
+    }
+  ],
+  "events": [
+    {
+      "evt_id": "e1",
+      "match_id": "GOLDEN-001",
+      "seq": 0,
+      "type": "MATCH_STARTED",
+      "payload": {
+        "first_player_id": "P1",
+        "turn": 1
+      },
+      "server_ts": "2026-01-02T12:00:00Z"
+    },
+    {
+      "evt_id": "e2",
+      "match_id": "GOLDEN-001",
+      "seq": 1,
+      "type": "CARD_SUMMONED",
+      "payload": {
+        "player_id": "P1",
+        "card_id": "CARD-SET-001-001",
+        "instance_id": "I_P1_ACTIVE_001",
+        "dest": "ACTIVE"
+      },
+      "server_ts": "2026-01-02T12:00:00Z"
+    },
+    {
+      "evt_id": "e3",
+      "match_id": "GOLDEN-001",
+      "seq": 2,
+      "type": "CARD_SUMMONED",
+      "payload": {
+        "player_id": "P2",
+        "card_id": "CARD-SET-001-002",
+        "instance_id": "I_P2_ACTIVE_001",
+        "dest": "ACTIVE"
+      },
+      "server_ts": "2026-01-02T12:00:00Z"
+    },
+    {
+      "evt_id": "e4",
+      "match_id": "GOLDEN-001",
+      "seq": 3,
+      "type": "CARD_SUMMONED",
+      "payload": {
+        "player_id": "P1",
+        "card_id": "CARD-SET-001-012",
+        "instance_id": "I_P1_BENCH_001",
+        "dest": "BENCH",
+        "bench_slot": 1
+      },
+      "server_ts": "2026-01-02T12:00:00Z"
+    },
+    {
+      "evt_id": "e5",
+      "match_id": "GOLDEN-001",
+      "seq": 4,
+      "type": "ENERGY_ATTACHED",
+      "payload": {
+        "player_id": "P1",
+        "energy_card_id": "ENERGY-FIRE-001",
+        "target_instance_id": "I_P1_ACTIVE_001"
+      },
+      "server_ts": "2026-01-02T12:00:00Z"
+    },
+    {
+      "evt_id": "e6",
+      "match_id": "GOLDEN-001",
+      "seq": 5,
+      "type": "TURN_ENDED",
+      "payload": {
+        "player_id": "P1",
+        "next_player_id": "P2",
+        "turn_number": 1
+      },
+      "server_ts": "2026-01-02T12:00:00Z"
+    }
+  ]
+}

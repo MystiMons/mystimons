@@ -1,0 +1,55 @@
+{
+  "manifest_version": "0.2",
+  "generated_at": "2026-01-02T00:00:00",
+  "sets": [
+    {
+      "set_id": "SET-001",
+      "content_version": "2026-01-02",
+      "cards_sha256": "9ef963d264b7a03da343458f9c3f81397c848acb2728ae3ff07bfc930bab4958",
+      "cards_count": 22,
+      "reveal_level": "S0"
+    },
+    {
+      "set_id": "SET-002",
+      "content_version": "2026-01-02",
+      "cards_sha256": "468f1ec9103a7e5a92793c52369a799e1a6e3da78fd47a8945a07493062b3ca7",
+      "cards_count": 0,
+      "reveal_level": "S1"
+    },
+    {
+      "set_id": "SET-003",
+      "content_version": "2026-01-02",
+      "cards_sha256": "3cd5c464733ae4aabc8b9b5baa76c816799ead00654910cda02ac0a27f35c610",
+      "cards_count": 0,
+      "reveal_level": "S1"
+    },
+    {
+      "set_id": "SET-004",
+      "content_version": "2026-01-02",
+      "cards_sha256": "32d2038750e6fde3c277de31f76d8293307ad1bfb93014522a7877f13ab82ce0",
+      "cards_count": 0,
+      "reveal_level": "S2"
+    },
+    {
+      "set_id": "SET-005",
+      "content_version": "2026-01-02",
+      "cards_sha256": "b98021f569fedecc5d21748131b5e98a6ad19fdf7836ab716866efccb8075dc3",
+      "cards_count": 0,
+      "reveal_level": "S2"
+    },
+    {
+      "set_id": "SET-006",
+      "content_version": "2026-01-02",
+      "cards_sha256": "48ad99b3c19928287b7785630e82309c724a389cafb7e9935ea62c5007dd448d",
+      "cards_count": 0,
+      "reveal_level": "S2"
+    },
+    {
+      "set_id": "SET-007",
+      "content_version": "2026-01-02",
+      "cards_sha256": "7f87f9e2d2e0ac8859adc82d8e59c5bf4d44a065de06d34fd6add7bde0382ee7",
+      "cards_count": 0,
+      "reveal_level": "S3"
+    }
+  ]
+}

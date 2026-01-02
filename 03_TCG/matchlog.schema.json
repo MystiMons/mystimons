@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Match Log (Golden/Test)",
+  "type": "object",
+  "required": [
+    "match_id",
+    "mode",
+    "commands",
+    "events"
+  ],
+  "properties": {
+    "match_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mode": {
+      "type": "string",
+      "enum": [
+        "EINFACH",
+        "STANDARD",
+        "TURNIER"
+      ]
+    },
+    "content_manifest_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "players": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "player_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "player_id"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "note": {
+      "type": "string"
+    },
+    "commands": {
+      "type": "array",
+      "items": {
+        "$ref": "./match_command.schema.json"
+      }
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "$ref": "./match_event.schema.json"
+      }
+    }
+  },
+  "additionalProperties": false
+}

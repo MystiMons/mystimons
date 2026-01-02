@@ -1,0 +1,225 @@
+{
+  "match_id": "TEST-MATCH-003",
+  "mode": "STANDARD",
+  "content_manifest_hash": "TEST-MANIFEST",
+  "players": [
+    {
+      "player_id": "P1",
+      "display": "Alice"
+    },
+    {
+      "player_id": "P2",
+      "display": "Bob"
+    }
+  ],
+  "note": "Demonstrates an effect requiring hidden-info prompt: Glimmer (EFF_MINI_SEARCH_001).",
+  "commands": [
+    {
+      "cmd_id": "C1",
+      "match_id": "TEST-MATCH-003",
+      "player_id": "P1",
+      "seq": 1,
+      "window": "SETUP.SELECT_ACTIVE",
+      "type": "SETUP_SELECT_ACTIVE",
+      "payload": {
+        "card_id": "CARD-SET-001-001",
+        "source_zone": "HAND"
+      }
+    },
+    {
+      "cmd_id": "C2",
+      "match_id": "TEST-MATCH-003",
+      "player_id": "P1",
+      "seq": 2,
+      "window": "TURN.MAIN",
+      "type": "ACTIVATE_EFFECT",
+      "payload": {
+        "intent_id": "I-GLIMMER-001",
+        "source_instance_id": "INST-GLIMMER-1",
+        "effect_id": "EFF_MINI_SEARCH_001"
+      }
+    },
+    {
+      "cmd_id": "C3",
+      "match_id": "TEST-MATCH-003",
+      "player_id": "P1",
+      "seq": 3,
+      "window": "TURN.MAIN",
+      "type": "SUBMIT_CHOICE",
+      "payload": {
+        "prompt_id": "PR-001",
+        "selections": {
+          "index": 1
+        }
+      }
+    }
+  ],
+  "events": [
+    {
+      "evt_id": "E1",
+      "match_id": "TEST-MATCH-003",
+      "seq": 1,
+      "type": "MATCH_CREATED",
+      "payload": {
+        "mode": "STANDARD"
+      }
+    },
+    {
+      "evt_id": "E2",
+      "match_id": "TEST-MATCH-003",
+      "seq": 2,
+      "type": "MATCH_STARTED",
+      "payload": {
+        "starting_player_id": "P1"
+      }
+    },
+    {
+      "evt_id": "E3",
+      "match_id": "TEST-MATCH-003",
+      "seq": 3,
+      "type": "CARD_SUMMONED",
+      "payload": {
+        "player_id": "P1",
+        "instance_id": "INST-GLIMMER-1",
+        "card_id": "CARD-SET-001-020",
+        "dest": "BENCH"
+      }
+    },
+    {
+      "evt_id": "E4",
+      "match_id": "TEST-MATCH-003",
+      "seq": 4,
+      "type": "EFFECT_ACTIVATED",
+      "payload": {
+        "intent_id": "I-GLIMMER-001",
+        "source_instance_id": "INST-GLIMMER-1",
+        "effect_id": "EFF_MINI_SEARCH_001"
+      }
+    },
+    {
+      "evt_id": "E5",
+      "match_id": "TEST-MATCH-003",
+      "seq": 5,
+      "type": "CHOICE_PROMPTED",
+      "audience": "P1",
+      "payload": {
+        "prompt_id": "PR-001",
+        "prompt_type": "SELECT_CARD_FROM_REVEAL",
+        "constraints": {
+          "count": 1,
+          "from": "DECK.TOP",
+          "reveal": 3
+        },
+        "choices": [
+          {
+            "index": 0,
+            "card_id": "CARD-SET-001-012"
+          },
+          {
+            "index": 1,
+            "card_id": "CARD-SET-001-013"
+          },
+          {
+            "index": 2,
+            "card_id": "CARD-SET-001-014"
+          }
+        ]
+      }
+    },
+    {
+      "evt_id": "E6",
+      "match_id": "TEST-MATCH-003",
+      "seq": 6,
+      "type": "CHOICE_PROMPTED",
+      "audience": "P2",
+      "redacted": true,
+      "payload": {
+        "prompt_id": "PR-001",
+        "prompt_type": "SELECT_CARD_FROM_REVEAL",
+        "constraints": {
+          "count": 1,
+          "from": "DECK.TOP",
+          "reveal": 3
+        },
+        "choices": [
+          {
+            "index": 0
+          },
+          {
+            "index": 1
+          },
+          {
+            "index": 2
+          }
+        ]
+      }
+    },
+    {
+      "evt_id": "E7",
+      "match_id": "TEST-MATCH-003",
+      "seq": 7,
+      "type": "CHOICE_RESOLVED",
+      "audience": "P1",
+      "payload": {
+        "prompt_id": "PR-001",
+        "selection": {
+          "index": 1,
+          "card_id": "CARD-SET-001-013"
+        }
+      }
+    },
+    {
+      "evt_id": "E8",
+      "match_id": "TEST-MATCH-003",
+      "seq": 8,
+      "type": "CHOICE_RESOLVED",
+      "audience": "P2",
+      "redacted": true,
+      "payload": {
+        "prompt_id": "PR-001",
+        "selection": {
+          "index": 1
+        }
+      }
+    },
+    {
+      "evt_id": "E9",
+      "match_id": "TEST-MATCH-003",
+      "seq": 9,
+      "type": "CARD_DRAWN",
+      "audience": "P1",
+      "payload": {
+        "player_id": "P1",
+        "count": 1,
+        "cards": [
+          {
+            "instance_id": "INST-DRAW-1",
+            "card_id": "CARD-SET-001-013"
+          }
+        ]
+      }
+    },
+    {
+      "evt_id": "E10",
+      "match_id": "TEST-MATCH-003",
+      "seq": 10,
+      "type": "CARD_DRAWN",
+      "audience": "P2",
+      "redacted": true,
+      "payload": {
+        "player_id": "P1",
+        "count": 1
+      }
+    },
+    {
+      "evt_id": "E11",
+      "match_id": "TEST-MATCH-003",
+      "seq": 11,
+      "type": "EFFECT_RESOLVED",
+      "payload": {
+        "intent_id": "I-GLIMMER-001",
+        "effect_id": "EFF_MINI_SEARCH_001"
+      }
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "version": "0.5",
+  "formats": {
+    "EINFACH": {
+      "deck_size": {
+        "min": 30,
+        "max": 30
+      },
+      "max_copies_per_card": 3,
+      "min_counts": {
+        "MystiMon": 10,
+        "Energy": 10
+      },
+      "energy_unlimited": true,
+      "sideboard": {
+        "enabled": false
+      }
+    },
+    "STANDARD": {
+      "deck_size": {
+        "min": 40,
+        "max": 40
+      },
+      "max_copies_per_card": 4,
+      "min_counts": {
+        "MystiMon": 12,
+        "Energy": 12
+      },
+      "energy_unlimited": true,
+      "sideboard": {
+        "enabled": false
+      }
+    },
+    "TURNIER": {
+      "deck_size": {
+        "min": 40,
+        "max": 40
+      },
+      "max_copies_per_card": 4,
+      "min_counts": {
+        "MystiMon": 15,
+        "Energy": 10
+      },
+      "energy_unlimited": false,
+      "sideboard": {
+        "enabled": true,
+        "size": {
+          "min": 10,
+          "max": 10
+        }
+      },
+      "max_legendary_per_card": 1,
+      "legendary_detection": {
+        "rarity": [
+          "Champion"
+        ],
+        "tag_regex": "(?i)\\blegendary\\b"
+      }
+    }
+  }
+}
