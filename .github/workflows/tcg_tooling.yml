@@ -1,0 +1,34 @@
+name: TCG Tooling
+
+on:
+  push:
+    paths:
+      - "03_TCG/TOOLING/**"
+      - "03_TCG/DECKS/**"
+      - ".github/workflows/tcg_tooling.yml"
+  pull_request:
+    paths:
+      - "03_TCG/TOOLING/**"
+      - "03_TCG/DECKS/**"
+      - ".github/workflows/tcg_tooling.yml"
+
+jobs:
+  tooling:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Tracker demo
+        run: python3 03_TCG/TOOLING/tracker.py demo
+
+      - name: Validate example starter deck (strict)
+        run: python3 03_TCG/TOOLING/deck_validator.py validate 03_TCG/DECKS/_examples/example_starter.txt --format starter --fail-on-warn --deny-deprecated
+
+      - name: Deprecated naming guard should fail (expected)
+        run: python3 03_TCG/TOOLING/deck_validator.py validate 03_TCG/DECKS/_examples/test_deprecated_tagged.txt --format starter --deny-deprecated && exit 1 || exit 0
