@@ -691,15 +691,37 @@ try {
   $resp = Invoke-RestMethod -Method Post -Uri $pushUrl -ContentType "application/json" -Body $body
 } catch {
   $msg = $_.Exception.Message
-  if ($_.Exception.Response -and $_.Exception.Response.GetResponseStream()) {
-    try {
-      $reader = New-Object System.IO.StreamReader($_.Exception.Response.GetResponseStream())
+  # Prefer ErrorDetails in PS7+
+if ($_.ErrorDetails -and $_.ErrorDetails.Message) {
+  $msg = $_.ErrorDetails.Message
+}
+
+$respMsg = $_.Exception.Response
+if ($respMsg) {
+  try {
+    # PS7+: HttpResponseMessage
+    if ($respMsg -is [System.Net.Http.HttpResponseMessage]) {
+      $raw = $respMsg.Content.ReadAsStringAsync().GetAwaiter().GetResult()
+      if ($raw) { $msg = $raw }
+    }
+    # PS5.1: HttpWebResponse
+    elseif ($respMsg -is [System.Net.HttpWebResponse]) {
+      $reader = New-Object System.IO.StreamReader($respMsg.GetResponseStream())
       $raw = $reader.ReadToEnd()
       if ($raw) { $msg = $raw }
-    } catch { }
-  }
-  Fail ("POST /git/push failed: {0}" -f $msg)
+    }
+    # Fallback: only call GetResponseStream if method exists
+    else {
+      $m = $respMsg | Get-Member -Name GetResponseStream -MemberType Method -ErrorAction SilentlyContinue
+      if ($m) {
+        $reader = New-Object System.IO.StreamReader($respMsg.GetResponseStream())
+        $raw = $reader.ReadToEnd()
+        if ($raw) { $msg = $raw }
+      }
+    }
+  } catch { }
 }
+
 
 if ($resp.ok -ne $true) {
   Fail ("/git/push returned ok!=true: {0}" -f ($resp | ConvertTo-Json -Depth 5))
