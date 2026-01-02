@@ -721,7 +721,7 @@ if ($respMsg) {
     }
   } catch { }
 }
-
+}
 
 if ($resp.ok -ne $true) {
   Fail ("/git/push returned ok!=true: {0}" -f ($resp | ConvertTo-Json -Depth 5))
