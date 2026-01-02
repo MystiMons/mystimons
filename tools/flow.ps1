@@ -686,6 +686,8 @@ $body = @{
   run_smoke_test = (-not $SkipSmokeTest)
 } | ConvertTo-Json -Depth 5
 
+$resp = $null
+
 Info ("POST /git/push (remote={0}, branch={1})" -f $Remote, $Branch)
 try {
   $resp = Invoke-RestMethod -Method Post -Uri $pushUrl -ContentType "application/json" -Body $body
@@ -721,6 +723,10 @@ if ($respMsg) {
     }
   } catch { }
 }
+}
+
+if ($null -eq $resp) {
+  Fail "POST /git/push failed (no response returned)."
 }
 
 if ($resp.ok -ne $true) {
