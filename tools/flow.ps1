@@ -14,14 +14,20 @@ Works in Windows PowerShell 5.1 and PowerShell 7+ (no PS7-only operators).
 
 [CmdletBinding()]
 param(
-  [Parameter(Mandatory=$true)]
+  [Parameter()]
   [string]$Branch,
 
   [Parameter(Mandatory=$true)]
   [string]$Message,
 
   [Parameter()]
-  [string[]]$Files = @("README.md"),
+  [switch]$All,
+
+  [Parameter()]
+  [string]$Prefix = "feature",
+
+  [Parameter()]
+  [string[]]$Files = @(),
 
   [Parameter()]
   [string]$Remote = "origin",
@@ -589,19 +595,56 @@ $repoRoot = Get-RepoRoot $script:GitExe
 if (-not $repoRoot) { Fail "Repo root not found. Run this script from within the repo (or below it)." }
 Info ("RepoRoot: {0}" -f $repoRoot)
 
-# 0) Ensure tree clean except the files we intend to touch (+ this script itself)
+# 0) Determine base branch early (needed for Auto-Branching decisions)
+$baseBranch = Get-DefaultBranch $repoRoot
+Info ("Base branch: {0}" -f $baseBranch)
+
+# If Branch not provided: auto select / auto create
+if ([string]::IsNullOrWhiteSpace($Branch)) {
+  # get current branch
+  $cur = Git @("rev-parse","--abbrev-ref","HEAD") $repoRoot
+  if ($cur.ExitCode -ne 0) { Fail ("git rev-parse failed: {0}{1}" -f $cur.StdErr, $cur.StdOut) }
+  $curBranch = $cur.StdOut.Trim()
+
+  if ($curBranch -eq $baseBranch) {
+    $stamp = Get-Date -Format "yyyyMMdd-HHmmss"
+    $Branch = ("{0}/{1}" -f $Prefix, $stamp)
+    Info ("No -Branch provided and on base branch. Auto-creating branch: {0}" -f $Branch)
+  } else {
+    $Branch = $curBranch
+    Info ("No -Branch provided. Using current branch: {0}" -f $Branch)
+  }
+}
+
+# 1) Ensure tree clean except the files we intend to touch (+ this script itself)
 $allowed = @()
-$allowed += ($Files | ForEach-Object { $_.Replace("\","/") })
+if ($Files -and $Files.Count -gt 0) {
+  $allowed += ($Files | ForEach-Object { $_.Replace("\","/") })
+}
 $allowed += @("tools/flow.ps1")
 Ensure-Clean -RepoRoot $repoRoot -AllowedPaths $allowed
 
-# 1) Checkout/create branch
+# 2) Checkout/create branch
 Info ("Creating/checkout branch: {0}" -f $Branch)
 Ensure-Branch -RepoRoot $repoRoot -Branch $Branch
 
+
 # 2) Stage files
-Info ("git add: {0}" -f ($Files -join ", "))
-$staged = Stage-Files -RepoRoot $repoRoot -Files $Files
+$staged = $false
+if ($All -or -not $Files -or $Files.Count -eq 0) {
+  Info "git add -A"
+  $addAll = Git @("add","-A") $repoRoot
+  if ($addAll.ExitCode -ne 0) { Fail ("git add -A failed: {0}{1}" -f $addAll.StdErr, $addAll.StdOut) }
+
+  $diff = Git @("diff","--cached","--quiet") $repoRoot
+  if ($diff.ExitCode -eq 1) { $staged = $true }
+  elseif ($diff.ExitCode -eq 0) { $staged = $false }
+  else { Fail ("git diff --cached failed: {0}{1}" -f $diff.StdErr, $diff.StdOut) }
+} else {
+  Info ("git add: {0}" -f ($Files -join ", "))
+  $staged = Stage-Files -RepoRoot $repoRoot -Files $Files
+}
+
 if (-not $staged) {
   Info "No staged changes. Nothing to commit."
   exit 0
