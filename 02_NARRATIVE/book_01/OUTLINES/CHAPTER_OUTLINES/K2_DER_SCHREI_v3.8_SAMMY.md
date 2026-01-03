@@ -1,7 +1,7 @@
 # KAPITEL 2: DER SCHREI
 
 **v3.8-SAMMY (Chatti Quality Polish)**
-*(Basis: v3.7 + Chatti's Quality Feedback - "Allein"-Theme subtiler)*
+
 
 ---
 
@@ -377,70 +377,3 @@ Finn schüttelt Kopf. Einbildung.
 Weiter.
 
 **[KAPITEL ENDE]**
-
-### CANON CHECK
-
-* ✅ Heilerin im Dorf etabliert (NPC: Heilerin Mara)
-* ✅ Sylphira wird heilen (Setup: sie folgt ihm später – K04!)
-* ✅ **Chatti Quality Fix:** Heilerin gibt Subtext ("nicht sicher wem vertrauen"), nicht Deklaration!
-* ✅ @PIL-004: Finns Entscheidung hat Preis (Mutter zurückgelassen, Schuld)
-* ✅ @PIL-003: Teamwork-Theme (Finn ist allein, aber subtiler gezeigt)
-* ✅ @LAW-005 Foreshadow: Absorption = "Loch wo Klang war" – subtil, vage!
-* ✅ Rascheln am Ende = Sylphira folgt? (Hook für K03/K04!)
-* ✅ YA-Voice: Körperliche Reaktionen, innerer Monolog, keine Filterworte
-* ✅ Emotionaler Beat: Zögern an Tür, nicht umschauen (PIL-004 Cost!)
-
----
-
-## 📌 SAMMY REVIEW NOTES v3.8
-
-### ✅ CHATTI QUALITY FIXES INTEGRIERT:
-
-**FIX 1: S2.5 "Allein = tot" → Körperliche Reaktion**
-- ❌ ALT: "Allein = tot." (zu Motto-artig, on-the-nose)
-- ✅ NEU: Körperliche Nachwirkung (Beine geben nach, Hände zittern, Übelkeit, Gedanke bricht ab)
-- **Effekt:** Theme bleibt, aber subtiler, verkörperter
-
-**FIX 2: S3 Heilerin-Dialog subtiler**
-- ❌ ALT: "Du bist allein, Junge." (zu deklarativ, Author Intent sichtbar)
-- ✅ NEU: "Nicht sicher wem vertrauen" + winkt ab + Gespräch beendet
-- **Effekt:** Subtext "allein" entsteht, wird nicht ausgesprochen
-
-**RESULT:**
-- "Alleinsein"-Theme jetzt **10-15% subtiler**
-- Körperlich statt konzeptuell
-- Subtext statt Deklaration
-- Späteren Payoff NICHT vorweggenommen
-
-### 📊 NEUE QUALITY SCHÄTZUNG:
-
-**Von Chatti's 8.7/10 auf geschätzt 9.2-9.3/10:**
-- Strukturell: 8.8 → **8.8** (unverändert)
-- Emotional: 8.6 → **9.0** (Heilerin subtiler, besser)
-- YA Voice: 8.3 → **9.2** (kein Motto mehr, körperlicher)
-- Fix-Integration: 9.0 → **9.5** (Fixes jetzt noch eleganter)
-- Prose Ready: 8.8 → **9.3** (weniger Rückfragen nötig)
-
-**ESTIMATED TOTAL: 9.16/10** ✅
-
-### ✅ FINAL STATUS:
-
-**ALLE CHATTI KRITIKPUNKTE GEFIXT:**
-1. ✅ "Allein = tot" → körperliche Reaktion (Zittern, Übelkeit, Gedanke bricht ab)
-2. ✅ "Du bist allein" → Subtext (misstrauischer Blick, winkt ab)
-3. ✅ S2 bleibt wie ist (Rhythmus ist Sammys Job in Prosa)
-
-**ALLE BLOCKER (v3.6) BLEIBEN GEFIXT:**
-1. ✅ System-Hierarchie klar
-2. ✅ Vision reduziert + Aquarion = Legende
-3. ✅ Telepathie-Mechanik klar
-4. ✅ Solo-Journey zeigt Nachteile (jetzt noch subtiler!)
-
----
-
-**Status:** ✅ **EXCELLENT (9.2+) - READY FOR PROSE PHASE!**
-
----
-
-*v3.8 Quality Polish: Sammy | 03. Januar 2026*
-*Basis: Chatti Quality Review + Minor Polish Fixes*
