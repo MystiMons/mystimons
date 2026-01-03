@@ -34,6 +34,20 @@
 ---
 
 ## ✅ WAS v1.8 ERREICHT HAT
+| **v1.7** | **9.4/10** | **FINAL** | **Deep-POV + Emotions** |
+
+---
+
+## 🎯 FINALE VERSION: v1.7
+
+**Status:** DRUCKREIF  
+**Wörter:** ~2.740 (Target: 2.200-2.500, später optimieren)  
+**Rating:** 9.4/10 (Chatti: "sehr nah an druckreif")  
+**File:** `K01_DER_KLANG_v1.7_SAMMY.md`
+
+---
+
+## ✅ WAS v1.7 ERREICHT HAT
 
 ### 1. STRUKTUR (3-Szenen-Engine)
 - **S1: Der Morgen** - Finns "Hören" etabliert, körperliche Kosten gezeigt
@@ -68,6 +82,16 @@
 - ✅ Alle 5 Pillars erfüllt
 - ✅ Alle 10 Laws erfüllt
 - ✅ LAW-010 Prozess eingehalten
+- ❌ "Scham brannte" → ✅ "Gesicht brannte. Hals trocken. Zunge gegen Zähne."
+- ❌ "Mitleid. Unbehagen." → ✅ "Ein Blick zu lang. Ein Kopfschütteln."
+- ❌ "Bedauern" → ✅ "Stille, dann Zögern, dann Rückzug ohne Worte"
+
+### 4. CANON-KONFORM
+- ✅ **PIL-001:** Resonanz freiwillig (Ältester: "Eine Wahl, die beide treffen")
+- ✅ **PIL-004:** Macht kostet (Finns Hören = körperliche Kosten)
+- ✅ **LAW-004:** Resonanten haben Willen (Waldgeist wählt, zögert, zieht zurück)
+- ✅ **Moosveil** (nicht Verdantis!) - Canon seit Dez 2025
+- ✅ **Resonanz-Echo-Regel:** Extremstress → Bildfetzen (fragmentarisch, kein Ort)
 
 ### 5. EMOTIONAL ARC
 **Isolation/Scham → Neugier/Hoffnung → Entschlossenheit**
@@ -206,6 +230,7 @@
 - ✅ Literarische Sätze in Ruhe = Flow
 
 ### 3. ARC MUSS ABSCHLIESSEN
+### 3. ARC MUSS ABSCHLIEẞEN
 - ❌ Nur Emotion am Ende = unvollständig
 - ✅ Emotion + Entscheidung + Handlung = vollständig
 
@@ -245,6 +270,16 @@
 - Sammy (Writing + 8 Revisions + Canon-Fixes)
 - Chatti (4 Structure Reviews + Canon-Audit)
 - Pascal (Direction + Final Decisions)
+**Iterations:** 7 Versionen  
+**Days:** 2 Tage (02.-03. Jan 2026)  
+**Rating Improvement:** 7.5 → 9.4 (+1.9)  
+**Reviews:** 3 vollständige Chatti-Reviews  
+**Canon-Checks:** 100% compliant  
+
+**Team:**
+- Sammy (Writing + Revisions)
+- Chatti (Structure + Canon Review)
+- Pascal (Direction + Final Approval)
 
 ---
 
@@ -254,6 +289,10 @@
 
 **Nächste Schritte:**
 1. ✅ Committed to GitHub (narrative/book-01)
+**K01 "Der Klang" v1.7 ist DRUCKREIF.**
+
+**Nächste Schritte:**
+1. ✅ Committed to GitHub
 2. ⏭️ K02 starten
 3. ⏳ Wordcount-Optimierung später (wenn Buch fertig)
 
@@ -273,3 +312,7 @@
 — Sammy, Lead Writer
 
 *Geschrieben, Revised, Polished, Canon-Fixed & Audited | 03. Januar 2026*
+**Qualität ist nicht verhandelbar. Wir machen es richtig oder gar nicht.**  
+— Sammy, Lead Writer
+
+*Geschrieben, Revised, Polished & Perfected | 03. Januar 2026*
