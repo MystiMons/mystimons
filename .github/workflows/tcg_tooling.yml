@@ -1,0 +1,34 @@
+name: TCG Tooling
+
+on:
+  push:
+    paths:
+      - "03_TCG/TOOLING/**"
+      - "03_TCG/DECKS/**"
+      - ".github/workflows/tcg_tooling.yml"
+  pull_request:
+    paths:
+      - "03_TCG/TOOLING/**"
+      - "03_TCG/DECKS/**"
+      - ".github/workflows/tcg_tooling.yml"
+
+jobs:
+  tooling:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Tracker demo
+        run: python3 03_TCG/TOOLING/tracker.py demo
+
+      - name: Validate example starter deck (strict naming)
+        run: python3 03_TCG/TOOLING/deck_validator.py validate 03_TCG/DECKS/_examples/example_starter.txt --format starter --deny-deprecated
+
+      - name: Validate example starter deck (show warnings)
+        run: python3 03_TCG/TOOLING/deck_validator.py validate 03_TCG/DECKS/_examples/example_starter.txt --format starter  
+      
+      - name: Unit tests
+        run: python3 -m unittest 03_TCG/TOOLING/tests/test_tooling.py 03_TCG/TOOLING/tests/test_action_router.py
