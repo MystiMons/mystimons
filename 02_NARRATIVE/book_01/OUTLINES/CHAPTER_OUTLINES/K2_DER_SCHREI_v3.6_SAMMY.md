@@ -1,6 +1,7 @@
 # KAPITEL 2: DER SCHREI
 
 **v3.6-SAMMY (Chatti Review Integration + Canon Updates)**
+**📌 REVIEW TRIGGER**
 *(Basis: v3.5-SAMMY + Chatti Review 2026-01-01 + Canon-Dokumentation)*
 
 ---
