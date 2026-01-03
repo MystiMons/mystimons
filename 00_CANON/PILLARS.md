@@ -1,7 +1,7 @@
 # MYSTIMONS WORLD PILLARS
 ## Die 5 unverrückbaren Regeln
 
-**Version:** 1.0
+**Version:** 1.1
 **Status:** CANON (Änderungen nur via Review + Decision Log)
 
 ---
@@ -45,14 +45,23 @@ Zusammenarbeit ist IMMER stärker als Alleingänge.
 
 ## PIL-004: MACHT HAT EINEN PREIS
 
-Jede Kraft in Aetheria hat Kosten.
+Jede **aktive** Kraft in Aetheria hat Kosten.
 
+**Aktive Macht-Nutzung (kostet immer):**
 - Stärkere Angriffe erschöpfen den Hüter
 - Absorption (das Stehlen von Resonanten) korrumpiert die Seele
 - Übermäßige Nutzung von Resonanz schwächt die Bindung
-- Es gibt keine "kostenlose" Macht
+- Elementkontrolle verbraucht Energie
 
-**Implikation:** Kein Powercreep ohne Konsequenzen.
+**Passive Wahrnehmung (kostet nichts):**
+- Finns "Hören" verbraucht keine Energie
+- Resonanten wahrzunehmen ist keine aktive Macht
+- ABER: Wahrnehmung kann mental belasten (Overload, Stress)
+- Navigation via "Hören" = passiv, Trial-and-Error, keine Präzision
+
+**REGEL:** Es gibt keine "kostenlose" aktive Macht. Passive Sinne sind kostenlos, aber unpräzise.
+
+**Implikation:** Kein Powercreep ohne Konsequenzen. Passive Fähigkeiten geben Info, nicht Macht.
 
 ---
 
@@ -75,4 +84,17 @@ In allen Dokumenten: `@PIL-001`, `@PIL-002`, etc.
 
 ---
 
-*Letzte Änderung: 30. Dezember 2025*
+## 📝 CHANGELOG
+
+### V1.1 (2026-01-03)
+**Geändert:**
+- **PIL-004 erweitert:** Unterscheidung zwischen aktiver Macht (hat Preis) und passiver Wahrnehmung (kostenlos, aber unpräzise)
+- Beispiel: Finns "Hören" verbraucht keine Energie, aber ist mental belastend + unpräzise
+- Klarstellung: Trial-and-Error Navigation = passiv, kein GPS
+
+**Grund:** 
+Chatti's Review K02 v3.6 fragte ob Finns Trial-and-Error Navigation PIL-004 verletzt. Antwort: Nein, weil Wahrnehmung passiv ist (kein Energie-Preis), aber mentale Last + Unpräzision sind der "Preis".
+
+---
+
+*Letzte Änderung: 03. Januar 2026*

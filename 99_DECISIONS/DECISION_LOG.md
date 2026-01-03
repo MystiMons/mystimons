@@ -154,7 +154,49 @@ Wenn Canon-Widersprüche entdeckt werden (@LAW-010):
 
 ---
 
-*Letzte Änderung: 30. Dezember 2025*
+## 2026-01-03 — Regionale Bindungs-Affinität (MAGIESYSTEM V1.3 → V1.4)
+
+**DEC-MAG-003 (2026-01-03):** **Regionale Bindungs-Affinität = VERBINDLICHE REGEL**
+
+**Entscheidung:**
+- Menschen können **NUR** mit Resonanten ihrer **Geburtsregion** eine Resonanz-Bindung eingehen
+- Cross-Region-Bindung ist **physikalisch unmöglich**
+- **ABER:** Menschen + Resonanten können **frei in alle Regionen reisen**
+- Gebundene Resonanten folgen ihrem Hüter überall hin
+
+**Klarstellung (KRITISCH):**
+- ✅ **REISEN:** Sylvaris-Mensch kann nach Aetheris reisen → KEIN Problem
+- ✅ **BEGLEITEN:** Sylvaris-Mensch mit Wald-Resonant reist nach Pyros → KEIN Problem  
+- ❌ **BINDEN:** Sylvaris-Mensch will Feuer-Resonant aus Pyros binden → UNMÖGLICH
+
+**Beispiel:**
+- Finn (Sylvaris-geboren) kann nur mit Sylvaris-Resonanten binden
+- Theo (Sylvaris-geboren) + Moosveil (Sylvaris-Resonant) können zur Küste reisen
+- System-Jäger können gefangene Resonanten transportieren (in Käfigen)
+
+**Spezialfall - Aetheris (neutral):**
+- Aetheris-Geborene können mit **allen Elementen** binden (Aetherion-Effekt)
+- Aetherion = künstlich neutral, keine natürliche Region
+
+**Grund:**
+- Etabliert klare Worldbuilding-Regel für Story + TCG
+- Erklärt regionale Kulturen (Sylvaris = Wald-Leute, Pyros = Feuer-Krieger)
+- Macht Finns Gabe bedeutsamer (hört ALLE, aber bindet keinen)
+- Story-Konsistenz: Theo aus Sylvaris, Moosveil aus Sylvaris → können zusammen reisen
+
+**Betroffene IDs:** @PIL-001, @LAW-004, MAGIESYSTEM_CODEX V1.4, alle @CHR-### (Character-Geburtsregionen)
+
+**Genehmigt von:** Pascal
+
+**Status:** FINAL
+
+**Dokumentiert in:**
+- MAGIESYSTEM_CODEX V1.4 (neu erstellt 2026-01-03)
+- K02 v4.0 (Moosveil-Mobilität erklärt)
+
+---
+
+*Letzte Änderung: 03. Januar 2026*
 
 
 ## 2025-12-30 — Element 11: Drache vs. Kosmos
