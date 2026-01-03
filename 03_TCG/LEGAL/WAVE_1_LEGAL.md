@@ -1,5 +1,7 @@
 # MystiMons TCG – Wave-1 Legalität (Starter Environment)
 
+**Scope:** Wave-1 = Starter-Format (Stufe 1–2)  
+**Prinzip:** Keine Hidden Intent Mechaniken, kein Stadium; globaler Slot = **Terrain**.
 **Wave-1 Scope:** Starter-Format, **Stufe 1–2**, App-Pflicht, **kein Hidden Intent**, kein Stadium.  
 **Global Slot:** Nur **Terrain**.
 
@@ -16,6 +18,7 @@
 
 ### Relikte
 - `REL-01` bis `REL-15`  
+  *(Errata relevant: `REL-11`, `REL-13`)*
   *(Errata: `REL-11`, `REL-13`)*
 
 ### Terrain
@@ -23,6 +26,7 @@
 
 ### Aktionen
 - `ACT-01` bis `ACT-14` **außer** `ACT-05`  
+  *(Errata relevant: `ACT-12`, `ACT-14`)*
   *(Errata: `ACT-12`, `ACT-14`)*
 
 ---
@@ -40,6 +44,7 @@
 
 ---
 
+## App-Regeln (Wave-1 minimal)
 ## App-Regeln (Wave-1 Minimal)
 
 - **Supporter-Limit:** max. 1 Supporter pro Zug

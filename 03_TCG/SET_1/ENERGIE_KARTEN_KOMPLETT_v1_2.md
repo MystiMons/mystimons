@@ -8,6 +8,7 @@
 
 # 🔥 BASIC ENERGIE-KARTEN (11 Karten)
 
+## E-01: FEUER-ENERGIE 🔥
 ## ENE-01: FEUER-ENERGIE 🔥
 **Typ:** Basic Energie  
 **Seltenheit:** Common (in jedem Booster)  
@@ -31,6 +32,7 @@ Bleibt permanent angelegt, außer durch Effekte entfernt.
 
 ---
 
+## E-02: WASSER-ENERGIE 💧
 ## ENE-02: WASSER-ENERGIE 💧
 **Typ:** Basic Energie  
 **Seltenheit:** Common  
@@ -54,6 +56,7 @@ Bleibt permanent angelegt, außer durch Effekte entfernt.
 
 ---
 
+## E-03: NATUR-ENERGIE 🌿
 ## ENE-03: NATUR-ENERGIE 🌿
 **Typ:** Basic Energie  
 **Seltenheit:** Common  
@@ -77,6 +80,7 @@ Bleibt permanent angelegt, außer durch Effekte entfernt.
 
 ---
 
+## E-04: ERD-ENERGIE 🪨
 ## ENE-04: ERD-ENERGIE 🪨
 **Typ:** Basic Energie  
 **Seltenheit:** Common  
@@ -100,6 +104,7 @@ Bleibt permanent angelegt, außer durch Effekte entfernt.
 
 ---
 
+## E-05: WIND-ENERGIE ☁️
 ## ENE-05: WIND-ENERGIE ☁️
 **Typ:** Basic Energie  
 **Seltenheit:** Common  
@@ -123,6 +128,7 @@ Bleibt permanent angelegt, außer durch Effekte entfernt.
 
 ---
 
+## E-06: EIS-ENERGIE ❄️
 ## ENE-06: EIS-ENERGIE ❄️
 **Typ:** Basic Energie  
 **Seltenheit:** Common  
@@ -146,6 +152,7 @@ Bleibt permanent angelegt, außer durch Effekte entfernt.
 
 ---
 
+## E-07: BLITZ-ENERGIE ⚡
 ## ENE-07: BLITZ-ENERGIE ⚡
 **Typ:** Basic Energie  
 **Seltenheit:** Common  
@@ -169,6 +176,7 @@ Bleibt permanent angelegt, außer durch Effekte entfernt.
 
 ---
 
+## E-08: SCHATTEN-ENERGIE 🌑
 ## ENE-08: SCHATTEN-ENERGIE 🌑
 **Typ:** Basic Energie  
 **Seltenheit:** Common  
@@ -192,6 +200,7 @@ Bleibt permanent angelegt, außer durch Effekte entfernt.
 
 ---
 
+## E-09: LICHT-ENERGIE ✨
 ## ENE-09: LICHT-ENERGIE ✨
 **Typ:** Basic Energie  
 **Seltenheit:** Common  
@@ -215,6 +224,7 @@ Bleibt permanent angelegt, außer durch Effekte entfernt.
 
 ---
 
+## E-10: METALL-ENERGIE ⚙️
 ## ENE-10: METALL-ENERGIE ⚙️
 **Typ:** Basic Energie  
 **Seltenheit:** Common  
@@ -238,6 +248,7 @@ Bleibt permanent angelegt, außer durch Effekte entfernt.
 
 ---
 
+## E-11: DRACHEN-ENERGIE 🐉
 ## ENE-11: DRACHEN-ENERGIE 🐉
 **Typ:** Basic Energie  
 **Seltenheit:** Uncommon (seltener!)  
@@ -265,6 +276,7 @@ SPECIAL: Zählt als 2 Energie für Drachen-Typen.
 
 # 🌈 SPECIAL ENERGIE-KARTEN (4 Karten)
 
+## E-12: QUINTESSENZ-ENERGIE 🌈
 ## ENE-12: QUINTESSENZ-ENERGIE 🌈
 **Typ:** Special Energie  
 **Seltenheit:** Rare  
@@ -302,6 +314,7 @@ LIMIT: Max 3 Quintessenz-Energie im Deck.
 
 ---
 
+## E-13: DOPPEL-ENERGIE ⚡⚡
 ## ENE-13: DOPPEL-ENERGIE ⚡⚡
 **Typ:** Special Energie  
 **Seltenheit:** Uncommon  
@@ -338,6 +351,7 @@ LIMIT: Max 4 Doppel-Energie im Deck.
 
 ---
 
+## E-14: RESONANZ-ENERGIE 🔗
 ## ENE-14: RESONANZ-ENERGIE 🔗
 **Typ:** Special Energie  
 **Seltenheit:** Rare  
@@ -375,6 +389,7 @@ LIMIT: Max 2 Resonanz-Energie im Deck.
 
 ---
 
+## E-15: AETHERION'S GABE 👑
 ## ENE-15: AETHERION'S GABE 👑
 **Typ:** Special Energie  
 **Seltenheit:** Ultra Rare  
@@ -467,6 +482,14 @@ Aetherion's Gabe: 1 pro 24 Booster (Ultra Rare)
 
 ---
 
+# 📝 CHANGELOG V1.2
+
+## Änderungen (3. Januar 2026):
+- **Hinzugefügt:** Wave-1 Hinweis bei E-15 *Aetherion's Gabe* (nicht legal in Wave-1; Set-2+)
+
+---
+
+**PRODUCTION STATUS:** ✅ READY FOR PRINT (V1.2)  
 # 📝 CHANGELOG V1.1
 
 ## Umbenennungen (23. Dezember 2025):

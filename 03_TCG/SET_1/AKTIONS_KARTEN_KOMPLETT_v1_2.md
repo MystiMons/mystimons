@@ -8,6 +8,7 @@
 
 # 📜 STORY-KARTEN (6 Karten)
 
+## A-01: EMBERON - DUAL-RESONANZ 🔥💧
 ## ACT-01: EMBERON - DUAL-RESONANZ 🔥💧
 **Typ:** Ability / Resonanz-Karte  
 **Seltenheit:** Rare  
@@ -44,6 +45,7 @@ das Feld verlässt.
 
 ---
 
+## A-02: AETHERION'S SEGEN 👑
 ## ACT-02: AETHERION'S SEGEN 👑
 **Typ:** Supporter  
 **Seltenheit:** Rare  
@@ -79,6 +81,7 @@ Du kannst nur 1 Supporter pro Zug spielen.
 
 ---
 
+## A-03: DAS MANIFEST 📜
 ## ACT-03: DAS MANIFEST 📜
 **Typ:** Supporter  
 **Seltenheit:** Uncommon  
@@ -113,6 +116,7 @@ wird öffentlich sein."
 
 ---
 
+## A-04: ELEMENTAR-ARCHIV 📚
 ## ACT-04: ELEMENTAR-ARCHIV 📚
 **Typ:** Item  
 **Seltenheit:** Uncommon  
@@ -147,6 +151,7 @@ bewahrt, für Training und Forschung."
 
 ---
 
+## A-05: VERSCHMELZUNGS-RITUAL ⭐
 ## ACT-05: VERSCHMELZUNGS-RITUAL ⭐
 **Typ:** Supporter  
 **Seltenheit:** Rare  
@@ -187,6 +192,7 @@ natürlich. Sie sollten stolz sein."
 
 ---
 
+## A-06: AKADEMIE-TRAINING 🎓
 ## ACT-06: AKADEMIE-TRAINING 🎓
 **Typ:** Supporter  
 **Seltenheit:** Common  
@@ -224,6 +230,7 @@ zusammen. Besteht zusammen."
 
 # ⚡ STANDARD-AKTIONS-KARTEN (8 Karten)
 
+## A-07: HEILUNGS-TRANK 💚
 ## ACT-07: HEILUNGS-TRANK 💚
 **Typ:** Item  
 **Seltenheit:** Common
@@ -251,6 +258,7 @@ einem Trank."
 
 ---
 
+## A-08: ENERGIE-SCHUB ⚡
 ## ACT-08: ENERGIE-SCHUB ⚡
 **Typ:** Item  
 **Seltenheit:** Uncommon
@@ -280,6 +288,7 @@ Hand an diesen Resonanten an.
 
 ---
 
+## A-09: STATUS-HEILUNG 🌟
 ## ACT-09: STATUS-HEILUNG 🌟
 **Typ:** Item  
 **Seltenheit:** Common
@@ -307,6 +316,7 @@ Entferne alle Status-Effekte
 
 ---
 
+## A-10: SCHUTZ-SCHILD 🛡️
 ## ACT-10: SCHUTZ-SCHILD 🛡️
 **Typ:** Item  
 **Seltenheit:** Uncommon
@@ -337,6 +347,7 @@ Bis zum Ende des gegnerischen Zuges:
 
 ---
 
+## A-11: TAKTISCHER WECHSEL 🔄
 ## ACT-11: TAKTISCHER WECHSEL 🔄
 **Typ:** Item  
 **Seltenheit:** Common
@@ -366,6 +377,7 @@ diesem Zug angreifen.
 
 ---
 
+## A-12: KARTEN-SUCHE 🔍
 ## ACT-12: KARTEN-SUCHE 🔍
 **Typ:** Supporter  
 **Seltenheit:** Common
@@ -389,6 +401,13 @@ Du kannst nur 1 Supporter pro Zug spielen.
 - Mystisch, suchend
 
 ### Gameplay-Notes:
+- Deck-Glättung statt Tutor
+- Skill: Timing + Reorder
+- Wave-1 safe
+
+---
+
+## A-13: ENERGIE-RECYCLING ♻️
 - Universal Search
 - Sehr stark
 - Deck-Konsistenz
@@ -421,6 +440,9 @@ Mische sie zurück in dein Deck.
 
 ---
 
+## A-14: NOTFALL-PROTOKOLL 🚨
+**Typ:** Supporter  
+**Seltenheit:** Rare
 ## ACT-14: NOTFALL-PROTOKOLL 🚨
 **Typ:** Supporter  
 **Seltenheit:** Rare  
@@ -429,6 +451,7 @@ Mische sie zurück in dein Deck.
 ```
 Ziehe 2 Karten.
 
+Dann:
 DANN:
 Wirf 1 Karte ab.
 
@@ -438,6 +461,14 @@ Du kannst nur 1 Supporter pro Zug spielen.
 ```
 
 ### Artwork:
+- Alarmlichter in der Aether-Akademie
+- Taktisches Board / Krisenplan
+- Dringend, fokussiert
+
+### Gameplay-Notes:
+- Looting (keine Tutor-/Engine-Explosion)
+- Stabilisiert Hände im Starter-Meta
+- Kein Resonanz-Overlap zu REL-11
 - Academy-Notfallplan / rote Warnlichter / taktisches Board
 - Fokus auf Disziplin und Klarheit unter Druck
 
@@ -458,6 +489,7 @@ Du kannst nur 1 Supporter pro Zug spielen.
 - Aetherion's Segen
 - Das Manifest
 - Elementar-Archiv
+- Verschmelzungs-Ritual *(Set-2+ / nicht Wave-1 legal)*
 - Verschmelzungs-Ritual
 - Akademie-Training
 
@@ -467,6 +499,9 @@ Du kannst nur 1 Supporter pro Zug spielen.
 - Status-Heilung
 - Schutz-Schild
 - Taktischer Wechsel
+- Karten-Suche *(Errata)*
+- Energie-Recycling
+- Notfall-Protokoll *(neu)*
 - Karten-Suche
 - Energie-Recycling
 - Resonanz-Verstärker
@@ -485,6 +520,9 @@ Du kannst nur 1 Supporter pro Zug spielen.
 
 ### **Seltenheits-Verteilung:**
 ```
+Common: 6 Karten
+Uncommon: 5 Karten
+Rare: 3 Karten
 Common: 6 Karten (33%)
 Uncommon: 7 Karten (39%)
 Rare: 5 Karten (28%)
@@ -492,6 +530,23 @@ Rare: 5 Karten (28%)
 
 ### **Karten-Typen:**
 ```
+Supporter: 6 Karten (nur 1 pro Zug!)
+Item: 8 Karten (beliebig viele)
+```
+
+---
+
+# 📝 CHANGELOG V1.2
+
+## Änderungen (3. Januar 2026):
+- **Entfernt:** Stadium-Karten (S-01 – S-04) aus Set 1 (Global Slot bleibt Terrain)
+- **Errata:** A-12 *Karten-Suche* (Top-5 anschauen, pick ≤1, reorder; kein Tutor)
+- **Neu:** A-14 *Notfall-Protokoll* (ersetzt A-14 *Resonanz-Verstärker* als Duplikat zu R-11)
+- **Wave-1 Legalität:** A-05 *Verschmelzungs-Ritual* ist Set-2+ (Wave-1: Stufe 1–2)
+
+---
+
+**PRODUCTION STATUS:** ✅ READY FOR PRINT (V1.2)  
 Supporter: 5 Karten (nur 1 pro Zug!)
 Item: 9 Karten (beliebig viele)
 Stadium: 4 Karten (bleibt im Spiel)

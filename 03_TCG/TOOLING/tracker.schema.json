@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MystiMons TCG Tracker State",
+  "type": "object",
+  "required": ["version", "turn_number", "active_player", "per_turn", "once_per_turn"],
+  "properties": {
+    "version": { "type": "string" },
+    "turn_number": { "type": "integer", "minimum": 1 },
+    "active_player": { "type": "string", "enum": ["P1", "P2"] },
+    "phase": { "type": "string" },
+    "per_turn": {
+      "type": "object",
+      "required": [
+        "actions_used",
+        "attacks_used",
+        "switches_used",
+        "energy_attached",
+        "cards_drawn_from_effects",
+        "resonances_started"
+      ],
+      "properties": {
+        "actions_used": { "type": "integer", "minimum": 0 },
+        "attacks_used": { "type": "integer", "minimum": 0 },
+        "switches_used": { "type": "integer", "minimum": 0 },
+        "energy_attached": { "type": "integer", "minimum": 0 },
+        "cards_drawn_from_effects": { "type": "integer", "minimum": 0 },
+        "resonances_started": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "once_per_turn": {
+      "type": "object",
+      "description": "Flags for 'once per turn' effects, keyed by entity/card id",
+      "additionalProperties": { "type": "boolean" }
+    }
+  },
+  "additionalProperties": true
+}
