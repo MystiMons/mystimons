@@ -1,6 +1,7 @@
 # MYSTIMONS TCG - RELIKT-KARTEN KOMPLETT
 ## SET 1: DAS ERWACHEN
 **Version:** 1.1 Canon  
+**Version:** 1.2 (V4.2 Canon-Konform)  
 **Datum:** 3. Januar 2026  
 **Total:** 15 Relikt-Karten
 
@@ -31,6 +32,7 @@
 # ATTACHED RELIKTE (10 Karten)
 
 ## R-01: GROSSMUTTERS AMULETT (Wasser)
+## REL-01: GROSSMUTTERS AMULETT (Wasser)
 **Typ:** Relikt (Attached)  
 **Seltenheit:** Uncommon  
 **Element-Fokus:** Wasser  
@@ -60,6 +62,7 @@ Dass ich eines Tages verstehen wuerde."*
 ---
 
 ## R-02: FLAMRIONS KLAUE (Feuer)
+## REL-02: FLAMRIONS KLAUE (Feuer)
 **Typ:** Relikt (Attached)  
 **Seltenheit:** Rare  
 **Element-Fokus:** Feuer  
@@ -90,6 +93,7 @@ Verschmelzung. Feuer kennt keine Gnade."*
 ---
 
 ## R-03: NATUR'S KRONE (Natur)
+## REL-03: NATUR'S KRONE (Natur)
 **Typ:** Relikt (Attached)  
 **Seltenheit:** Uncommon  
 **Element-Fokus:** Natur
@@ -117,6 +121,7 @@ Wachstum ohne Ende."*
 ---
 
 ## R-04: TITAN-PANZER (Erde)
+## REL-04: TITAN-PANZER (Erde)
 **Typ:** Relikt (Attached)  
 **Seltenheit:** Rare  
 **Element-Fokus:** Erde
@@ -146,6 +151,7 @@ DRAWBACK:
 ---
 
 ## R-05: STURMFAENGER-FEDER (Wind)
+## REL-05: STURMFAENGER-FEDER (Wind)
 **Typ:** Relikt (Attached)  
 **Seltenheit:** Uncommon  
 **Element-Fokus:** Wind
@@ -172,6 +178,7 @@ BONUS:
 ---
 
 ## R-06: EWIGES EIS-SPLITTER (Eis)
+## REL-06: EWIGES EIS-SPLITTER (Eis)
 **Typ:** Relikt (Attached)  
 **Seltenheit:** Rare  
 **Element-Fokus:** Eis
@@ -200,6 +207,7 @@ BONUS:
 ---
 
 ## R-07: BLITZ-ANKER (Blitz)
+## REL-07: BLITZ-ANKER (Blitz)
 **Typ:** Relikt (Attached)  
 **Seltenheit:** Uncommon  
 **Element-Fokus:** Blitz  
@@ -227,6 +235,7 @@ BONUS:
 ---
 
 ## R-08: SCHATTEN-UMHANG (Schatten)
+## REL-08: SCHATTEN-UMHANG (Schatten)
 **Typ:** Relikt (Attached)  
 **Seltenheit:** Rare  
 **Element-Fokus:** Schatten  
@@ -254,6 +263,7 @@ BONUS:
 ---
 
 ## R-09: PRISMA-LINSE (Licht)
+## REL-09: PRISMA-LINSE (Licht)
 **Typ:** Relikt (Attached)  
 **Seltenheit:** Uncommon  
 **Element-Fokus:** Licht
@@ -280,6 +290,7 @@ BONUS:
 ---
 
 ## R-10: STAHL-KLINGEN-GUERTEL (Metall)
+## REL-10: STAHL-KLINGEN-GUERTEL (Metall)
 **Typ:** Relikt (Attached)  
 **Seltenheit:** Rare  
 **Element-Fokus:** Metall
@@ -308,6 +319,7 @@ BONUS:
 # FIELD RELIKTE (5 Karten)
 
 ## R-11: RESONANZ-VERSTAERKER (Universal)
+## REL-11: RESONANZ-VERSTAERKER (Universal)
 **Typ:** Relikt (Field)  
 **Seltenheit:** Rare  
 **Element-Fokus:** Alle
@@ -326,6 +338,13 @@ EFFEKT (alle deine Resonanten):
 - **Clamp:** Bonus ist immer maximal +1.
 
 *"Wenn Resonanz perfekt harmoniert, sind alle staerker als alleine."*
+- Resonanz-Effekte erhalten +1 (nur Zahlenwerte).
+
+(APP):
+- Unique: Max. 1 Resonanz-Verstärker pro Spieler aktiv.
+- Clamp: Bonus ist immer maximal +1.
+
+"Wenn Resonanz perfekt harmoniert, sind alle stärker als alleine."
 
 ### Artwork:
 - Energie-Verstaerker-Geraet
@@ -335,6 +354,7 @@ EFFEKT (alle deine Resonanten):
 ---
 
 ## R-12: AETHERION'S RELIQUIE (Legendaer)
+## REL-12: AETHERION'S RELIQUIE (Legendaer)
 **Typ:** Relikt (Field)  
 **Seltenheit:** Ultra Rare  
 **Element-Fokus:** Alle  
@@ -366,6 +386,7 @@ EINSCHRAENKUNG:
 ---
 
 ## R-13: DISSONANTEN-DETEKTOR (Utility)
+## REL-13: DISSONANTEN-DETEKTOR (Utility)
 **Typ:** Relikt (Field)  
 **Seltenheit:** Uncommon  
 **Element-Fokus:** Alle  
@@ -379,12 +400,14 @@ Lege diese Karte in deine Relikt-Zone.
 
 EFFEKT:
 - **Einmal pro Zug:** Du darfst 1 Karte abwerfen. Wenn du das tust, ziehe 1 Karte.
+- 1× pro Zug: Du darfst 1 Karte abwerfen. Wenn du das tust, ziehe 1 Karte.
 
 (APP):
 - Hard-Cap 1× pro Zug.
 - Discard ist Cost (kein "free quality").
 
 *"Dissonanz-Wellen verraten viel. Aber nicht kostenlos."*
+"Dissonanz-Wellen verraten viel. Aber nicht kostenlos."
 
 ### Artwork:
 - Tech-Geraet mit Radar-Display
@@ -394,6 +417,7 @@ EFFEKT:
 ---
 
 ## R-14: ELEMENTAR-KATALYSATOR (Energie)
+## REL-14: ELEMENTAR-KATALYSATOR (Energie)
 **Typ:** Relikt (Field)  
 **Seltenheit:** Rare  
 **Element-Fokus:** Alle
@@ -419,6 +443,7 @@ EFFEKT:
 ---
 
 ## R-15: KIRA'S TAGEBUCH (Story/Draw)
+## REL-15: KIRA'S TAGEBUCH (Story/Draw)
 **Typ:** Relikt (Field)  
 **Seltenheit:** Rare  
 **Element-Fokus:** Alle  
@@ -460,6 +485,16 @@ EFFEKT:
 | R-08 | Schatten-Umhang | Schatten | Rare |
 | R-09 | Prisma-Linse | Licht | Uncommon |
 | R-10 | Stahl-Klingen-Guertel | Metall | Rare |
+| REL-01 | Grossmutters Amulett | Wasser | Uncommon |
+| REL-02 | Flamrions Klaue | Feuer | Rare |
+| REL-03 | Natur's Krone | Natur | Uncommon |
+| REL-04 | Titan-Panzer | Erde | Rare |
+| REL-05 | Sturmfaenger-Feder | Wind | Uncommon |
+| REL-06 | Ewiges Eis-Splitter | Eis | Rare |
+| REL-07 | Blitz-Anker | Blitz | Uncommon |
+| REL-08 | Schatten-Umhang | Schatten | Rare |
+| REL-09 | Prisma-Linse | Licht | Uncommon |
+| REL-10 | Stahl-Klingen-Guertel | Metall | Rare |
 
 ## Field Relikte (5 Karten):
 | # | Name | Fokus | Seltenheit |
@@ -469,6 +504,11 @@ EFFEKT:
 | R-13 | Dissonanten-Detektor | Utility | Uncommon |
 | R-14 | Elementar-Katalysator | Energie | Rare |
 | R-15 | Kira's Tagebuch | Story/Draw | Rare |
+| REL-11 | Resonanz-Verstaerker | Universal | Rare |
+| REL-12 | Aetherion's Reliquie | Legendaer | Ultra Rare |
+| REL-13 | Dissonanten-Detektor | Utility | Uncommon |
+| REL-14 | Elementar-Katalysator | Energie | Rare |
+| REL-15 | Kira's Tagebuch | Story/Draw | Rare |
 
 ## Seltenheits-Verteilung:
 - Uncommon: 6 Karten (40%)

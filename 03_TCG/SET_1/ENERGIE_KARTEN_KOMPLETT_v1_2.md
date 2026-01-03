@@ -9,6 +9,7 @@
 # 🔥 BASIC ENERGIE-KARTEN (11 Karten)
 
 ## E-01: FEUER-ENERGIE 🔥
+## ENE-01: FEUER-ENERGIE 🔥
 **Typ:** Basic Energie  
 **Seltenheit:** Common (in jedem Booster)  
 **Menge im Set:** Unlimited
@@ -32,6 +33,7 @@ Bleibt permanent angelegt, außer durch Effekte entfernt.
 ---
 
 ## E-02: WASSER-ENERGIE 💧
+## ENE-02: WASSER-ENERGIE 💧
 **Typ:** Basic Energie  
 **Seltenheit:** Common  
 **Menge im Set:** Unlimited
@@ -55,6 +57,7 @@ Bleibt permanent angelegt, außer durch Effekte entfernt.
 ---
 
 ## E-03: NATUR-ENERGIE 🌿
+## ENE-03: NATUR-ENERGIE 🌿
 **Typ:** Basic Energie  
 **Seltenheit:** Common  
 **Menge im Set:** Unlimited
@@ -78,6 +81,7 @@ Bleibt permanent angelegt, außer durch Effekte entfernt.
 ---
 
 ## E-04: ERD-ENERGIE 🪨
+## ENE-04: ERD-ENERGIE 🪨
 **Typ:** Basic Energie  
 **Seltenheit:** Common  
 **Menge im Set:** Unlimited
@@ -101,6 +105,7 @@ Bleibt permanent angelegt, außer durch Effekte entfernt.
 ---
 
 ## E-05: WIND-ENERGIE ☁️
+## ENE-05: WIND-ENERGIE ☁️
 **Typ:** Basic Energie  
 **Seltenheit:** Common  
 **Menge im Set:** Unlimited
@@ -124,6 +129,7 @@ Bleibt permanent angelegt, außer durch Effekte entfernt.
 ---
 
 ## E-06: EIS-ENERGIE ❄️
+## ENE-06: EIS-ENERGIE ❄️
 **Typ:** Basic Energie  
 **Seltenheit:** Common  
 **Menge im Set:** Unlimited
@@ -147,6 +153,7 @@ Bleibt permanent angelegt, außer durch Effekte entfernt.
 ---
 
 ## E-07: BLITZ-ENERGIE ⚡
+## ENE-07: BLITZ-ENERGIE ⚡
 **Typ:** Basic Energie  
 **Seltenheit:** Common  
 **Menge im Set:** Unlimited
@@ -170,6 +177,7 @@ Bleibt permanent angelegt, außer durch Effekte entfernt.
 ---
 
 ## E-08: SCHATTEN-ENERGIE 🌑
+## ENE-08: SCHATTEN-ENERGIE 🌑
 **Typ:** Basic Energie  
 **Seltenheit:** Common  
 **Menge im Set:** Unlimited
@@ -193,6 +201,7 @@ Bleibt permanent angelegt, außer durch Effekte entfernt.
 ---
 
 ## E-09: LICHT-ENERGIE ✨
+## ENE-09: LICHT-ENERGIE ✨
 **Typ:** Basic Energie  
 **Seltenheit:** Common  
 **Menge im Set:** Unlimited
@@ -216,6 +225,7 @@ Bleibt permanent angelegt, außer durch Effekte entfernt.
 ---
 
 ## E-10: METALL-ENERGIE ⚙️
+## ENE-10: METALL-ENERGIE ⚙️
 **Typ:** Basic Energie  
 **Seltenheit:** Common  
 **Menge im Set:** Unlimited
@@ -239,6 +249,7 @@ Bleibt permanent angelegt, außer durch Effekte entfernt.
 ---
 
 ## E-11: DRACHEN-ENERGIE 🐉
+## ENE-11: DRACHEN-ENERGIE 🐉
 **Typ:** Basic Energie  
 **Seltenheit:** Uncommon (seltener!)  
 **Menge im Set:** Limited
@@ -266,6 +277,7 @@ SPECIAL: Zählt als 2 Energie für Drachen-Typen.
 # 🌈 SPECIAL ENERGIE-KARTEN (4 Karten)
 
 ## E-12: QUINTESSENZ-ENERGIE 🌈
+## ENE-12: QUINTESSENZ-ENERGIE 🌈
 **Typ:** Special Energie  
 **Seltenheit:** Rare  
 **Menge im Set:** Limited
@@ -303,6 +315,7 @@ LIMIT: Max 3 Quintessenz-Energie im Deck.
 ---
 
 ## E-13: DOPPEL-ENERGIE ⚡⚡
+## ENE-13: DOPPEL-ENERGIE ⚡⚡
 **Typ:** Special Energie  
 **Seltenheit:** Uncommon  
 **Menge im Set:** Limited
@@ -339,6 +352,7 @@ LIMIT: Max 4 Doppel-Energie im Deck.
 ---
 
 ## E-14: RESONANZ-ENERGIE 🔗
+## ENE-14: RESONANZ-ENERGIE 🔗
 **Typ:** Special Energie  
 **Seltenheit:** Rare  
 **Menge im Set:** Limited
@@ -376,6 +390,7 @@ LIMIT: Max 2 Resonanz-Energie im Deck.
 ---
 
 ## E-15: AETHERION'S GABE 👑
+## ENE-15: AETHERION'S GABE 👑
 **Typ:** Special Energie  
 **Seltenheit:** Ultra Rare  
 **Menge im Set:** Very Limited
@@ -475,4 +490,21 @@ Aetherion's Gabe: 1 pro 24 Booster (Ultra Rare)
 ---
 
 **PRODUCTION STATUS:** ✅ READY FOR PRINT (V1.2)  
+# 📝 CHANGELOG V1.1
+
+## Umbenennungen (23. Dezember 2025):
+
+| V1.0 (Alt) | V1.1 (Neu) |
+|------------|------------|
+| ENE-03: PFLANZEN-ENERGIE | ENE-03: **NATUR-ENERGIE** |
+| ENE-05: LUFT-ENERGIE | ENE-05: **WIND-ENERGIE** |
+| ENE-15: "1 🌿 Pflanze" | ENE-15: "1 🌿 **Natur**" |
+| ENE-15: "1 ☁️ Luft" | ENE-15: "1 ☁️ **Wind**" |
+
+## Grund:
+Roman-Canon verwendet "Natur" und "Wind" statt "Pflanze" und "Luft".
+
+---
+
+**PRODUCTION STATUS:** ✅ READY FOR PRINT (V1.1)  
 **CANON:** V4.2 KONFORM

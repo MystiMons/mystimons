@@ -9,6 +9,7 @@
 # 📜 STORY-KARTEN (6 Karten)
 
 ## A-01: EMBERON - DUAL-RESONANZ 🔥💧
+## ACT-01: EMBERON - DUAL-RESONANZ 🔥💧
 **Typ:** Ability / Resonanz-Karte  
 **Seltenheit:** Rare  
 **Story-Connection:** Kira's zweiter Resonant aus dem Roman
@@ -45,6 +46,7 @@ das Feld verlässt.
 ---
 
 ## A-02: AETHERION'S SEGEN 👑
+## ACT-02: AETHERION'S SEGEN 👑
 **Typ:** Supporter  
 **Seltenheit:** Rare  
 **Story-Connection:** Aetherion's Macht aus der Legende
@@ -80,6 +82,7 @@ Du kannst nur 1 Supporter pro Zug spielen.
 ---
 
 ## A-03: DAS MANIFEST 📜
+## ACT-03: DAS MANIFEST 📜
 **Typ:** Supporter  
 **Seltenheit:** Uncommon  
 **Story-Connection:** Noctis' Revolution aus dem Buch
@@ -114,6 +117,7 @@ wird öffentlich sein."
 ---
 
 ## A-04: ELEMENTAR-ARCHIV 📚
+## ACT-04: ELEMENTAR-ARCHIV 📚
 **Typ:** Item  
 **Seltenheit:** Uncommon  
 **Story-Connection:** Das verbotene Archiv unter der Akademie
@@ -148,6 +152,7 @@ bewahrt, für Training und Forschung."
 ---
 
 ## A-05: VERSCHMELZUNGS-RITUAL ⭐
+## ACT-05: VERSCHMELZUNGS-RITUAL ⭐
 **Typ:** Supporter  
 **Seltenheit:** Rare  
 **Story-Connection:** Level 4 Verschmelzung aus dem Buch
@@ -188,6 +193,7 @@ natürlich. Sie sollten stolz sein."
 ---
 
 ## A-06: AKADEMIE-TRAINING 🎓
+## ACT-06: AKADEMIE-TRAINING 🎓
 **Typ:** Supporter  
 **Seltenheit:** Common  
 **Story-Connection:** Aether Academy Training
@@ -225,6 +231,7 @@ zusammen. Besteht zusammen."
 # ⚡ STANDARD-AKTIONS-KARTEN (8 Karten)
 
 ## A-07: HEILUNGS-TRANK 💚
+## ACT-07: HEILUNGS-TRANK 💚
 **Typ:** Item  
 **Seltenheit:** Common
 
@@ -252,6 +259,7 @@ einem Trank."
 ---
 
 ## A-08: ENERGIE-SCHUB ⚡
+## ACT-08: ENERGIE-SCHUB ⚡
 **Typ:** Item  
 **Seltenheit:** Uncommon
 
@@ -281,6 +289,7 @@ Hand an diesen Resonanten an.
 ---
 
 ## A-09: STATUS-HEILUNG 🌟
+## ACT-09: STATUS-HEILUNG 🌟
 **Typ:** Item  
 **Seltenheit:** Common
 
@@ -308,6 +317,7 @@ Entferne alle Status-Effekte
 ---
 
 ## A-10: SCHUTZ-SCHILD 🛡️
+## ACT-10: SCHUTZ-SCHILD 🛡️
 **Typ:** Item  
 **Seltenheit:** Uncommon
 
@@ -338,6 +348,7 @@ Bis zum Ende des gegnerischen Zuges:
 ---
 
 ## A-11: TAKTISCHER WECHSEL 🔄
+## ACT-11: TAKTISCHER WECHSEL 🔄
 **Typ:** Item  
 **Seltenheit:** Common
 
@@ -367,6 +378,7 @@ diesem Zug angreifen.
 ---
 
 ## A-12: KARTEN-SUCHE 🔍
+## ACT-12: KARTEN-SUCHE 🔍
 **Typ:** Supporter  
 **Seltenheit:** Common
 
@@ -396,6 +408,13 @@ Du kannst nur 1 Supporter pro Zug spielen.
 ---
 
 ## A-13: ENERGIE-RECYCLING ♻️
+- Universal Search
+- Sehr stark
+- Deck-Konsistenz
+
+---
+
+## ACT-13: ENERGIE-RECYCLING ♻️
 **Typ:** Item  
 **Seltenheit:** Uncommon
 
@@ -424,12 +443,16 @@ Mische sie zurück in dein Deck.
 ## A-14: NOTFALL-PROTOKOLL 🚨
 **Typ:** Supporter  
 **Seltenheit:** Rare
+## ACT-14: NOTFALL-PROTOKOLL 🚨
+**Typ:** Supporter  
+**Seltenheit:** Rare  
 
 ### Effekt:
 ```
 Ziehe 2 Karten.
 
 Dann:
+DANN:
 Wirf 1 Karte ab.
 
 Du kannst nur 1 Supporter pro Zug spielen.
@@ -446,6 +469,16 @@ Du kannst nur 1 Supporter pro Zug spielen.
 - Looting (keine Tutor-/Engine-Explosion)
 - Stabilisiert Hände im Starter-Meta
 - Kein Resonanz-Overlap zu REL-11
+- Academy-Notfallplan / rote Warnlichter / taktisches Board
+- Fokus auf Disziplin und Klarheit unter Druck
+
+### Textbox:
+"Wenn alles kippt, entscheidet Disziplin."
+
+### Gameplay-Notes:
+- Hand-Stabilisierung ohne Tutor
+- Starter-Format freundlich
+- Kein Resonanz-Overlap (Duplikat entfernt)
 
 ---
 
@@ -457,6 +490,7 @@ Du kannst nur 1 Supporter pro Zug spielen.
 - Das Manifest
 - Elementar-Archiv
 - Verschmelzungs-Ritual *(Set-2+ / nicht Wave-1 legal)*
+- Verschmelzungs-Ritual
 - Akademie-Training
 
 **Standard-Aktionen:** 8 Karten
@@ -468,6 +502,15 @@ Du kannst nur 1 Supporter pro Zug spielen.
 - Karten-Suche *(Errata)*
 - Energie-Recycling
 - Notfall-Protokoll *(neu)*
+- Karten-Suche
+- Energie-Recycling
+- Resonanz-Verstärker
+
+**Stadium-Karten:** 4 Karten
+- Aether Akademie
+- Elementar-Archiv
+- Arena von Lumion
+- Umbra'Noct
 
 **TOTAL: 14 AKTIONS-KARTEN**
 
@@ -480,6 +523,9 @@ Du kannst nur 1 Supporter pro Zug spielen.
 Common: 6 Karten
 Uncommon: 5 Karten
 Rare: 3 Karten
+Common: 6 Karten (33%)
+Uncommon: 7 Karten (39%)
+Rare: 5 Karten (28%)
 ```
 
 ### **Karten-Typen:**
@@ -501,4 +547,41 @@ Item: 8 Karten (beliebig viele)
 ---
 
 **PRODUCTION STATUS:** ✅ READY FOR PRINT (V1.2)  
+Supporter: 5 Karten (nur 1 pro Zug!)
+Item: 9 Karten (beliebig viele)
+Stadium: 4 Karten (bleibt im Spiel)
+```
+
+### **Deck-Building Richtlinien:**
+```
+EMPFOHLEN:
+- 2-3 Supporter (Draw/Search)
+- 4-6 Items (Utility)
+- 1-2 Stadium (optional)
+- Rest: Situational
+
+ANTI-SPAM:
+- Max 4 Kopien pro Karte (Standard TCG Rule)
+- Supporter-Limit verhindert Draw-Spam
+```
+
+---
+
+# 📝 CHANGELOG V1.1
+
+## Korrekturen (23. Dezember 2025):
+
+| V1.0 (Alt) | V1.1 (Neu) | Zeile |
+|------------|------------|-------|
+| Pflanzen-Typen | **Natur-Typen** | ACT-01 |
+| Pflanzen-Energie | **Natur-Energie** | ACT-07 Artwork |
+| zwölf Elemente | **elf Elemente** | ACT-04, S-02 |
+
+## Grund:
+- Roman-Canon verwendet "Natur" statt "Pflanze"
+- 11 Elemente (nicht 12)
+
+---
+
+**PRODUCTION STATUS:** ✅ READY FOR PRINT (V1.1)  
 **CANON:** V4.2 KONFORM

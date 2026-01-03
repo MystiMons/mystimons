@@ -5,12 +5,14 @@
       "S1",
       "S2"
     ],
+    "app_required": true,
     "hidden_intent": false,
     "global_slot": "Terrain"
   },
   "legal": {
     "mon": {
       "id_pattern": [
+      "id_patterns": [
         "MON-*-S1-*",
         "MON-*-S2-*"
       ]

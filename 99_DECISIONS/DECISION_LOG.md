@@ -3,7 +3,7 @@
 ## Story Arc
 
 - **DEC-ARC-001 (2025-12-30):** Finn ist Protagonist in **Band 1–3**.
-- **DEC-ARC-002 (2025-12-30):** Finn **stirbt in Band 4** (permanent). **Kira übernimmt** als Protagonistin ab Band 4.
+- **DEC-ARC-002 (2025-12-30):** Finn **stirbt in Band 4** (permanent, rettet Kira). **Kira übernimmt** als Protagonistin ab Band 4.
 - **DEC-SPOIL-001 (2025-12-30):** **Spoiler-Gate-Policy:** TCG/App dürfen Finns Tod nicht vor dem Book-4-Release-Fenster explizit offenlegen.
 
 **Version:** 1.0
@@ -164,15 +164,15 @@ Wenn Canon-Widersprüche entdeckt werden (@LAW-010):
 
 
 ## 2025-12-30 — Bindung & Terminologie: Kapitel 24 / "Rebind" vs. Resurrection
-- **Entscheidung:** Finns **Bindung / „Das Hören“** ist in der aktuellen Buch-1-Struktur **Kapitel 24** (nicht 25).
-- **Terminologie:** Im TCG wird „KO“ als **Erschöpfung/Rückzug** gelesen (kein Lore-Tod). Entsprechend wird der TCG-Effect als **Rebind** (statt „Resurrect“) geführt, um @LAW-Canon („Tote Resonanten bleiben tot“) nicht zu verletzen.
+- **Entscheidung:** Finns **Bindung / „Das Hören"** ist in der aktuellen Buch-1-Struktur **Kapitel 24** (nicht 25).
+- **Terminologie:** Im TCG wird „KO" als **Erschöpfung/Rückzug** gelesen (kein Lore-Tod). Entsprechend wird der TCG-Effect als **Rebind** (statt „Resurrect") geführt, um @LAW-Canon („Tote Resonanten bleiben tot") nicht zu verletzen.
 - **Auswirkung:** Starter-22, Index, Codex-Referenz und Naming-Bible wurden angepasst.
 
 ---
 
 ## Hardware / Hybrid UX
 
-**DEC-HW-001 (2025-12-30):** Baseline ist **App-required**. Die App ist Rules-Engine; kein „ohne App“-Modus.
+**DEC-HW-001 (2025-12-30):** Baseline ist **App-required**. Die App ist Rules-Engine; kein „ohne App"-Modus.
 **Grund:** USP Hybrid/AR, konsistente Durchsetzung von Timing/Tracking.
 **Betroffene IDs:** (global)
 **Genehmigt von:** Pascal
@@ -202,11 +202,29 @@ Wenn Canon-Widersprüche entdeckt werden (@LAW-010):
 **DEC-ARC-001 (2025-12-30):** Finn ist Protagonist in **Band 1–3**.
 **Status:** FINAL
 
-**DEC-ARC-002 (2025-12-30):** In **Band 4** stirbt Finn (permanent). **Kira übernimmt** als Protagonistin.
+**DEC-ARC-002 (2025-12-30):** Finn stirbt **in Band 4** (permanent, rettet Kira). **Kira übernimmt** als Protagonistin ab Band 4.
 **Status:** FINAL
 
 **DEC-ARC-003 (2025-12-30):** Hauptreihe umfasst **Band 1–6** (Finn 1–3, Kira 4–6). **Band 7** ist **Origin/Prequel** (Entstehung von Aetherion) und erscheint als **Release #7 nach Band 6**.
 **Status:** FINAL
 
 **DEC-ARC-004 (2025-12-30):** Origin-Fakten zu Aetherion sind bis Band 7/SET-007 **spoiler-gated** (vorher nur Myth/Fragment).
+**Status:** FINAL
+
+**DEC-ARC-005 (2026-01-03):** Timeline zwischen Finn und Kira: **12 Jahre Pause**.
+- Band 1-3: Finn (14-16 Jahre)
+- **12 Jahre später**
+- Band 4: Finn (26 Jahre) + Kira (17 Jahre) → Finn stirbt, Kira übernimmt
+- Band 5-6: Kira (18-19 Jahre)
+**Grund:** Ermöglicht Finns Entwicklung zum Erwachsenen + Kira's eigenständigen Arc
+**Status:** FINAL
+
+**DEC-ARC-006 (2026-01-03):** **Rat der Ordnung = 11 Champions** (einer pro Element).
+- Champions sind **extrem langlebig** (Level 4 Hüter, regieren Jahrzehnte)
+- **10/11 Champions bleiben gleich** von Finn → Kira (12 Jahre)
+- **NUR FEUER-CHAMPION ÄNDERT SICH:** Pyralis (Finn's Zeit) → Flamrion (Kira's Zeit)
+- Flamrion = Pyrion Kael (verschmolzen mit Resonant, verliert Identität)
+- Drachen-Champion = VAKANT (bereits eliminiert vor Band 1)
+**Grund:** Etabliert System als stabil/langlebig, zeigt Level 4 Tragödie (Identitätsverlust)
+**Betroffene IDs:** @CHR-### (Champions), Weltbau
 **Status:** FINAL
