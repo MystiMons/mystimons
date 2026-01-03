@@ -1,0 +1,106 @@
+{
+  "wave": "Wave-1",
+  "scope": {
+    "mon_stages": [
+      "S1",
+      "S2"
+    ],
+    "app_required": true,
+    "hidden_intent": false,
+    "global_slot": "Terrain"
+  },
+  "legal": {
+    "mon": {
+      "id_patterns": [
+        "MON-*-S1-*",
+        "MON-*-S2-*"
+      ]
+    },
+    "ene": [
+      "ENE-01",
+      "ENE-02",
+      "ENE-03",
+      "ENE-04",
+      "ENE-05",
+      "ENE-06",
+      "ENE-07",
+      "ENE-08",
+      "ENE-09",
+      "ENE-10",
+      "ENE-11",
+      "ENE-12",
+      "ENE-13",
+      "ENE-14"
+    ],
+    "rel": [
+      "REL-01",
+      "REL-02",
+      "REL-03",
+      "REL-04",
+      "REL-05",
+      "REL-06",
+      "REL-07",
+      "REL-08",
+      "REL-09",
+      "REL-10",
+      "REL-11",
+      "REL-12",
+      "REL-13",
+      "REL-14",
+      "REL-15"
+    ],
+    "ter": [
+      "TER-01",
+      "TER-02",
+      "TER-03",
+      "TER-04",
+      "TER-05",
+      "TER-06",
+      "TER-07",
+      "TER-08"
+    ],
+    "act": [
+      "ACT-01",
+      "ACT-02",
+      "ACT-03",
+      "ACT-04",
+      "ACT-06",
+      "ACT-07",
+      "ACT-08",
+      "ACT-09",
+      "ACT-10",
+      "ACT-11",
+      "ACT-12",
+      "ACT-13",
+      "ACT-14"
+    ]
+  },
+  "not_legal": {
+    "mon_stages": [
+      "S3",
+      "S4"
+    ],
+    "prefixes": [
+      "CHM"
+    ],
+    "explicit": [
+      "ACT-05",
+      "ENE-15",
+      "S-01",
+      "S-02",
+      "S-03",
+      "S-04"
+    ]
+  },
+  "errata": {
+    "ACT-12": "top5_pick1_reorder",
+    "ACT-14": "draw2_discard1_supporter",
+    "REL-11": "resonance_plus1_unique_clamp_numeric_only",
+    "REL-13": "loot_discard1_draw1_once_per_turn"
+  },
+  "app_rules": {
+    "supporter_per_turn": 1,
+    "rel_11_unique_per_player": 1,
+    "rel_13_once_per_turn": true
+  }
+}
